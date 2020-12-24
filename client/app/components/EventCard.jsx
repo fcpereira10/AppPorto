@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H1} from 'native-base';
-//import image from './app/assets/WalkingTour.jpg'
-export default class EventCard extends Component {
+import { withNavigation } from 'react-navigation'
+class EventCard extends Component {
+
+  static navigationOptions = {
+    title: "EventCard",
+  };
   render() {
     return (
       <Container>
@@ -25,3 +29,5 @@ export default class EventCard extends Component {
     );
   }
 }
+
+export default withNavigation(EventCard);

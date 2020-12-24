@@ -12,7 +12,7 @@ function mockData() {
         date: "2021-12-21",
         photo: '',
         address: "Casa da Música, Porto",
-        categoryId: "5fe1ce79374b794890535f47" 
+        categoryId: "5fe4b46fb8bb5a9c591517da" 
     }),
     new Event({
         title: "Porto - Benfica",
@@ -21,7 +21,7 @@ function mockData() {
         date: "2021-12-21",
         photo: '',
         address: "Estádio do Dragão",
-        categoryId: "5fe1ce79374b794890535f46" 
+        categoryId: "5fe4b46fb8bb5a9c591517d9" 
     }),
     new Event({
         title: "Nos Primavera Sound 2021",
@@ -30,7 +30,7 @@ function mockData() {
         date: "2021-6-10",
         photo: '',
         address: "Parque da Cidade, Porto",
-        categoryId: "5fe1ce79374b794890535f47" 
+        categoryId: "5fe4b46fb8bb5a9c591517db" 
       }),
 
   ];

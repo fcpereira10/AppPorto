@@ -38,6 +38,7 @@ function seedCategory() {
       });
     });
     console.log(categories);
+    
   return {categories};
 }
 

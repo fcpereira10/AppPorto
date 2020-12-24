@@ -3,7 +3,25 @@ import  AppLoading  from 'expo-app-loading';
 import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import Event from './app/components/Event';
+import EventScreen from './app/screens/EventScreen';
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+
+const RootStackLogin = createAppContainer(
+  createStackNavigator(
+    {
+      Event: {
+        screen: EventScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      }
+
+   
+    },
+    {
+      initialRouteName: "Event",
+    }))
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,7 +47,7 @@ export default class App extends React.Component {
 
     return (
       <Container>
-        <Event/>
+        <RootStackLogin/>
       </Container>
     );
   }
