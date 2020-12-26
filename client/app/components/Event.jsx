@@ -8,11 +8,18 @@ class Event extends Component {
     super(props);
     this.EventService = new EventService();
     this.state = {
-      events:[],
+    event: {
+        title: "",
+        date: "",
+        location: "",
+        category: "",
+        eventId: "5fe4b4d4c6dd2a9cb83b5bee"
+      },
     }
   }
   async componentDidMount() {
-    await this.EventService.getEvent(async (res) => {
+     const {eventId} = this.state.event;
+    await this.EventService.getEvent({eventId}, async (res) => {
       if (res.status == 200) {
         const { data } = res;
         const { event } = data;
@@ -37,7 +44,7 @@ class Event extends Component {
               <Body>
                 <Image source={require('../assets/WalkingTour.jpg')} style={{height: 200, width: 200, flex: 1}}/>
                 <Text>
-                  //Your text here
+                  {this.state.event.title}
                 </Text>
               </Body>
             </CardItem>

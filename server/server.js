@@ -20,7 +20,7 @@ db.once('open', () => {
 app.use(bodyParser.json({ limit: "2mb" }))
 
 app.use(bodyParser.urlencoded({ limit: "2mb", extended: true, parameterLimit: 2000 }))
-app.use("/events", eventsRoute);
+app.use("/event", eventsRoute);
 
 app.listen(4000, () => console.log("server started"));
 

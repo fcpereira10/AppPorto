@@ -6,12 +6,16 @@ export default class EventService {
   }
 
   async getEvent(data, callback){
-    axios
-    .get('https://localhost:4000/events/5fe4b4d4c6dd2a9cb83b5bee')
+    const { eventId } = data;
+    await axios
+    .get(`http://192.168.1.66:4000/event/${eventId}`)
+
     .then((response) => {
+      console.log(response);
       callback(response);
     })
     .catch((error) => {
+      console.log(error);
       callback(error);
     });
 
