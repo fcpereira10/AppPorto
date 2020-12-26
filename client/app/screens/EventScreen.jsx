@@ -9,9 +9,7 @@ class EventScreen extends React.Component {
   render () {
     return (
       <Container>
-        <Content>
           <Event />
-        </Content>
       </Container>
     )
   }

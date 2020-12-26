@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import EventScreen from './app/screens/EventScreen';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
+import EventListScreen from './app/screens/EventListScreen';
 
 const RootStackLogin = createAppContainer(
   createStackNavigator(
