@@ -3,7 +3,8 @@ import  AppLoading  from 'expo-app-loading';
 import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import Event from './app/components/Event';
+import EventScreen from './app/screens/EventScreen';
+import EventListScreen from './app/screens/EventListScreen';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class App extends React.Component {
 
     return (
       <Container>
-        <Event/>
+        <EventListScreen/>
       </Container>
     );
   }
