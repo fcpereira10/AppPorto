@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
+import { withNavigation } from 'react-navigation'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H1} from 'native-base';
-export default class EventCard extends Component {
+class EventCard extends Component {
+
+  static navigationOptions = {
+    title: "EventCard",
+  };
   render() {
     return (
           <Card style={{flex: 0}}>
@@ -19,3 +24,5 @@ export default class EventCard extends Component {
     );
   }
 }
+
+export default withNavigation(EventCard);

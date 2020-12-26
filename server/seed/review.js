@@ -9,7 +9,7 @@ function mockData() {
         description: "Porto is better than Benfica",
         date: Date.now(),
         userId: "5fe1c91603adee46959f023d",
-        eventId: "5fe1ced0cee19d48c804b8fb"
+        eventId: "5fe4b4d4c6dd2a9cb83b5bef"
     }),
 
   ];
@@ -22,7 +22,7 @@ function seedReview() {
     .then(() => {
       Review.create(reviews, (err) => {
         if (err) {
-          console.error(`Error seeding category: ${err}`);
+          console.error(`Error seeding review: ${err}`);
         }
       });
     });

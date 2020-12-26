@@ -1,12 +1,21 @@
-import React from 'react';
-import Event from "../components/Event";
-import { Container } from 'native-base';
-
-function App(){
-  return(
-    <Container>
-    <Event/>
-  </Container>
-  )
+import Event from '../components/Event'
+import React from 'react'
+import { Container, Content } from 'native-base'
+import { withNavigation } from 'react-navigation'
+class EventScreen extends React.Component {
+  constructor(props){
+    super(props);
+  }
+  render () {
+    return (
+      <Container>
+        <Content>
+          <Event />
+        </Content>
+      </Container>
+    )
+  }
 }
-export default App;
+
+export default withNavigation(EventScreen);
+

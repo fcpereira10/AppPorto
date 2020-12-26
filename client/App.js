@@ -5,6 +5,29 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import EventScreen from './app/screens/EventScreen';
 import EventListScreen from './app/screens/EventListScreen';
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+
+const RootStackLogin = createAppContainer(
+  createStackNavigator(
+    {
+      Event: {
+        screen: EventScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+        EventList: {
+          screen: EventListScreen,
+          navigationOptions: {
+            headerShown: false,
+          },
+      }
+   
+    },
+    {
+      initialRouteName: "EventList",
+    }))
 
 export default class App extends React.Component {
   constructor(props) {
@@ -30,7 +53,8 @@ export default class App extends React.Component {
 
     return (
       <Container>
-        <EventListScreen/>
+    
+      <RootStackLogin/>
       </Container>
     );
   }
