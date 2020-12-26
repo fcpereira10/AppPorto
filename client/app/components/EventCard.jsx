@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { withNavigation } from 'react-navigation'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H1} from 'native-base';
+import EventScreen from '../screens/EventScreen';
 class EventCard extends Component {
-
+  constructor(props){
+    super(props);
+  }
   static navigationOptions = {
     title: "EventCard",
   };
   render() {
     return (
           <Card style={{flex: 0}}>
-            <CardItem>
+            <CardItem button onPress={() => this.props.navigation.navigate("Event")}>
               <Left>
                 <Image source={require('../assets/WalkingTour.jpg')} style={{height: 200, width: 200, flex: 1}}/>
                 <Body>

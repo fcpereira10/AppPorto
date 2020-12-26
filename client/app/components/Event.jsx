@@ -50,7 +50,7 @@ class Event extends Component {
               <CardItem> 
                   <Text>Category:</Text>
                   <Button iconLeft transparent>
-                    <Icon name='walk' />
+                    <Icon name='ios-walk' />
                     <Text style= {{paddingLeft: 0}}>Tour</Text>
                   </Button>
               </CardItem>
