@@ -21,8 +21,8 @@ class EventCard extends Component {
         description:"",
         price:"",
         photo:"",
+        categoryName:"",
       },
-      category: "",
     }
   }
   async componentDidMount() {
@@ -30,10 +30,9 @@ class EventCard extends Component {
     await this.EventService.getEvent({eventId}, async (res) => {
       if (res.status == 200) {
         const { data } = res;
-        const { event } = data;
+        
         this.setState({
-          event: event,
-          category: data.categoryName,
+          event: data,
           
         });
         console.log(data);

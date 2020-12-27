@@ -20,8 +20,9 @@ class Event extends Component {
         eventId: "5fe4b4d4c6dd2a9cb83b5bee",
         description:"",
         price:"",
+        categoryName: "",
       },
-      category: "",
+     
     }
   }
   async componentDidMount() {
@@ -29,13 +30,11 @@ class Event extends Component {
     await this.EventService.getEvent({eventId}, async (res) => {
       if (res.status == 200) {
         const { data } = res;
-        const { event } = data;
+    
         this.setState({
-          event: event,
-          category: data.categoryName,
-          
+          event: data,          
         });
-        console.log(data);
+        console.log("data "+res.data);
       }
     });
   }
@@ -62,7 +61,7 @@ class Event extends Component {
                   <Text>Category:</Text>
                   <Button iconLeft transparent>
                     <Icon name='walk' />
-                    <Text style= {{paddingLeft: 0}}>{this.state.category}</Text>
+                    <Text style= {{paddingLeft: 0}}>{this.state.event.categoryName}</Text>
                   </Button>
               </CardItem>
               <CardItem> 
