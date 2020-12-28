@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation'
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker} from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, H2} from 'native-base';
 class Login extends Component {
 
   static navigationOptions = {
@@ -21,14 +21,15 @@ class Login extends Component {
   render() {
     return (
         <Container>
-          <Content>
-            <Thumbnail large source={require('../assets/icon.png')} />
+          <Content >
+          <View style={styles.topview}>
+            <Thumbnail large source={require('../assets/icon.png')} style={styles.logo}/>
 
-                <Text>Welcome back!</Text>
-                
-                <Form>
+                <H2>Welcome back!</H2>
+            </View>
+            <Form style={styles.form}>
               <Item rounded>
-                <Input placeholder='Email' onChangeText={this.handleEmailTextChange} />
+                <Input placeholder='Username' />
               </Item>
               <Item rounded>
                 <Input secureTextEntry={true} placeholder='Password' onChangeText={this.handlePasswordTextChange} />
@@ -36,7 +37,7 @@ class Login extends Component {
               <Button rounded onPress={this.handleLogin}>
                 <Text>Sign In</Text>
               </Button>
-              <View style={{ paddingTop: 20, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 4 }}>
+              <View style={styles.viewdont}>
                 <Text>Don't have account yet? </Text>
                 <TouchableOpacity>
                   <Text onPress={() => this.props.navigation.navigate('Register')}>Register</Text>
@@ -50,9 +51,28 @@ class Login extends Component {
   }
 }
 const styles = StyleSheet.create({
-  text: {
-    color: "#464646",
-    paddingBottom: 15,
+  logo: {
+    marginBottom: 20,
+    height: 150,
+    width: 150,
+    borderRadius:100
+  },
+  form: {
+    alignItems: 'center',
+    
+  },
+  topview: {
+    paddingTop: 20, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    paddingBottom: 20 
+  },
+  viewdont: {
+    paddingTop: 20, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flexDirection: 'row', 
+    marginTop: 4
   },
 })
 export default withNavigation(Login);

@@ -23,17 +23,6 @@ const App = () => {
     setSelectedItems(selectedItems);
   };
 
-  useEffect(() => {
-    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Successful response from the API Call
-        setServerData(responseJson.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,10 +43,10 @@ const App = () => {
           selectedItemIconColor="#CCC"
           itemTextColor="#000"
           displayKey="name"
-          searchInputStyle={{color: '#CCC'}}
-          submitButtonColor="blue"
+          searchInputStyle={{ color: '#CCC' }}
+          submitButtonColor="#CCC"
           submitButtonText="Submit"
-        />
+          />
       </View>
     </SafeAreaView>
   );
@@ -70,4 +59,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  categories: {
+    backgroundColor:"#ffff", 
+    borderBottomColor:"#ccc"
+  }
 });

@@ -1,8 +1,6 @@
 import React from 'react';
-import EventCard from "../components/EventCard";
-import CategoryDropdown from "../components/CategoryDropdown"
-import EventListHeader from "../components/EventListHeader";
-import { Container, Content, Header, Left, Right, Body, Title, Button, Icon} from 'native-base';
+import EventList from "../components/EventList";
+import { Container, Content, Header, Left, Right, Body, Title, Button, Icon, Item, Input, Text} from 'native-base';
 import { withNavigation } from 'react-navigation'
 
 class EventListScreen extends React.Component {
@@ -12,16 +10,8 @@ class EventListScreen extends React.Component {
   render () {
   return(
     <Container>
-    <Header>
-      <EventListHeader/>
-    </Header>
       <Content>
-      <CategoryDropdown/>
-          <EventCard/>
-          <EventCard/>
-          <EventCard/>
-          <EventCard/>
-          <EventCard/>
+          <EventList/>
       </Content>
     </Container>
   )
