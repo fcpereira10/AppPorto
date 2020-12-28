@@ -35,7 +35,6 @@ class Event extends Component {
     return (
         <Content>
             <Card transparent>
-
               <CardItem>
                 <Body>
                   <Image source={require('../assets/WalkingTour.jpg')} style={{height: 200, width: 200, flex: 1}}/>

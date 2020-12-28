@@ -12,7 +12,7 @@ class EventCard extends Component {
   };
   render() {
     return (
-          <Card style={{flex: 0}}>
+          <Card> 
             <CardItem button onPress={() => this.props.navigation.navigate("Event")}>
               <Left>
                 <Image source={require('../assets/WalkingTour.jpg')} style={{height: 200, width: 200, flex: 1}}/>
