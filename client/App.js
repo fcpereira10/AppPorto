@@ -7,7 +7,7 @@ import EventScreen from './app/screens/EventScreen';
 import EventListScreen from './app/screens/EventListScreen';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-import EventListScreen from './app/screens/EventListScreen';
+
 
 const RootStackLogin = createAppContainer(
   createStackNavigator(
@@ -46,6 +46,7 @@ export default class App extends React.Component {
     });
     this.setState({ isReady: true });
   }
+  
 
   render() {
     if (!this.state.isReady) {

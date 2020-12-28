@@ -5,9 +5,6 @@ import  EventService  from '../services/EventService';
 import Moment from 'moment';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H1} from 'native-base';
 class EventCard extends Component {
-  constructor(props){
-    super(props);
-  }
   static navigationOptions = {
     title: "EventCard",
   };

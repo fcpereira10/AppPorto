@@ -62,10 +62,60 @@ async function getAllEvents(req, res) {
 
   }
 
+  async function addEvent(req, res){
+    const newEvent = new Event({
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        date: req.body.date,
+        photo: req.body.photo,
+        address: req.body.address,
+        categoryId: req.body.categoryId
+    })
+    newEvent.save()
+    .then(event => res.json({event}))
+    .catch(error => res.status(400).json({error}))
+  }
+
+  async function editEvent(req, res){
+      const query = {_id : req.params.id }
+      const update = {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        date: req.body.date,
+        photo: req.body.photo,
+        address: req.body.address,
+        categoryId: req.body.categoryId
+      }
+      await Event.findByIdAndUpdate(query, update,{
+        returnOriginal: false,
+        useFindAndModify: false,
+        upsert: true
+      }).then(event => {
+        return res.status(200).json({ event: event })
+      })
+      .catch(error => res.status(400).json({error}))
+
+  }
+
+  async function deleteEvent(req, res){
+    const query = {_id: req.params.id}
+    Event.deleteOne(query, error => {
+      if (error) {
+        res.status(404).json({ error });
+      } else {
+        res.status(200).json();
+      }
+    })
+  }
 
   module.exports = {
       getAllEvents,
       getEvent,
       searchEvents,
-      filterEventsByCategory
+      filterEventsByCategory,
+      addEvent,
+      editEvent,
+      deleteEvent
   }
