@@ -22,7 +22,7 @@ class EventListHeader extends Component {
   render() {
     return (
         <Container>
-        <Header searchBar>
+        <Header>
             <Item>
             <Icon name="search" />
             <Input placeholder="Search Events" />
