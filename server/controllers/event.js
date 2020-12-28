@@ -9,7 +9,7 @@ async function getAllEvents(req, res) {
     .catch(error => res.status(400).json({ error }))
   }
   async function getEvent(req, res) {
-    console.log("get event by id" + req.params);
+    console.log("get event by id" + JSON.stringify(req.params));
     let categoryName, event;
     
 
@@ -39,8 +39,10 @@ async function getAllEvents(req, res) {
     .catch(error => res.status(400).json({ error }))
   }
   async function filterEventsByCategory(req, res) {
+  
+    console.log("PARAMS " +JSON.stringify(req.query));
     let events = [];
-    Event.find({ _id : { $in :req.params.id}}).then(async (results) => {
+    Event.find({ _id : { $in :req.params.filter}}).then(async (results) => {
     results.map(result => {
       Category.findById({_id: result.categoryId})
       .then(category => {
@@ -110,5 +112,5 @@ async function getAllEvents(req, res) {
       filterEventsByCategory,
       addEvent,
       editEvent,
-      deleteEvent
+      deleteEvent,
   }

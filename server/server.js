@@ -3,7 +3,8 @@ const app = express();
 const bodyParser= require('body-parser')
 const mongoose = require("mongoose");
 const userRouter = require("./routes/user");
-const eventsRoute = require("./routes/event");
+const eventRoute = require("./routes/event");
+const categoryRoute = require("./routes/category");
 //const seed = require("./seed/review");
 
 
@@ -20,7 +21,7 @@ db.once('open', () => {
 app.use(bodyParser.json({ limit: "2mb" }))
 
 app.use(bodyParser.urlencoded({ limit: "2mb", extended: true, parameterLimit: 2000 }))
-app.use("/event", eventsRoute);
-
+app.use("/event", eventRoute);
+app.use("/category", categoryRoute);
 app.listen(4000, () => console.log("server started"));
 

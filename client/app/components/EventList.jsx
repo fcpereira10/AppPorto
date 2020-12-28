@@ -1,79 +1,146 @@
-import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { withNavigation } from 'react-navigation'
-import EventCard from "../components/EventCard";
-import CategoryDropdown from "./CategoryDropdown";
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker} from 'native-base';
-import  EventService  from '../services/EventService';
+import React, {Component} from 'react'
+import {StyleSheet, SafeAreaView, View} from 'react-native'
+import {withNavigation} from 'react-navigation'
+import EventCard from '../components/EventCard'
+import {
+  Container,
+  Header,
+  Content,
+  Item,
+  Input,
+} from 'native-base'
+import EventService from '../services/EventService'
+import CategoryService from '../services/CategoryService'
+import MultiSelect from 'react-native-multiple-select'
 class EventList extends Component {
-
   static navigationOptions = {
-    title: "EventListHeader",
-  };
-  constructor(props) {
-    super(props);
+    title: 'EventListHeader',
+  }
+  constructor (props) {
+    super(props)
     this.state = {
       selected: undefined,
+      selectedCategories: [],
       events: [],
-    };
-    this.EventService = new EventService();
+      categories: []
+    }
+    this.EventService = new EventService()
+    this.CategoryService = new CategoryService()
   }
-    onValueChange(value) {
+  onValueChange (value) {
     this.setState({
-      selected: value
-    });
+      selected: value,
+    })
   }
-  async componentDidMount() {
-   await this.EventService.getAllEvents({}, async (res) => {
-     if (res.status == 200) {
-       const { data } = res;
-       
-       this.setState({
-         events: data.events,
-         
-       });
-     }
-   });
- }
- mapEvents(event) {
-  const r = Math.floor(Math.random() * 100);
-  const key = event._id + r;
-  return <EventCard event={event} key={key}/>;
-}
- onChange = async (event) => {    
-  const {eventCount, target, text} = event.nativeEvent;
-  console.log("event "+text);
-  await this.EventService.fetchSearchResults({query: text}, async (res) => {
-        if (res.status == 200) {
-          const { data } = res;
-          console.log("events "+data.events);
-          this.setState({events:data.events})
-        }
-       
-  })
-};
-  render() {
-    const {events} = this.state;
-    const eventsDiv = events.map(this.mapEvents.bind(this));
+  async componentDidMount () {
+    await this.EventService.getAllEvents({}, async res => {
+      if (res.status == 200) {
+        const {data} = res
+
+        this.setState({
+          events: data.events,
+        })
+      }
+    })
+    await this.CategoryService.getAllCategories({}, async res => {
+      console.log("get categories")
+      if (res.status == 200) {
+        const {data} = res
+        let arr = [] ;
+          data.categories.map(category => {arr.push({id: category._id, name: category.description})
+        })
+
+        this.setState({
+          categories: arr ,
+        })
+      }
+    })
+  }
+  mapEvents (event) {
+    const r = Math.floor(Math.random() * 100)
+    const key = event._id + r
+    return <EventCard event={event} key={key} />
+  }
+  onChange = async event => {
+    const {text} = event.nativeEvent
+    console.log('event ' + text)
+    await this.EventService.fetchSearchResults({query: text}, async res => {
+      if (res.status == 200) {
+        const {data} = res
+        console.log('events ' + data.events)
+        this.setState({events: data.events})
+      }
+    })
+  }
+  onSelectedItemsChange = selectedItems => {
+    this.EventService.filterEventsByCategory({filter: selectedItems}, async res => {
+      if (res.status == 200) {
+        const {data} = res
+        console.log('events ' + data.events)
+        this.setState({events: data.events})
+      }
+    })
+    this.setState({
+      selectedCategories: selectedItems,
+    })
+  }
+  render () {
+    const {events, categories, selectedCategories} = this.state
+    const eventsDiv = events.map(this.mapEvents.bind(this))
     return (
-        <Container>
-          <Content>
-        <Header transparent searchBar>
+      <Container>
+        <Content>
+          <Header transparent searchBar>
             <Item style={styles.search}>
-            <Input placeholder="Search Events" onChange={this.onChange} value={this.state.first}/>
+              <Input
+                placeholder='Search Events'
+                onChange={this.onChange}
+                value={this.state.first}
+              />
             </Item>
-        </Header>
-        <CategoryDropdown/>
-           {eventsDiv}
-          </Content>
+          </Header>
+          <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
+              <MultiSelect
+                hideTags
+                items={categories}
+                uniqueKey='id'
+                onSelectedItemsChange={this.onSelectedItemsChange}
+                selectedItems={selectedCategories}
+                selectText='Select Categories'
+                searchInputPlaceholderText='Search Categories'
+                onChangeInput={text => console.log(text)}
+                tagRemoveIconColor='#CCC'
+                tagBorderColor='#CCC'
+                tagTextColor='#CCC'
+                selectedItemTextColor='#CCC'
+                selectedItemIconColor='#CCC'
+                itemTextColor='#000'
+                displayKey='name'
+                searchInputStyle={{color: '#CCC'}}
+                submitButtonColor='#CCC'
+                submitButtonText='Submit'
+              />
+            </View>
+          </SafeAreaView>
+          {eventsDiv}
+        </Content>
       </Container>
-    );
+    )
   }
 }
 const styles = StyleSheet.create({
   search: {
-    backgroundColor:"transparent", 
-    borderBottomColor:"#ccc"
+    backgroundColor: 'transparent',
+    borderBottomColor: '#ccc',
+  },
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  categories: {
+    backgroundColor: '#ffff',
+    borderBottomColor: '#ccc',
   },
 })
-export default withNavigation(EventList);
+export default withNavigation(EventList)
