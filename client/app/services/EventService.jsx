@@ -3,13 +3,27 @@ import { AsyncStorage } from "react-native";
 
 export default class EventService {
   constructor() {
-    this.ip = "http://0.0.0.0:4000/event";
+    this.ip = "http://192.168.1.66:4000/event";
   }
 
   async getEvent(data, callback){
     const { eventId } = data;
     await axios
     .get(`${this.ip}/${eventId}`)
+
+    .then((response) => {
+      console.log(response);
+      callback(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      callback(error);
+    });
+
+  }
+  async getAllEvents(data, callback){
+    await axios
+    .get(`${this.ip}/`)
 
     .then((response) => {
       console.log(response);
