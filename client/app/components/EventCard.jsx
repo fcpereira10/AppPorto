@@ -42,7 +42,7 @@ class EventCard extends Component {
     Moment.locale('en');
     var dt = this.state.event.date;
     return (
-          <Card style={{flex: 0}}>
+          <Card> 
             <CardItem button onPress={() => this.props.navigation.navigate("Event")}>
               <Left>
                 <Image source={require("../assets/WalkingTour.jpg" )} style={{height: 200, width: 200, flex: 1}}/>

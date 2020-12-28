@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation'
+import CategoryDropdown from "../components/CategoryDropdown";
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker} from 'native-base';
 class EventListHeader extends Component {
 
@@ -21,34 +22,24 @@ class EventListHeader extends Component {
   render() {
     return (
         <Container>
-        <Header searchBar rounded>
+        <Header searchBar>
             <Item>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" />
-            <Icon name="ios-people" />
+            <Icon name="search" />
+            <Input placeholder="Search Events" />
             </Item>
           <Button transparent>
             <Text>Search</Text>
           </Button>
-          <Form>
-            <Picker
-              mode="dropdown"
-              placeholder="Select a category"
-              iosIcon={<Icon name="filter" />}
-              textStyle={{ color: "blue" }}
-              style={{ width: undefined }}
-              selectedValue={this.state.selected}
-              onValueChange={this.onValueChange.bind(this)} 
-            >
-              <Picker.Item label="Sports" value="key0" />
-              <Picker.Item label="Cultural" value="key1" />
-              <Picker.Item label="Food and Drink" value="key2" />
-            </Picker>
-          </Form>
         </Header>
+        
       </Container>
     );
   }
 }
-
+const styles = StyleSheet.create({
+  text: {
+    color: "#464646",
+    paddingBottom: 15,
+  },
+})
 export default withNavigation(EventListHeader);
