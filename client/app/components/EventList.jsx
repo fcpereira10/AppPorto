@@ -40,6 +40,18 @@ class EventList extends Component {
   const key = event._id + r;
   return <EventCard event={event} key={key}/>;
 }
+ onChange = async (event) => {    
+  const {eventCount, target, text} = event.nativeEvent;
+  console.log("event "+text);
+  await this.EventService.fetchSearchResults({query: text}, async (res) => {
+        if (res.status == 200) {
+          const { data } = res;
+          console.log("events "+data.events);
+          this.setState({events:data.events})
+        }
+       
+  })
+};
   render() {
     const {events} = this.state;
     const eventsDiv = events.map(this.mapEvents.bind(this));
@@ -48,7 +60,7 @@ class EventList extends Component {
           <Content>
         <Header transparent searchBar>
             <Item style={styles.search}>
-            <Input placeholder="Search Events" />
+            <Input placeholder="Search Events" onChange={this.onChange} value={this.state.first}/>
             </Item>
         </Header>
         <CategoryDropdown/>

@@ -36,10 +36,13 @@ export default class EventService {
 
   }
   async fetchSearchResults(data, callback) {
+    console.log("inside fetch");
       const {query} = data;
+      console.log(this.ip+"/searchEvents/"+query);
       await axios
-      .get(`${this.ip}/searchEvents/${query}`)
+      .get(`${this.ip}/search/${query}`)
       .then((response)=> {
+        console.log("response "+JSON.stringify(response));
         callback(response);
       })
       .catch((error => {

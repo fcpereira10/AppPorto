@@ -9,7 +9,7 @@ async function getAllEvents(req, res) {
     .catch(error => res.status(400).json({ error }))
   }
   async function getEvent(req, res) {
-    console.log("get event by id");
+    console.log("get event by id" + req.params);
     let categoryName, event;
     
 
@@ -29,21 +29,14 @@ async function getAllEvents(req, res) {
   }
 
   async function searchEvents(req, res){
-
-    let events = [];
-    Event.find({"title": {$regex:".*"+req.params.query+".*"}
-  }).then(async (results) => {
-    results.map(result => {
-      Category.findById({_id: result.categoryId})
-      .then(category => {
-        let event = result.toObject();
-        event.categoryName = category.description;
-        response.push(event);
-      })
-      res.json(events);
-    })
-  })
-  .catch(error => res.status(400).json({error}))
+    let {query}= req.params;
+    var nameRegex = new RegExp(query, "i");
+    Event.find({title: {$regex: nameRegex}})
+    .then(events => {
+      console.log(events);
+      res.json({ events }
+        )})
+    .catch(error => res.status(400).json({ error }))
   }
   async function filterEventsByCategory(req, res) {
     let events = [];
