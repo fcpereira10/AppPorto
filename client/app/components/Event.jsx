@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation' 
 import  EventService  from '../services/EventService';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H1,H2} from 'native-base';
-
-
+import Spinner from "react-native-loading-spinner-overlay";
 import Moment from 'moment';
 class Event extends Component {
 
@@ -15,11 +14,12 @@ class Event extends Component {
     super(props);
     this.EventService = new EventService();
     this.state = {
+    spinner: true,
     event: {
         title: "",
         date: "",
         location: "",
-        eventId: "5fe4b4d4c6dd2a9cb83b5bee",
+        eventId: "",
         description:"",
         price:"",
         categoryName: "",
@@ -28,15 +28,19 @@ class Event extends Component {
     }
   }
   async componentDidMount() {
-     const {eventId} = this.state.event;
+    const { params } = this.props.navigation.state;
+    const eventId = params ? params.eventId : null;
+    console.log("ID"+eventId);
     await this.EventService.getEvent({eventId}, async (res) => {
       if (res.status == 200) {
         const { data } = res;
     
         this.setState({
+          
+          spinner: false,
           event: data,          
         });
-        console.log("data "+res.data);
+        console.log("DATA "+res.data);
       }
     });
   }
@@ -48,8 +52,15 @@ class Event extends Component {
   render() {
     Moment.locale('en');
     var dt = this.state.event.date;
+    const {spinner} = this.state;
     return (
         <Content>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={"Loading..."}
+          textStyle={styles.spinnerTextStyle}
+        />
+        {!spinner && 
             <Card transparent>
               <CardItem>
                 <Body>
@@ -83,9 +94,15 @@ class Event extends Component {
               <Button primary><Text> Book </Text></Button>
               </CardItem> 
             </Card>
+        }
         </Content>
 
     );
   }
 }
+const styles = StyleSheet.create({
+  spinnerTextStyle: {
+    color: "#FFF",
+  },
+})
 export default withNavigation(Event);
