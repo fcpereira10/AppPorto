@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H1,H2} from 'native-base';
 import { withNavigation } from 'react-navigation' 
 import  EventService  from '../services/EventService';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H1,H2} from 'native-base';
+
+
 import Moment from 'moment';
 class Event extends Component {
 
@@ -40,12 +42,16 @@ class Event extends Component {
   }
 
   
+  static navigationOptions = {
+    title: "Event",
+  };
   render() {
     Moment.locale('en');
     var dt = this.state.event.date;
     return (
         <Content>
             <Card transparent>
+
               <CardItem>
                 <Body>
                   <Image source={require('../assets/WalkingTour.jpg')} style={{height: 200, width: 200, flex: 1}}/>

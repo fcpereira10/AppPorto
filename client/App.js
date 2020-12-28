@@ -4,6 +4,7 @@ import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import EventScreen from './app/screens/EventScreen';
+import EventListScreen from './app/screens/EventListScreen';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import EventListScreen from './app/screens/EventListScreen';
@@ -16,12 +17,17 @@ const RootStackLogin = createAppContainer(
         navigationOptions: {
           headerShown: false,
         },
+      },
+        EventList: {
+          screen: EventListScreen,
+          navigationOptions: {
+            headerShown: false,
+          },
       }
-
    
     },
     {
-      initialRouteName: "Event",
+      initialRouteName: "EventList",
     }))
 
 export default class App extends React.Component {
