@@ -7,79 +7,69 @@ class Login extends Component {
   static navigationOptions = {
     title: "Login",
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: undefined
-    };
-  }
-    onValueChange(value) {
-    this.setState({
-      selected: value
-    });
-  }
+
   render() {
     return (
         <Container>
-          <Content >
-          <View style={styles.topview}>
-            <Thumbnail large source={require('../assets/icon.png')} style={styles.logo}/>
-            <H2>Welcome back!</H2>
-          </View>
-          <View style={styles.form}>
-            <Form>
-              <Item rounded style={styles.box}>
-                <Input placeholder='Username' />
+          <Content padder>
+          <Card transparent style={styles.card}>
+            <CardItem>
+              
+              <Thumbnail large source={require('../assets/Avatar.png')} style={styles.avatar}/>
+              
+            </CardItem>
+            <CardItem style={styles.input}>
+              <Item>
+                <Input placeholder="Username" />
               </Item>
-              <Item rounded style={styles.box}>
-                <Input secureTextEntry={true} placeholder='Password' onChangeText={this.handlePasswordTextChange} />
+            </CardItem>
+            <CardItem style={styles.input}>
+              <Item>
+                <Input secureTextEntry={true} placeholder="Password"  onChangeText={this.handlePasswordTextChange}/>
               </Item>
-              <Button rounded onPress={this.handleLogin} style={styles.box}>
+            </CardItem>
+            <CardItem>
+              <Button block style={styles.input}>
                 <Text>Sign In</Text>
               </Button>
-            </Form>
-          </View>
-          <View style={styles.viewdont}>
-            <Text>Don't have account yet? </Text>
-            <TouchableOpacity>
-              <Text onPress={() => this.props.navigation.navigate('Register')}>Register</Text>
-            </TouchableOpacity>
-          </View>
-            
-          </Content>
+            </CardItem>
+            <CardItem style={styles.notregistered}>
+                <Text>Don't Have an Account yet?</Text>
+                <Button transparent onPress={() => this.props.navigation.navigate("Register")}>
+                <Text style={styles.register}>Register</Text>
+                </Button>
+            </CardItem>
+          </Card>
+        </Content>
         </Container>
 
     );
   }
 }
 const styles = StyleSheet.create({
-  logo: {
+  card: {
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    alignSelf: 'center'
+  },
+  input: {
+    width: '80%'
+  },
+  avatar: {
     marginBottom: 20,
     height: 150,
     width: 150,
-    borderRadius:100
+    borderRadius:100,
   },
-  form: {
-    alignItems: 'center',
-    alignSelf: 'center',
+  notregistered: {
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flexDirection: 'row'
   },
-  box: {
-    width: '65%',
-    alignSelf: 'center',
-  },
+  register: {
+    paddingLeft: 5,
+  }
   
-  topview: {
-    paddingTop: 20, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    paddingBottom: 20 
-  },
-  viewdont: {
-    paddingTop: 20, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    flexDirection: 'row', 
-    marginTop: 4
-  },
+  
 })
 export default withNavigation(Login);
