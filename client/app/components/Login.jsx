@@ -24,26 +24,28 @@ class Login extends Component {
           <Content >
           <View style={styles.topview}>
             <Thumbnail large source={require('../assets/icon.png')} style={styles.logo}/>
-
-                <H2>Welcome back!</H2>
-            </View>
-            <Form style={styles.form}>
-              <Item rounded>
+            <H2>Welcome back!</H2>
+          </View>
+          <View style={styles.form}>
+            <Form>
+              <Item rounded style={styles.box}>
                 <Input placeholder='Username' />
               </Item>
-              <Item rounded>
+              <Item rounded style={styles.box}>
                 <Input secureTextEntry={true} placeholder='Password' onChangeText={this.handlePasswordTextChange} />
               </Item>
-              <Button rounded onPress={this.handleLogin}>
+              <Button rounded onPress={this.handleLogin} style={styles.box}>
                 <Text>Sign In</Text>
               </Button>
-              <View style={styles.viewdont}>
-                <Text>Don't have account yet? </Text>
-                <TouchableOpacity>
-                  <Text onPress={() => this.props.navigation.navigate('Register')}>Register</Text>
-                </TouchableOpacity>
-              </View>
             </Form>
+          </View>
+          <View style={styles.viewdont}>
+            <Text>Don't have account yet? </Text>
+            <TouchableOpacity>
+              <Text onPress={() => this.props.navigation.navigate('Register')}>Register</Text>
+            </TouchableOpacity>
+          </View>
+            
           </Content>
         </Container>
 
@@ -59,8 +61,13 @@ const styles = StyleSheet.create({
   },
   form: {
     alignItems: 'center',
-    
+    alignSelf: 'center',
   },
+  box: {
+    width: '65%',
+    alignSelf: 'center',
+  },
+  
   topview: {
     paddingTop: 20, 
     justifyContent: 'center', 
