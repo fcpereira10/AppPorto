@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation'
-import CategoryDropdown from "../components/CategoryDropdown";
+import EventCard from "../components/EventCard";
+import CategoryDropdown from "./CategoryDropdown";
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker} from 'native-base';
-class EventListHeader extends Component {
+class EventList extends Component {
 
   static navigationOptions = {
     title: "EventListHeader",
@@ -22,24 +23,25 @@ class EventListHeader extends Component {
   render() {
     return (
         <Container>
-        <Header>
-            <Item>
-            <Icon name="search" />
+          <Content>
+        <Header transparent searchBar>
+            <Item style={styles.search}>
             <Input placeholder="Search Events" />
             </Item>
-          <Button transparent>
-            <Text>Search</Text>
-          </Button>
         </Header>
-        
+        <CategoryDropdown/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+          </Content>
       </Container>
     );
   }
 }
 const styles = StyleSheet.create({
-  text: {
-    color: "#464646",
-    paddingBottom: 15,
+  search: {
+    backgroundColor:"transparent", 
+    borderBottomColor:"#ccc"
   },
 })
-export default withNavigation(EventListHeader);
+export default withNavigation(EventList);
