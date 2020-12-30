@@ -49,10 +49,12 @@ export default class EventService {
         }))
   }
   async filterEventsByCategory(data, callback){
-    console.log("filter events by CATEGORY "+data.filter)
-  
     await axios
-    .get(`${this.ip}/filter`, {categories: data.filter})
+    .get(`${this.ip}/filter`, {
+      params: {
+        categories: data.filter
+      }
+    })
     .then((response) => {
       console.log(response);
       callback(response);

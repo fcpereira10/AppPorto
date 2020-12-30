@@ -12,6 +12,7 @@ import {
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
 import MultiSelect from 'react-native-multiple-select'
+
 class EventList extends Component {
   static navigationOptions = {
     title: 'EventListHeader',
@@ -73,6 +74,20 @@ class EventList extends Component {
     })
   }
   onSelectedItemsChange = selectedItems => {
+    if(selectedItems.length == 0){
+      console.log("LENGTH "+selectedItems.length);
+      this.EventService.getAllEvents({}, async res => {
+        if (res.status == 200) {
+          const {data} = res
+  
+          this.setState({
+            events: data.events,
+          })
+        }
+      })
+    }
+    else {
+    
     this.EventService.filterEventsByCategory({filter: selectedItems}, async res => {
       if (res.status == 200) {
         const {data} = res
@@ -80,9 +95,11 @@ class EventList extends Component {
         this.setState({events: data.events})
       }
     })
-    this.setState({
-      selectedCategories: selectedItems,
-    })
+   
+  }
+  this.setState({
+    selectedCategories: selectedItems,
+  })
   }
   render () {
     const {events, categories, selectedCategories} = this.state
@@ -119,7 +136,7 @@ class EventList extends Component {
                 displayKey='name'
                 searchInputStyle={{color: '#CCC'}}
                 submitButtonColor='#CCC'
-                submitButtonText='Submit'
+                submitButtonText='Close'
               />
             </View>
           </SafeAreaView>
