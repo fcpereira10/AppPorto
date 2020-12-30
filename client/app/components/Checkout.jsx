@@ -22,7 +22,7 @@ class Checkout extends Component {
   render() {
     return (
         <Container>
-            <Content>
+            <Content style={styles.card}>
               
               <Card>
               <CardItem header>
@@ -40,6 +40,9 @@ class Checkout extends Component {
                         
                 </Body>
               </CardItem>
+              <CardItem footer>
+              <Text>Price per participant: 15€</Text>
+            </CardItem>
           
             </Card>
             <Card>
@@ -102,6 +105,10 @@ const styles = StyleSheet.create({
     height: 150,
     width: '100%'
     
+  },
+  card: {
+    width: '95%',
+    alignSelf: 'center'
   },
   title: {
     fontWeight: 'bold'
