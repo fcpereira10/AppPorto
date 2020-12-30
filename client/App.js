@@ -3,7 +3,10 @@ import  AppLoading  from 'expo-app-loading';
 import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import ProfileScreen from './app/screens/ProfileScreen';
+import EditProfileScreen from './app/screens/EditProfileScreen';
 import EventScreen from './app/screens/EventScreen';
+import CheckoutScreen from './app/screens/CheckoutScreen';
 import EventListScreen from './app/screens/EventListScreen';
 import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
@@ -25,8 +28,26 @@ const RootStackLogin = createAppContainer(
           headerShown: false,
         },
       },
+      Profile: {
+        screen: ProfileScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      EditProfile: {
+        screen: EditProfileScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
       Event: {
         screen: EventScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      Checkout: {
+        screen: CheckoutScreen,
         navigationOptions: {
           headerShown: false,
         },
@@ -40,7 +61,7 @@ const RootStackLogin = createAppContainer(
    
     },
     {
-      initialRouteName: "Register",
+      initialRouteName: "Profile",
     }))
 
 export default class App extends React.Component {
