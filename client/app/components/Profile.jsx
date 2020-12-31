@@ -22,17 +22,17 @@ class Profile extends Component {
             <H1>@fcpereira10</H1>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input}>
+              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("About")}>
                 <Text>About</Text>
               </Button>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input}>
+              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("UserBookings")}>
                 <Text>Bookings</Text>
               </Button>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input}>
+              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("EditProfile")}>
                 <Text>Edit Profile</Text>
               </Button>
             </CardItem>

@@ -9,7 +9,7 @@ class About extends Component {
     super(props);
     this.state = {
         dataArray: [
-            { title: "First Element", content: "Lorem ipsum dolor sit amet" },
+            { title: "Intro", content: "This App was made by two Erasmus Students, Rita Norinho and Francisco Pereira, during the Programming of Mobile Devices Course of the University of Lodz under the orientation of Professor Derek O'Reilly and Professor Piotr Milczarski. The main feature of this App is the booking of activities for tourists in the city of Porto." },
             { title: "Second Element", content: "Lorem ipsum dolor sit amet" },
             { title: "Third Element", content: "Lorem ipsum dolor sit amet" }
           ],
@@ -24,8 +24,9 @@ class About extends Component {
     return (
         <Container>
        
-        <Content padder>
-        
+        <Content style={styles.card}>
+        <Accordion dataArray={this.state.dataArray}  icon="add"
+            expandedIcon="remove" expanded={0}/>
         </Content>
       </Container>
 
@@ -34,26 +35,8 @@ class About extends Component {
 }
 const styles = StyleSheet.create({
   card: {
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    width: '95%',
     alignSelf: 'center'
-  },
-  input: {
-    width: '80%'
-  },
-  avatar: {
-    marginBottom: 20,
-    height: 150,
-    width: 150,
-    borderRadius:100,
-  },
-  notregistered: {
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    flexDirection: 'row'
-  },
-  register: {
-    paddingLeft: 5,
   }
   
   
