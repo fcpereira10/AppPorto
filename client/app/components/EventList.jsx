@@ -13,6 +13,7 @@ import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
 import MultiSelect from 'react-native-multiple-select'
 
+import HeaderBar from './HeaderBar';
 class EventList extends Component {
   static navigationOptions = {
     title: 'EventListHeader',
@@ -105,17 +106,18 @@ class EventList extends Component {
     const {events, categories, selectedCategories} = this.state
     const eventsDiv = events.map(this.mapEvents.bind(this))
     return (
-      <Container>
-        <Content>
-          <Header transparent searchBar>
-            <Item style={styles.search}>
+        <Container>
+          <Content>
+            <HeaderBar/>
+        
+       <Card transparent style={styles.card}>
+       <Item style={styles.search}>
               <Input
                 placeholder='Search Events'
                 onChange={this.onChange}
                 value={this.state.first}
               />
             </Item>
-          </Header>
           <SafeAreaView style={styles.container}>
             <View style={styles.container}>
               <MultiSelect
@@ -159,5 +161,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffff',
     borderBottomColor: '#ccc',
   },
+  card: {
+    width: '95%',
+    alignSelf: 'center'
+  }
 })
 export default withNavigation(EventList)

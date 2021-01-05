@@ -4,7 +4,9 @@ import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './app/screens/ProfileScreen';
+import AboutScreen from './app/screens/AboutScreen';
 import EditProfileScreen from './app/screens/EditProfileScreen';
+import UserBookingsScreen from './app/screens/UserBookingsScreen.jsx';
 import EventScreen from './app/screens/EventScreen';
 import CheckoutScreen from './app/screens/CheckoutScreen';
 import EventListScreen from './app/screens/EventListScreen';
@@ -31,6 +33,18 @@ const RootStackLogin = createAppContainer(
       },
       Profile: {
         screen: ProfileScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      About: {
+        screen: AboutScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      UserBookings: {
+        screen: UserBookingsScreen,
         navigationOptions: {
           headerShown: false,
         },
@@ -62,7 +76,7 @@ const RootStackLogin = createAppContainer(
    
     },
     {
-      initialRouteName: "Profile",
+      initialRouteName: "EventList",
     }))
 
 export default class App extends React.Component {
