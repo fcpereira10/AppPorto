@@ -5,24 +5,38 @@ import  EventService  from '../services/EventService';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H1,H2} from 'native-base';
 
 
+import Moment from 'moment';
 class Event extends Component {
+
+  static navigationOptions = {
+    title: "Event",
+  };
   constructor(props){
     super(props);
     this.EventService = new EventService();
     this.state = {
-      events:[],
+    event: {
+        title: "",
+        date: "",
+        location: "",
+        eventId: "5fe4b4d4c6dd2a9cb83b5bee",
+        description:"",
+        price:"",
+        categoryName: "",
+      },
+     
     }
   }
   async componentDidMount() {
-    await this.EventService.getEvent(async (res) => {
+     const {eventId} = this.state.event;
+    await this.EventService.getEvent({eventId}, async (res) => {
       if (res.status == 200) {
         const { data } = res;
-        const { event } = data;
+    
         this.setState({
-          event: event,
-          
+          event: data,          
         });
-        console.log(data);
+        console.log("data "+res.data);
       }
     });
   }
@@ -32,6 +46,8 @@ class Event extends Component {
     title: "Event",
   };
   render() {
+    Moment.locale('en');
+    var dt = this.state.event.date;
     return (
         <Content>
             <Card transparent>
@@ -39,31 +55,28 @@ class Event extends Component {
                 <Body>
                   <Image source={require('../assets/WalkingTour.jpg')} style={{height: 200, width: 200, flex: 1}}/>
                   <H1 style={{ fontWeight: 'bold' }}>
-                    Porto Walking Tour
+                    {this.state.event.title}
                   </H1>
                   <Text>
-                    March 11th 2021 {"\n"}14h00
+                  {Moment(dt).format('dd MM yyyy HH:mm')}
                   </Text>
                   </Body>
               </CardItem>
               <CardItem> 
                   <Text>Category:</Text>
                   <Button iconLeft transparent>
-                    <Icon name='ios-walk' />
-                    <Text style= {{paddingLeft: 0}}>Tour</Text>
+                    <Icon name='walk' />
+                    <Text style= {{paddingLeft: 0}}>{this.state.event.categoryName}</Text>
                   </Button>
               </CardItem>
               <CardItem> 
                   <Text>
-                  Walking distance around 3km, several downhill steps {"\n"}{"\n"}
-                  Wander through the cobbled streets, breath-taking viewpoints and charming squares of downtown Porto with experienced local guides
-                  {"\n"}Discover our locals' favourite places, best Porto's food and learn about its rich history: a bit of history of Portugal in São Bento railway station and why are there so many churches in Porto?
-                  {"\n"}{"\n"}We visit São Bento railway station, Santa Catarina, Batalha square, Santa Clara church, top of the Bridge Luis I, Cathedral (Sé), Barredo neighborhood, Ribeira quarter.
+                  {this.state.event.description}
                   </Text>
               </CardItem>
               <CardItem> 
                 <H2>
-                  {"\n"}Price: 15€ p/person
+                  {"\n"}Price: {this.state.event.price}
                 </H2>
               </CardItem> 
               <CardItem> 

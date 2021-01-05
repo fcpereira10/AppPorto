@@ -9,13 +9,10 @@ class EventScreen extends React.Component {
   render () {
     return (
       <Container>
-        <Content>
           <Event />
-        </Content>
       </Container>
     )
   }
 }
 
 export default withNavigation(EventScreen);
-

@@ -15,6 +15,7 @@ import RegisterScreen from './app/screens/RegisterScreen';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 
+
 const RootStackLogin = createAppContainer(
   createStackNavigator(
     {
@@ -94,6 +95,7 @@ export default class App extends React.Component {
     });
     this.setState({ isReady: true });
   }
+  
 
   render() {
     if (!this.state.isReady) {
@@ -102,8 +104,7 @@ export default class App extends React.Component {
 
     return (
       <Container>
-    
-      <RootStackLogin/>
+        <RootStackLogin/>
       </Container>
     );
   }
