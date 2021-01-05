@@ -6,8 +6,8 @@ const userRouter = require("./routes/user");
 const eventRoute = require("./routes/event");
 const categoryRoute = require("./routes/category");
 const bookingRoute = require("./routes/booking");
-const seed = require("./seed/booking");
-const seedReview = require("./seed/review");
+//const seed = require("./seed/booking");
+//const seedReview = require("./seed/review");
 
 
 mongoose.connect("mongodb+srv://admin:admin@cluster0.dssqf.mongodb.net/development?retryWrites=true&w=majority")

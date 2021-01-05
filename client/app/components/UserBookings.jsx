@@ -14,7 +14,7 @@ class UserBookings extends Component {
     super(props);
     this.UserService = new UserService();
     this.state = {
-       events:[],
+       bookings:[],
       };
   }
 
@@ -22,28 +22,27 @@ class UserBookings extends Component {
     await this.UserService.getAllBookingsByUser({userId: "5fe1c91603adee46959f023d"}, async res => {
       if (res.status == 200) {
         const {data} = res
-
+        console.log(data.bookings)
         this.setState({
-          events: data.events,
+          bookings: data.bookings
         })
       }
     })
   }
-  mapBookings (event) {
+  mapBookings (booking) {
     const r = Math.floor(Math.random() * 100)
-    const key = event._id + r
-    return <BookingCard event={event} key={key} />
+    const key = booking._id + r
+    return <BookingCard event={booking} key={key} />
   }
 
 
 
   render() {
-    const {events} = this.state;
-    const bookingsDiv = events.map(this.mapBookings.bind(this))
+    const {bookings} = this.state;
+    const bookingsDiv = bookings.map(this.mapBookings.bind(this))
     return (
         <Container>
             <Content style={styles.card}>
-              <Text>December 2020</Text>
              {bookingsDiv}
             </Content>
         </Container>

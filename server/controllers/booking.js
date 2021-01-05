@@ -3,12 +3,14 @@ const Event = require('../models/event')
 const Booking = require('../models/booking')
 
 async function getAllBookingsByUser(req,res){
+    console.log("get all bookings" + req.params.id)
     let returnBookings = [];
-    Booking.find({userId: req.params.id})
-    .then(bookings => {
+    Booking.find({userId: req.params.id}).sort({bookindDate: -1})
+    .then(async (bookings) => {
+        console.log("bookings "+bookings);
         for (const booking of bookings){
 
-        Event.findById(booking.eventId)
+        await Event.findById(booking.eventId)
         .then(event =>{
             let book = booking.toObject();
             book.event = event;

@@ -13,7 +13,11 @@ class BookingCard extends Component {
     super(props);
     this.EventService = new EventService();
     this.state = {
-      
+    booking: {
+        bookingDate:"",
+        numberTickets:"", 
+        pricePaid:"",
+    },
     event: {
         title: "",
         date: "",
@@ -23,14 +27,22 @@ class BookingCard extends Component {
         price:"",
         photo:"",
         categoryName:"",
-      },
+
     }
-  }
+      }
+    }
   async componentDidMount() {
     const { event } = this.props;
-    let { title, _id, date, location, description,price, photo, categoryName } = event;
+    let { bookingDate, numberTickets, pricePaid } = event;
+    let {title, date, location, _id, description, price, photo, categoryName} = event.event;
+
     this.setState({
-      event: {
+      booking: {
+         bookingDate,
+         numberTickets, 
+         pricePaid,
+      },
+        event: {
         title,
         date,
         location, 
@@ -44,27 +56,28 @@ class BookingCard extends Component {
   }
   render() {
     Moment.locale('en');
-    var dt = this.state.event.date;
+    var dt = this.state.booking.bookingDate;
+    var dt1 = this.state.event.date;
   
     return (
         <Card>
         <CardItem header>
-          <Text>Booked in December 24th 2020</Text>
+          <Text>Booked in {Moment(dt).format('DD MM yyyy HH:mm')}</Text>
         </CardItem>
         <CardItem>
           <Body>
           <Image source={require('../assets/WalkingTour.jpg')} style={styles.img}/>
                   <H1 style={styles.title}>
-                  Porto Walking Tour
+                  {this.state.event.title}
                   </H1>
                   <Text>
-                      March 11th 2021 - 14h00
+                  {Moment(dt1).format('DD MM yyyy HH:mm')}
                   </Text>
                   
           </Body>
         </CardItem>
         <CardItem footer>
-        <Text>Price paid: 30€</Text>
+        <Text>Price paid: {this.state.booking.pricePaid}</Text>
       </CardItem>
 
       </Card>
