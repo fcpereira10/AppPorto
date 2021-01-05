@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './app/screens/ProfileScreen';
 import AboutScreen from './app/screens/AboutScreen';
 import EditProfileScreen from './app/screens/EditProfileScreen';
-import UserBookingsScreen from './app/screens/UserBookingsScreen.jsx';
+import UserBookingsScreen from './app/screens/UserBookingsScreen';
 import EventScreen from './app/screens/EventScreen';
 import CheckoutScreen from './app/screens/CheckoutScreen';
 import EventListScreen from './app/screens/EventListScreen';
@@ -76,7 +76,7 @@ const RootStackLogin = createAppContainer(
    
     },
     {
-      initialRouteName: "EventList",
+      initialRouteName: "Profile",
     }))
 
 export default class App extends React.Component {
@@ -91,7 +91,7 @@ export default class App extends React.Component {
     await Font.loadAsync({
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font,
+      ...Ionicons.Font,
     });
     this.setState({ isReady: true });
   }

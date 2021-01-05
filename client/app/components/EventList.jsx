@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {StyleSheet, SafeAreaView, View} from 'react-native'
 import {withNavigation} from 'react-navigation'
-import EventCard from '../components/EventCard'
+import EventCard from './EventCard'
 import {
   Container,
   Header,
   Content,
   Item,
   Input,
+  Card
 } from 'native-base'
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
@@ -143,6 +144,7 @@ class EventList extends Component {
             </View>
           </SafeAreaView>
           {eventsDiv}
+          </Card>
         </Content>
       </Container>
     )

@@ -11,7 +11,7 @@ async function getAllEvents(req, res) {
   async function getEvent(req, res) {
     console.log("get event by id" + JSON.stringify(req.params));
     let categoryName, event;
-    Event.findById({_id: req.params.id})
+    Event.findById(req.params.id)
     .then(async (response) => {
       const {categoryId}= response;
       await Category.findById({_id: categoryId})
@@ -30,8 +30,7 @@ async function getAllEvents(req, res) {
     let {query}= req.params;
     var nameRegex = new RegExp(query, "i");
     Event.find({title: {$regex: nameRegex}})
-    .then(events => {
-      console.log(events);
+    .then(events => { 
       res.json({ events }
         )})
     .catch(error => res.status(400).json({ error }))

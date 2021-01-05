@@ -2,13 +2,13 @@ import axios from "axios";
 
 export default class CategoryService {
   constructor() {
-    this.ip = "http://192.168.1.102:4000/category";
+    this.ip = "http://192.168.1.102:4000/user";
   }
 
-  async getAllCategories(data, callback){
-    console.log("get all categories")
+  async getAllBookingsByUser(data, callback){
+    const { userId } = data;
     await axios
-    .get(`${this.ip}/`)
+    .get(`${this.ip}/${userId}/bookings`)
 
     .then((response) => {
       console.log(response);
@@ -20,4 +20,6 @@ export default class CategoryService {
     });
 
   }
+
+  
 }
