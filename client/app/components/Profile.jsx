@@ -2,24 +2,54 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, H1} from 'native-base';
+import UserService from "../services/UserService";
 class Profile extends Component {
 
   static navigationOptions = {
     title: "Profile",
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        name: "",
+        photo: "",
+      },
+    };
+    this.UserService = new UserService();
+  }
+  async load() {
+    await this.UserService.getUser((res) => {
+      if (res.status === 200) {
+        const { payload } = res.data;
+        console.log(" payload "+payload)
+        this.setState({
+          user: {
+            username: payload.username,
+            email: payload.email,
+          },
+      
+        });
+
+      } else console.log("ERRRRRO")
+    });
+  }
+
+  async componentDidMount() {
+    await this.load();
+  }
+
   render() {
     return (
         <Container>
           <Content padder>
           <Card transparent style={styles.card}>
-            <CardItem>
-              
-              <Thumbnail large source={require('../assets/Avatar.png')} style={styles.avatar}/>
-              
+            <CardItem> 
+              <Thumbnail large source={require('../assets/Avatar.png')} style={styles.avatar}/>   
             </CardItem>
             <CardItem>
-            <H1>@fcpereira10</H1>
+            <H1>@{this.state.user.username}</H1>
             </CardItem>
             <CardItem>
               <Button block style={styles.input} onPress={() => this.props.navigation.navigate("About")}>
