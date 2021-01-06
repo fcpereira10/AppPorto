@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
+import {StyleSheet} from 'react-native'
 import { withNavigation } from 'react-navigation'
 import  EventService  from '../services/EventService';
 import Moment from 'moment';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H1} from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H2} from 'native-base';
 
 class EventCard extends Component {
   static navigationOptions = {
@@ -47,15 +48,16 @@ class EventCard extends Component {
     var dt = this.state.event.date;
     
     return (
-          <Card> 
+      
+          <Card transparent> 
             <CardItem button onPress={() => this.props.navigation.navigate("Event",{
             eventId: this.state.event._id,})}>
               <Left>
-                <Image source={require("../assets/WalkingTour.jpg" )} style={{height: 200, width: 200, flex: 1}}/>
+                <Image source={require("../assets/WalkingTour.jpg" )} style={styles.img}/>
                 <Body>
-                  <H1>{this.state.event.title}</H1>
+                  <Text style={styles.title}>{this.state.event.title}</Text>
                   <Text note>{Moment(dt).format('dd MM yyyy HH:mm')}</Text>
-                  <H3>{this.state.event.price}</H3>
+                  <Text style={styles.price}>€{this.state.event.price}</Text>
                 </Body>
               </Left>
             </CardItem>
@@ -63,5 +65,20 @@ class EventCard extends Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  img: {
+    height: 100, width: 'auto', flex: 1
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '500'
+  },
+  price: {
+    paddingTop: 10
+  },
+  
 
+
+  
+})
 export default withNavigation(EventCard);

@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
-import {StyleSheet, SafeAreaView, View} from 'react-native'
+import {StyleSheet, SafeAreaView, View, Div} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import EventCard from './EventCard'
+import {Ionicons} from '@expo/vector-icons';
 import {
   Container,
   Header,
   Content,
   Item,
   Input,
-  Card
+  Text,
+  Card,
+  CardItem
 } from 'native-base'
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
@@ -110,24 +113,31 @@ class EventList extends Component {
         <Container>
           <Content>
             <HeaderBar/>
-        
-       <Card transparent style={styles.card}>
-       <Item style={styles.search}>
+            <View style={styles.view1}>
+              <View style={styles.view2}>
+                <Ionicons name="filter-outline" size={30} color='black' />
+              </View>
+              <View style={styles.view3}>
+    <Card transparent style={styles.filters}>
+          
+              <CardItem>
               <Input
                 placeholder='Search Events'
                 onChange={this.onChange}
                 value={this.state.first}
+              style={styles.search}
               />
-            </Item>
-          <SafeAreaView style={styles.container}>
-            <View style={styles.container}>
+              </CardItem>
+              <CardItem>
+              <SafeAreaView style={styles.view}>
+              <View>
               <MultiSelect
                 hideTags
                 items={categories}
                 uniqueKey='id'
                 onSelectedItemsChange={this.onSelectedItemsChange}
                 selectedItems={selectedCategories}
-                selectText='Select Categories'
+                selectText='Select Categories '
                 searchInputPlaceholderText='Search Categories'
                 onChangeInput={text => console.log(text)}
                 tagRemoveIconColor='#CCC'
@@ -140,24 +150,45 @@ class EventList extends Component {
                 searchInputStyle={{color: '#CCC'}}
                 submitButtonColor='#CCC'
                 submitButtonText='Close'
+                fontSize={16}
               />
-            </View>
+               </View>
           </SafeAreaView>
-          {eventsDiv}
+          </CardItem>
           </Card>
+          
+  </View>
+      
+        
+     
+  </View>
+  <View style={styles.view5}>
+    <View style={styles.view1}>
+    
+      <View style={styles.view3}>
+        <View style={styles.view4}>
+            {eventsDiv}
+          </View>
+       </View>
+</View>
+</View>
         </Content>
+        
       </Container>
     )
   }
 }
 const styles = StyleSheet.create({
-  search: {
+  filters: {
     backgroundColor: 'transparent',
-    borderBottomColor: '#ccc',
+    borderBottomColor: 'transparent',
+    width: '95%',
+    alignSelf: 'center'
   },
-  container: {
-    flex: 1,
-    padding: 10,
+  categories: {
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flexDirection: 'column'
   },
   categories: {
     backgroundColor: '#ffff',
@@ -166,6 +197,63 @@ const styles = StyleSheet.create({
   card: {
     width: '95%',
     alignSelf: 'center'
-  }
+  },
+  search: {
+    paddingLeft: 0
+  },
+  view: {
+    width: '100%'
+  },
+  icon: {
+    paddingRight: 10
+  },
+  view1: {
+    flex: 1,
+    width: '95%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    // backgroundColor: '#D1C4E9',
+  },
+  view2: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'absolute',
+      width: 50,
+      height: 50,
+      borderRadius: 50 / 2,
+      backgroundColor: 'white',
+      zIndex: 2,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 10,
+      elevation: 7,
+  },
+  view3:{
+    alignItems: 'center',
+      justifyContent: 'center',
+      position: 'absolute',
+      top: 25,
+      width: '95%',
+
+      borderRadius: 8,
+      backgroundColor: 'white',
+      // backgroundColor: '#7E57C2',
+      zIndex: 1,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 10,
+      elevation: 5,
+  },
+  view4: {
+    
+    width: '95%'
+  },
+  view5: {
+    paddingTop: 180,
+  },
+  
 })
 export default withNavigation(EventList)

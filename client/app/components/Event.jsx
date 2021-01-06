@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Image, StyleSheet, TouchableOpacity} from 'react-native'
 import {withNavigation} from 'react-navigation'
+import {Ionicons} from '@expo/vector-icons';
 import EventService from '../services/EventService'
 import {
   Content,
@@ -8,13 +9,14 @@ import {
   CardItem,
   Text,
   Button,
-  Icon,
   Body,
   H1,
   H2,
 } from 'native-base'
 import Spinner from 'react-native-loading-spinner-overlay'
 import Moment from 'moment'
+
+import HeaderBar from './HeaderBar';
 class Event extends Component {
   static navigationOptions = {
     title: 'Event',
@@ -61,13 +63,14 @@ class Event extends Component {
     const {spinner, gray} = this.state
     return (
       <Content>
+       <HeaderBar/>
         <Spinner
           visible={this.state.spinner}
           textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
         />
         {!spinner && (
-          <Card style={gray? { opacity: 0.7}:''}>
+          <Card transparent style={gray? { opacity: 0.7}:''}>
             <CardItem>
               <Body>
               
@@ -83,7 +86,7 @@ class Event extends Component {
             <CardItem>
               <Text>Category:</Text>
               <Button iconLeft transparent disabled={gray}>
-                <Icon name='walk' />
+                <Ionicons name='musical-notes-outline' size={18}/>
                 <Text style={{paddingLeft: 0}}>
                   {this.state.event.categoryName}
                 </Text>
@@ -94,7 +97,7 @@ class Event extends Component {
             </CardItem>
             <CardItem>
               <H2>
-                {'\n'}Price: {this.state.event.price}
+                {'\n'}Price: €{this.state.event.price}
               </H2>
             </CardItem>
             <CardItem>
