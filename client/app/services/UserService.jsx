@@ -59,6 +59,28 @@ export default class CategoryService {
         callback(error);
       });
   }
+  async getUser(callback) {
+    console.log("get user")
+    let token = "";
+    try {
+      token = (await AsyncStorage.getItem("token")) || "";
+      console.log(token)
+    } catch (error) {
+      console.log(error.message);
+    }
+    axios
+      .get(`${this.ip}/current`, {
+
+        headers: { Authorization: `Token ${token}` },
+      })
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        console.log(error)
+        callback(error);
+      });
+  }
 
   
 }

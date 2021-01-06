@@ -59,9 +59,21 @@ function login (req, res, next) {
   function hashPassword (password) {
     return bcrypt.hashSync(password, 10)
   }
+  async function getCurrent (req, res) {
+    console.log("get current")
+    let { payload } = req
+    const { _id } = payload
+    const userId = _id
+  
+    await User.findById(_id).then((user) => {
+      payload = user;
+    })
+    return res.status(200).json({ payload })
+  }
 
   module.exports = {
       login, 
       add,
-      hashPassword
+      hashPassword, 
+      getCurrent
   }

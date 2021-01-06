@@ -20,11 +20,13 @@ const check = {
   required: jwt({
     secret: jwtSecret(),
     userProperty: 'payload',
+    algorithms: ['HS256'],
     getToken: getTokenFromHeaders,
   }),
   optional: jwt({
     secret: jwtSecret(),
     userProperty: 'payload',
+    algorithms: ['HS256'],
     getToken: getTokenFromHeaders,
     credentialsRequired: false,
   }),
