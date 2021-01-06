@@ -38,6 +38,13 @@ class Register extends Component {
     console.log("on submit")
     event.preventDefault()
     this.setState({spinner: true})
+    if (this.state.email.trim() === "") {
+      this.setState(() => ({ emailError: "email required" }));
+    }if (this.state.username.trim() === "") {
+        this.setState(() => ({ usernameError: "username required" }));
+    }if (this.state.password.trim() === "") {
+        this.setState(() => ({ passwordError: "password required" }));
+    } else if (this.state.email.trim() !== "" && this.state.username.trim() !== "" && this.state.password.trim() !== "" )
     this.UserService.add(this.state, async res => {
       if (res.status === 200) {
         const {username, password} = this.state

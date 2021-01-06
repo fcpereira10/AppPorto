@@ -16,21 +16,27 @@ class Login extends Component {
       username: "",
       password: "",
       spinner: false,
+      usernameError:"",
+      passwordError:"",
     };
     this.UserService = new UserService();
   }
   onSubmit(event) {
     event.preventDefault();
     this.setState({ spinner: true });
-    console.log("on submit");
+    
+    if (this.state.username.trim() === "") {
+        this.setState(() => ({ usernameError: "username required" }));
+    }if (this.state.password.trim() === "") {
+        this.setState(() => ({ passwordError: "password required" }));
+    }
+    else if(this.state.username.trim() !== "" && this.state.password.trim() !== ""){
     this.UserService.login(this.state, async (res) => {
       console.log("res");
       if (res.status === 200) {
         console.log("res 2");
         this.props.navigation.navigate("Profile");
       } else {
-        console.log("error");
-        console.log(res.response.data.message)
 
         this.dropDownAlertRef.alertWithType(
           "error",
@@ -40,6 +46,7 @@ class Login extends Component {
       }
       this.setState({ spinner: false });
     });
+  }
   }
 
 
@@ -59,6 +66,8 @@ class Login extends Component {
                 style={styles.input}
                 autoCapitalize = "none"
                 onChangeText={(val) => this.setState({ username: val.trim() })} />
+                {!!this.state.usernameError && (
+                <Text style={{ color: "red" }}>{this.state.usernameError}</Text>)}
               </Item>
             </CardItem>
             <CardItem style={styles.input}>
@@ -68,6 +77,8 @@ class Login extends Component {
                 style={styles.input}
                 autoCapitalize = "none"
                 onChangeText={(val) => this.setState({ password: val.trim() })} />
+                 {!!this.state.passwordError && (
+                <Text style={{ color: "red" }}>{this.state.passwordError}</Text>)}
               </Item>
             </CardItem>
             <CardItem>
