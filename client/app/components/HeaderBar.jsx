@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Header, Title, Button, Left, Right, Body, Icon, Subtitle } from 'native-base';
 import { withNavigation } from 'react-navigation';
-
+import { Ionicons } from '@expo/vector-icons';
  class HeaderBar extends Component {
   render() {
     return (
@@ -9,7 +9,7 @@ import { withNavigation } from 'react-navigation';
         <Header>
           <Left style={{flex:1}}>
             <Button transparent>
-              <Icon name='arrow-back' />
+            <Ionicons name="md-checkmark-circle" size={32} color="green" /> 
             </Button>
           </Left>
           <Body style = {{flexDirection: 'row', justifyContent: 'center'}}>
@@ -17,7 +17,6 @@ import { withNavigation } from 'react-navigation';
           </Body>
           <Right style={{flex:1}}>
               <Button transparent >
-            <Icon name='person'/>
             </Button>
         </Right>
         </Header>

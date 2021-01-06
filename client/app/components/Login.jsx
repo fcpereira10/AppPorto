@@ -1,12 +1,47 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation'
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, H2} from 'native-base';
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Item, Input} from 'native-base';
+import Spinner from "react-native-loading-spinner-overlay";
+import DropdownAlert from "react-native-dropdownalert";
+import UserService from "../services/UserService";
 class Login extends Component {
 
   static navigationOptions = {
     title: "Login",
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      spinner: false,
+    };
+    this.UserService = new UserService();
+  }
+  onSubmit(event) {
+    event.preventDefault();
+    this.setState({ spinner: true });
+    console.log("on submit");
+    this.UserService.login(this.state, async (res) => {
+      console.log("res");
+      if (res.status === 200) {
+        console.log("res 2");
+        this.props.navigation.navigate("Profile");
+      } else {
+        console.log("error");
+        console.log(res.response.data.message)
+
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Error",
+          res.response.data.message
+        );
+      }
+      this.setState({ spinner: false });
+    });
+  }
+
 
   render() {
     return (
@@ -20,16 +55,25 @@ class Login extends Component {
             </CardItem>
             <CardItem style={styles.input}>
               <Item>
-                <Input placeholder="Username" />
+                <Input placeholder="Username" 
+                style={styles.input}
+                autoCapitalize = "none"
+                onChangeText={(val) => this.setState({ username: val.trim() })} />
               </Item>
             </CardItem>
             <CardItem style={styles.input}>
               <Item>
-                <Input secureTextEntry={true} placeholder="Password"  onChangeText={this.handlePasswordTextChange}/>
+                <Input placeholder="Password" 
+                secureTextEntry={true}
+                style={styles.input}
+                autoCapitalize = "none"
+                onChangeText={(val) => this.setState({ password: val.trim() })} />
               </Item>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input}>
+              <Button block 
+              style={styles.input}  
+              onPress={(event) => this.onSubmit(event)}>
                 <Text>Sign In</Text>
               </Button>
             </CardItem>
@@ -41,6 +85,7 @@ class Login extends Component {
             </CardItem>
           </Card>
         </Content>
+        <DropdownAlert ref={(ref) => (this.dropDownAlertRef = ref)} />
         </Container>
 
     );
