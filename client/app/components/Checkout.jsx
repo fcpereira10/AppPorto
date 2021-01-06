@@ -23,7 +23,6 @@ class Checkout extends Component {
     return (
         <Container>
             <Content style={styles.card}>
-              
               <Card>
               <CardItem header>
                 <Text>Event Selected</Text>

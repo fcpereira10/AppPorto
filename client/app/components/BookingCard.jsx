@@ -64,7 +64,8 @@ class BookingCard extends Component {
         <CardItem header>
           <Text>Booked in {Moment(dt).format('DD MM yyyy HH:mm')}</Text>
         </CardItem>
-        <CardItem>
+        <CardItem button onPress={() => this.props.navigation.navigate("Event",{
+            eventId: this.state.event._id,})}>
           <Body>
           <Image source={require('../assets/WalkingTour.jpg')} style={styles.img}/>
                   <H1 style={styles.title}>
