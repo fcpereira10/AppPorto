@@ -1,48 +1,98 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { withNavigation } from 'react-navigation'
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text,ListItem, H1, H3, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, Separator, H2} from 'native-base';
+import React, {Component} from 'react'
+import {StyleSheet, Image} from 'react-native'
+import {withNavigation} from 'react-navigation'
+import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  H1,
+  Button,
+  Icon,
+  Body,
+  Form,
+  Picker,
+} from 'native-base'
+import EventService from '../services/EventService'
+import Spinner from 'react-native-loading-spinner-overlay'
+import Moment from 'moment'
 class Checkout extends Component {
-
   static navigationOptions = {
-    title: "Checkout",
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-        selected: "key0"
-      };
+    title: 'Checkout',
   }
-  onValueChange(value) {
+  constructor (props) {
+    super(props)
+    this.EventService = new EventService()
+    this.state = {
+      selected: '1',
+      spinner: true,
+      event: {
+        title: '',
+        date: '',
+        location: '',
+        eventId: '',
+        description: '',
+        price: '',
+        categoryName: '',
+      },
+      total:"",
+    }
+  }
+  async componentDidMount () {
+    const {params} = this.props.navigation.state
+    const eventId = params ? params.eventId : null
+    await this.EventService.getEvent({eventId}, async res => {
+      
+      if (res.status == 200) {
+        const {data} = res
+      
+        this.setState({
+          spinner: false,
+          event: data,
+          total: (parseFloat(this.state.selected) * parseFloat(data.price)).toFixed(2),
+        })
+      }
+    })
+  }
+  onValueChange (value) {
+    const {price} = this.state.event;
     this.setState({
-      selected: value
-    });
+      selected: value,
+      total: value *price,
+    })
   }
 
-  render() {
+  render () {
+    const {spinner, event, total} = this.state;
+    Moment.locale('en')
+    var dt = this.state.event.date
     return (
-        <Container>
-            <Content style={styles.card}>
-              <Card>
+      <Container>
+        <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+        {!spinner && (
+          <Content style={styles.card}>
+            <Card>
               <CardItem header>
                 <Text>Event Selected</Text>
               </CardItem>
               <CardItem>
                 <Body>
-                <Image source={require('../assets/WalkingTour.jpg')} style={styles.img}/>
-                        <H1 style={styles.title}>
-                        Porto Walking Tour
-                        </H1>
-                        <Text>
-                            March 11th 2021 - 14h00
-                        </Text>
-                        
+                  <Image
+                    source={require('../assets/WalkingTour.jpg')}
+                    style={styles.img}
+                  />
+                  <H1 style={styles.title}>{event.title}</H1>
+                  <Text>{Moment(dt).format('dd MM yyyy HH:mm')}</Text>
                 </Body>
               </CardItem>
               <CardItem footer>
-              <Text>Price per participant: 15€</Text>
-            </CardItem>
-          
+                <Text>Price per participant: €{event.price}</Text>
+              </CardItem>
             </Card>
             <Card>
               <CardItem header>
@@ -50,71 +100,57 @@ class Checkout extends Component {
               </CardItem>
               <CardItem>
                 <Body>
-                <Form>
-                        <Picker
-                        mode="dialog"
-                        iosHeader="Select the number of participants"
-                        iosIcon={<Icon name="chevron-down-outline" />}
-                        style={{ width: undefined }}
-                        selectedValue={this.state.selected}
-                        onValueChange={this.onValueChange.bind(this)}
-                        >
-                        <Picker.Item label="1 Participant" value="key0" />
-                        <Picker.Item label="2 Participants" value="key1" />
-                        <Picker.Item label="3 Participants" value="key2" />
-                        <Picker.Item label="4 Participants" value="key3" />
-                        <Picker.Item label="5 Participants" value="key4" />
-                        </Picker>
-                    </Form>
-                        
+                  <Form>
+                    <Picker
+                      mode='dialog'
+                      iosHeader='Select the number of participants'
+                      iosIcon={<Icon name='chevron-down-outline' />}
+                      style={{width: undefined}}
+                      selectedValue={this.state.selected}
+                      onValueChange={this.onValueChange.bind(this)}>
+                      <Picker.Item label='1 Participant' value='1' />
+                      <Picker.Item label='2 Participants' value='2' />
+                      <Picker.Item label='3 Participants' value='3' />
+                      <Picker.Item label='4 Participants' value='4' />
+                      <Picker.Item label='5 Participants' value='5' />
+                    </Picker>
+                  </Form>
                 </Body>
               </CardItem>
-          
             </Card>
             <Card>
               <CardItem header>
-                <Text>Total</Text>
+                <Text>Total €{total}</Text>
               </CardItem>
               <CardItem>
                 <Body>
-                  
-                <Button primary>
-                  <Text>Paypal</Text>
-                </Button>
+                  <Button primary>
+                    <Text>Paypal</Text>
+                  </Button>
                 </Body>
               </CardItem>
-          
             </Card>
-                
-                
-                
-                  
-            
-          
-            </Content>
-        </Container>
-
-    );
+          </Content>
+        )}
+      </Container>
+    )
   }
 }
 const styles = StyleSheet.create({
-
   img: {
-    resizeMode: "cover",
+    resizeMode: 'cover',
     height: 150,
-    width: '100%'
-    
+    width: '100%',
   },
   card: {
     width: '95%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   title: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   price: {
     alignSelf: 'flex-end',
-  }
-  
+  },
 })
-export default withNavigation(Checkout);
+export default withNavigation(Checkout)

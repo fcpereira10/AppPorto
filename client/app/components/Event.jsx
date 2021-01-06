@@ -45,7 +45,7 @@ class Event extends Component {
         this.setState({
           spinner: false,
           event: data,
-          gray: new Date(data.date) > new Date(Date.now()) ? true : false, 
+          gray: new Date(data.date) < new Date(Date.now()) ? true : false, 
         })
         console.log('DATA ' +this.state.gray)
       }
@@ -98,7 +98,8 @@ class Event extends Component {
               </H2>
             </CardItem>
             <CardItem>
-              <Button primary disabled={gray}>
+              <Button primary disabled={gray} onPress={() => this.props.navigation.navigate("Checkout",{
+            eventId: this.state.event._id,})}>
                 <Text> Book </Text>
               </Button>
             </CardItem>
