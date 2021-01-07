@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Header, Title, Button, Left, Right, Body } from 'native-base';
 import {Ionicons} from '@expo/vector-icons';
 import { withNavigation } from 'react-navigation';
-import { Ionicons } from '@expo/vector-icons';
  class HeaderBar extends Component {
   render() {
     return (

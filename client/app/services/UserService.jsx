@@ -6,6 +6,7 @@ export default class CategoryService {
 
     this.ip = "http://192.168.1.109:4000/user";
 
+  }
 
   async getAllBookingsByUser(data, callback){
     const { userId } = data;
