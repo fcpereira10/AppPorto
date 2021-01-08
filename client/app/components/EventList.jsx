@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, SafeAreaView, View, Div} from 'react-native'
+import {StyleSheet, SafeAreaView, Div} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import EventCard from './EventCard'
 import {Ionicons} from '@expo/vector-icons';
@@ -12,7 +12,8 @@ import {
   Text,
   Card,
   CardItem,
-  StyleProvider
+  StyleProvider,
+  View
 } from 'native-base'
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
@@ -172,6 +173,7 @@ class EventList extends Component {
       <View style={styles.view3}>
         <View style={styles.view4}>
             {eventsDiv}
+          
           </View>
        </View>
         

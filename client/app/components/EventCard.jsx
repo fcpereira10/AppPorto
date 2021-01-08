@@ -50,7 +50,7 @@ class EventCard extends Component {
     var dt = this.state.event.date;
     
     return (
-      <StyleProvider style={getTheme(commonColor)}>
+    
 
           <Card transparent> 
             <CardItem button onPress={() => this.props.navigation.navigate("Event",{
@@ -59,26 +59,19 @@ class EventCard extends Component {
               <View style={styles.view2}>
                     <Text style={{fontSize:18, fontWeight:'500'}} >{Moment(dt).format('DD')}</Text>
                     <Text style={{}}>{Moment(dt).format('MMM.')}</Text>
-                  </View>
-                <Image source={require("../assets/WalkingTour.jpg" )} style={styles.img}/>
-
-                
+              </View>
+                <Image source={require("../assets/WalkingTour.jpg" )} style={styles.img}/> 
               </Left>
               <Body>
               <View style={styles.info}>
                   <Title style={styles.title}>{this.state.event.title}</Title>
-                  <Text style={styles.txt}><Ionicons name='location-outline' size={16} style={{color: '#00b4d8'}}/> {this.state.event.address} </Text>
-                  <Text style={styles.txt}><Ionicons name='time-outline' size={16} style={{color: '#00b4d8'}}/> {Moment(dt).format('HH:mm')} </Text>
+                  <Text style={styles.txt}><Ionicons name='location-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.address} </Text>
+                  <Text style={styles.txt1}><Ionicons name='time-outline' size={16} style={{color: '#0077b6'}}/> {Moment(dt).format('HH:mm')} </Text>
                   <Text style={styles.price}><Ionicons name='pricetag-outline' size={16} style={{color: '#03045e'}}/> €{this.state.event.price}</Text>
-
                   </View>
                 </Body>
-         
-
-       
             </CardItem>
           </Card>
-          </StyleProvider>
     );
   }
 }
@@ -92,15 +85,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '500',
-    paddingBottom: 10
     
   },
-  price: {
-    
-  },
+  
+
   txt: {
-    color: '#00b4d8',
+    color: '#0077b6',
     fontSize: 12,
+    fontWeight: '500',
+
+  },
+  txt1: {
+    color: '#0077b6',
+    fontSize: 12,
+    fontWeight: '500',
     paddingBottom: 10
   },
 

@@ -125,12 +125,12 @@ export default {
   CheckboxIconSize: platform === PLATFORM.IOS ? 19 : 16,
   CheckboxIconMarginTop: platform === PLATFORM.IOS ? undefined : 1,
   CheckboxFontSize: platform === PLATFORM.IOS ? 12 / 0.9 : 17,
-  checkboxBgColor: '#039BE5',
+  checkboxBgColor: '#0077b6',
   checkboxSize: 20,
   checkboxTickColor: '#fff',
 
   // Color
-  brandPrimary: platform === PLATFORM.IOS ? '#00b4d8' : '#00b4d8',
+  brandPrimary: platform === PLATFORM.IOS ? '#0077b6' : '#0077b6',
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',

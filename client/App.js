@@ -1,4 +1,5 @@
 import React from 'react';
+import {Image} from 'react-native'
 import  AppLoading  from 'expo-app-loading';
 import { Container, StyleProvider } from 'native-base';
 import * as Font from 'expo-font';
@@ -72,12 +73,13 @@ const RootStackLogin = createAppContainer(
           screen: EventListScreen,
           navigationOptions: {
             headerShown: false,
+        
           },
       }
    
     },
     {
-      initialRouteName: "Login",
+      initialRouteName: "EventList",
     }))
 
 export default class App extends React.Component {
