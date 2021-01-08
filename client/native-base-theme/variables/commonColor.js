@@ -52,8 +52,8 @@ export default {
   buttonUppercaseAndroidText: true,
 
   // Badge
-  badgeBg: '#ED1727',
-  badgeColor: '#fff',
+  badgeBg: '#0077b6',
+  badgeColor: '#fbfcff',
   badgePadding: platform === PLATFORM.IOS ? 3 : 0,
 
   // Button
@@ -114,7 +114,7 @@ export default {
   // Card
   cardDefaultBg: '#fbfcff',
   cardBorderColor: '#ccc',
-  cardBorderRadius: 2,
+  cardBorderRadius: 8,
   cardItemPadding: platform === PLATFORM.IOS ? 10 : 12,
 
   // CheckBox
@@ -249,8 +249,8 @@ export default {
   segmentBorderColorMain: platform === PLATFORM.IOS ? '#a7a6ab' : '#3F51B5',
 
   // Spinner
-  defaultSpinnerColor: '#45D56E',
-  inverseSpinnerColor: '#1A191B',
+  defaultSpinnerColor: '#90e0ef',
+  inverseSpinnerColor: '#03045e',
 
   // Tab
   tabDefaultBg: platform === PLATFORM.IOS ? '#F8F8F8' : '#3F51B5',
@@ -275,8 +275,8 @@ export default {
   titleFontfamily: platform === PLATFORM.IOS ? 'System' : 'Roboto_medium',
   titleFontSize: platform === PLATFORM.IOS ? 17 : 19,
   subTitleFontSize: platform === PLATFORM.IOS ? 11 : 14,
-  subtitleColor: platform === PLATFORM.IOS ? '#0077b6' : '#fbfcff',
-  titleFontColor: platform === PLATFORM.IOS ? '#03045e' : '#fbfcff',
+  subtitleColor: platform === PLATFORM.IOS ? '#0077b6' : '#0077b6',
+  titleFontColor: platform === PLATFORM.IOS ? '#03045e' : '#03045e',
 
   // Other
   borderRadiusBase: platform === PLATFORM.IOS ? 5 : 2,

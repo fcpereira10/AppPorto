@@ -117,7 +117,7 @@ class EventList extends Component {
             <HeaderBar/>
             <View style={styles.view1}>
               <View style={styles.view2}>
-                <Ionicons name="filter-outline" size={30} color='black' />
+                <Ionicons name="filter-outline" size={30} color='#03045e' />
               </View>
               <View style={styles.view3}>
               <Card transparent>
@@ -142,15 +142,21 @@ class EventList extends Component {
                 selectText='Select Categories '
                 searchInputPlaceholderText='Search Categories'
                 onChangeInput={text => console.log(text)}
-                tagRemoveIconColor='#CCC'
-                tagBorderColor='#CCC'
-                tagTextColor='#CCC'
-                selectedItemTextColor='#CCC'
-                selectedItemIconColor='#CCC'
-                itemTextColor='#000'
+                tagRemoveIconColor='#00b4d8'
+                tagBorderColor='#00b4d8'
+                tagTextColor='#00b4d8'
+                selectedItemTextColor='#00b4d8'
+                selectedItemIconColor='#00b4d8'
+                itemTextColor='#03045e'
                 displayKey='name'
-                searchInputStyle={{color: '#CCC'}}
-                submitButtonColor='#CCC'
+
+                success={'#00b4d8'}
+                text={'#03045e'}
+                itemBackground={'#fbfcff'}
+                searchPlaceholderTextColor='#fbfcff'
+                searchInputStyle='#03045e'
+                searchSelectionColor='#fbfcff'
+                submitButtonColor='#00b4d8'
                 submitButtonText='Close'
                 fontSize={16}
               />
@@ -194,12 +200,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   categories: {
-    backgroundColor: '#ffff',
-    borderBottomColor: '#ccc',
-  },
-  card: {
-    width: '95%',
-    alignSelf: 'center'
+    backgroundColor: '#fbfcff',
+    borderBottomColor: '#fbfcff',
   },
   search: {
     paddingLeft: 0
@@ -215,8 +217,7 @@ const styles = StyleSheet.create({
     width: '95%',
     alignSelf: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    // backgroundColor: '#D1C4E9',
+    backgroundColor: '#fbfcff',
   },
   view2: {
       alignItems: 'center',
@@ -225,9 +226,9 @@ const styles = StyleSheet.create({
       width: 50,
       height: 50,
       borderRadius: 50 / 2,
-      backgroundColor: 'white',
+      backgroundColor: '#fbfcff',
       zIndex: 2,
-      shadowColor: '#000',
+      shadowColor: '#03045e',
       shadowOffset: { width: 0, height: 0 },
       shadowOpacity: 0.2,
       shadowRadius: 10,
@@ -241,10 +242,9 @@ const styles = StyleSheet.create({
       width: '95%',
 
       borderRadius: 8,
-      backgroundColor: 'white',
-      // backgroundColor: '#7E57C2',
+      backgroundColor: '#fbfcff',
       zIndex: 1,
-      shadowColor: '#000',
+      shadowColor: '#03045e',
       shadowOffset: { width: 0, height: 0 },
       shadowOpacity: 0.2,
       shadowRadius: 10,
@@ -262,8 +262,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    // backgroundColor: '#D1C4E9',
+    backgroundColor: '#fbfcff',
   },
   
 })
