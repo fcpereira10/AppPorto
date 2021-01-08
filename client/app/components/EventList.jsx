@@ -11,13 +11,14 @@ import {
   Input,
   Text,
   Card,
-  CardItem
+  CardItem,
+  StyleProvider
 } from 'native-base'
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
 import MultiSelect from 'react-native-multiple-select'
-
 import HeaderBar from './HeaderBar';
+
 class EventList extends Component {
   static navigationOptions = {
     title: 'EventListHeader',
@@ -110,6 +111,7 @@ class EventList extends Component {
     const {events, categories, selectedCategories} = this.state
     const eventsDiv = events.map(this.mapEvents.bind(this))
     return (
+      
         <Container>
           <Content>
             <HeaderBar/>
@@ -118,7 +120,7 @@ class EventList extends Component {
                 <Ionicons name="filter-outline" size={30} color='black' />
               </View>
               <View style={styles.view3}>
-    <Card transparent style={styles.filters}>
+              <Card transparent>
           
               <CardItem>
               <Input
@@ -158,23 +160,24 @@ class EventList extends Component {
           </Card>
           
   </View>
-      
-        
-     
-  </View>
   <View style={styles.view5}>
-    <View style={styles.view1}>
+    <View style={styles.view6}>
     
       <View style={styles.view3}>
         <View style={styles.view4}>
             {eventsDiv}
           </View>
        </View>
+        
+     
+  </View>
+  
 </View>
 </View>
         </Content>
         
       </Container>
+
     )
   }
 }
@@ -249,10 +252,18 @@ const styles = StyleSheet.create({
   },
   view4: {
     
-    width: '95%'
+    width: '100%'
   },
   view5: {
     paddingTop: 180,
+  },
+  view6: {
+    flex: 1,
+    width: '100%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    // backgroundColor: '#D1C4E9',
   },
   
 })

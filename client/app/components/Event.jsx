@@ -7,6 +7,7 @@ import {
   Content,
   Card,
   CardItem,
+  StyleProvider,
   Text,
   Button,
   Body,
@@ -15,7 +16,6 @@ import {
 } from 'native-base'
 import Spinner from 'react-native-loading-spinner-overlay'
 import Moment from 'moment'
-
 import HeaderBar from './HeaderBar';
 class Event extends Component {
   static navigationOptions = {
@@ -29,7 +29,7 @@ class Event extends Component {
       event: {
         title: '',
         date: '',
-        location: '',
+        address: '',
         eventId: '',
         description: '',
         price: '',
@@ -62,6 +62,7 @@ class Event extends Component {
     var dt = this.state.event.date
     const {spinner, gray} = this.state
     return (
+      
       <Content>
        <HeaderBar/>
         <Spinner
@@ -76,11 +77,11 @@ class Event extends Component {
               
               <Image
                   source={require('../assets/WalkingTour.jpg')}
-                  style={{height: 200, width: 200, flex: 1}}
+                  style={styles.img}
                 />
+                <Text><Ionicons name='calendar-outline' size={18}/> {Moment(dt).format('DD MMM. yyyy HH:mm')} <Ionicons name='time-outline' size={18}/> {Moment(dt).format('HH:mm')} </Text>
+                <H1>{this.state.event.title}</H1>
                
-                <H1 style={{fontWeight: 'bold'}}>{this.state.event.title}</H1>
-                <Text>{Moment(dt).format('dd MM yyyy HH:mm')}</Text>
               </Body>
             </CardItem>
             <CardItem>
@@ -109,6 +110,7 @@ class Event extends Component {
           </Card>
         )}
       </Content>
+    
     )
   }
 }
@@ -117,7 +119,12 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   grayscale: {
-     tintColor: 'gray',
+    tintColor: 'gray',
+  },
+  img: {
+      width: '100%',
+      height: 200,
+      borderRadius: 20
   },
 })
 export default withNavigation(Event)

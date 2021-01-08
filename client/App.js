@@ -1,6 +1,6 @@
 import React from 'react';
 import  AppLoading  from 'expo-app-loading';
-import { Container, Text } from 'native-base';
+import { Container, StyleProvider } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './app/screens/ProfileScreen';
@@ -14,7 +14,8 @@ import LoginScreen from './app/screens/LoginScreen';
 import RegisterScreen from './app/screens/RegisterScreen';
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-
+import commonColor from './native-base-theme/variables/commonColor';
+import getTheme from './native-base-theme/components'; 
 
 const RootStackLogin = createAppContainer(
   createStackNavigator(
@@ -76,7 +77,7 @@ const RootStackLogin = createAppContainer(
    
     },
     {
-      initialRouteName: "Login",
+      initialRouteName: "EventList",
     }))
 
 export default class App extends React.Component {
@@ -103,9 +104,11 @@ export default class App extends React.Component {
     }
 
     return (
+      <StyleProvider style={getTheme(commonColor)}>
       <Container>
         <RootStackLogin/>
       </Container>
+      </StyleProvider>
     );
   }
 }

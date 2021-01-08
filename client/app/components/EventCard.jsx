@@ -4,8 +4,9 @@ import {StyleSheet} from 'react-native'
 import { withNavigation } from 'react-navigation'
 import  EventService  from '../services/EventService';
 import Moment from 'moment';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3, H2} from 'native-base';
-
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, StyleProvider, H3, H2} from 'native-base';
+import commonColor from '../../native-base-theme/variables/commonColor';
+import getTheme from '../../native-base-theme/components'; 
 class EventCard extends Component {
   static navigationOptions = {
     title: "EventCard",
@@ -48,7 +49,8 @@ class EventCard extends Component {
     var dt = this.state.event.date;
     
     return (
-      
+      <StyleProvider style={getTheme(commonColor)}>
+
           <Card transparent> 
             <CardItem button onPress={() => this.props.navigation.navigate("Event",{
             eventId: this.state.event._id,})}>
@@ -62,6 +64,7 @@ class EventCard extends Component {
               </Left>
             </CardItem>
           </Card>
+          </StyleProvider>
     );
   }
 }
