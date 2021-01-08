@@ -68,7 +68,7 @@ const RootStackLogin = createAppContainer(
           headerShown: false,
         },
       },
-        EventList: {
+        Events: {
           screen: EventListScreen,
           navigationOptions: {
             headerShown: false,
@@ -77,7 +77,7 @@ const RootStackLogin = createAppContainer(
    
     },
     {
-      initialRouteName: "Login",
+      initialRouteName: "Events",
     }))
 
 export default class App extends React.Component {
