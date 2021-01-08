@@ -77,7 +77,7 @@ const RootStackLogin = createAppContainer(
    
     },
     {
-      initialRouteName: "EventList",
+      initialRouteName: "Login",
     }))
 
 export default class App extends React.Component {

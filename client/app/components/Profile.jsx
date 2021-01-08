@@ -49,7 +49,7 @@ class Profile extends Component {
               <Thumbnail large source={require('../assets/Avatar.png')} style={styles.avatar}/>   
             </CardItem>
             <CardItem>
-            <H1>@{this.state.user.username}</H1>
+            <Text>@{this.state.user.username}</Text>
             </CardItem>
             <CardItem>
               <Button block style={styles.input} onPress={() => this.props.navigation.navigate("About")}>

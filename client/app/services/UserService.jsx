@@ -1,88 +1,112 @@
-import axios from "axios";
-import { AsyncStorage } from "react-native";
+import axios from 'axios'
+import {AsyncStorage} from 'react-native'
 
-export default class CategoryService {
-  constructor() {
-
-    this.ip = "http://192.168.1.109:4000/user";
-
+export default class UserService {
+  constructor () {
+    this.ip = 'http://192.168.1.105:4000/user'
   }
 
-  async getAllBookingsByUser(data, callback){
-    const { userId } = data;
+  async getAllBookingsByUser (data, callback) {
+    const {userId} = data
     await axios
-    .get(`${this.ip}/${userId}/bookings`)
+      .get(`${this.ip}/${userId}/bookings`)
 
-    .then((response) => {
-      console.log(response);
-      callback(response);
-    })
-    .catch((error) => {
-      console.log(error);
-      callback(error);
-    });
-
+      .then(response => {
+        console.log(response)
+        callback(response)
+      })
+      .catch(error => {
+        console.log(error)
+        callback(error)
+      })
   }
-  async login(data, callback) {
-    console.log("login")
+  async login (data, callback) {
+    console.log('login')
     axios
       .post(`${this.ip}/login`, {
         username: data.username,
         password: data.password,
       })
-      .then(async (response) => {
+      .then(async response => {
         try {
           if (response.status === 200)
-            await AsyncStorage.setItem("token", response.data.user.token);
+            await AsyncStorage.setItem('token', response.data.user.token)
         } catch (error) {
-          console.log(error.message);
+          console.log(error.message)
         }
-        callback(response);
+        callback(response)
       })
-      .catch((error) => {
-        callback(error);
-      });
+      .catch(error => {
+        callback(error)
+      })
   }
 
-  add(data, callback) {
-    console.log("add")
+  async add (data, callback) {
+    console.log('add')
     axios
       .post(this.ip, {
         username: data.username,
         email: data.email,
         password: data.password,
       })
-      .then((response) => {
-        console.log(response);
-        callback(response);
+      .then(response => {
+        console.log(response)
+        callback(response)
       })
-      .catch((error) => {
-        console.log("error "+error);
-        callback(error);
-      });
+      .catch(error => {
+        console.log('error ' + error)
+        callback(error)
+      })
   }
-  async getUser(callback) {
-    console.log("get user")
-    let token = "";
+  async edit (data, callback) {
+    let token = ""
     try {
-      token = (await AsyncStorage.getItem("token")) || "";
+      token = (await AsyncStorage.getItem('token')) || ''
       console.log(token)
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
+    }
+    axios
+      .put(
+        this.ip,
+        {
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        },
+        {
+          headers: {Authorization: `Token ${token}`},
+        }
+      )
+      .then(response => {
+        console.log(response)
+        callback(response)
+      })
+      .catch(error => {
+        console.log('error ' + error)
+        callback(error)
+      })
+  }
+  async getUser (callback) {
+    console.log('get user')
+    let token = ''
+    try {
+      token = (await AsyncStorage.getItem('token')) || ''
+      console.log(token)
+    } catch (error) {
+      console.log(error.message)
     }
     axios
       .get(`${this.ip}/current`, {
-
-        headers: { Authorization: `Token ${token}` },
+        headers: {Authorization: `Token ${token}`},
       })
-      .then((response) => {
-        callback(response);
+      .then(response => {
+        console.log("resp"+response)
+        callback(response)
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error)
-        callback(error);
-      });
+        callback(error)
+      })
   }
-
-  
 }
