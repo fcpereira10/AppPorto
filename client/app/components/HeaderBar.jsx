@@ -10,7 +10,7 @@ import { withNavigation } from 'react-navigation';
           <Left style={{flex:1}}>
             <Button transparent>
 
-              <Ionicons name='arrow-back' size={20}/>
+              <Ionicons name='arrow-back' size={20} style={{color: '#00b4d8'}}/>
 
 
             </Button>
@@ -21,7 +21,7 @@ import { withNavigation } from 'react-navigation';
           <Right style={{flex:1}}>
               <Button transparent >
 
-            <Ionicons name='person' size={20}/>
+            <Ionicons name='person' size={20} style={{color: '#00b4d8'}}/>
 
             </Button>
         </Right>

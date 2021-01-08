@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Image, StyleSheet, TouchableOpacity} from 'react-native'
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons';
 import EventService from '../services/EventService'
@@ -71,7 +71,7 @@ class Event extends Component {
           textStyle={styles.spinnerTextStyle}
         />
         {!spinner && (
-          <Card transparent style={gray? { opacity: 0.7}:''}>
+          <Card style={gray? { opacity: 0.7}:''}>
             <CardItem>
               <Body>
               
@@ -79,8 +79,15 @@ class Event extends Component {
                   source={require('../assets/WalkingTour.jpg')}
                   style={styles.img}
                 />
-                <Text><Ionicons name='calendar-outline' size={18}/> {Moment(dt).format('DD MMM. yyyy HH:mm')} <Ionicons name='time-outline' size={18}/> {Moment(dt).format('HH:mm')} </Text>
-                <H1>{this.state.event.title}</H1>
+                <View style={{flexDirection:"row", padding: 20}}>
+                    <View style={{flex:1}}>
+                        <Text style={{fontSize: 20}}><Ionicons name='calendar-outline' size={30} style={{color: '#00b4d8'}}/> {Moment(dt).format('DD MMM. yyyy')} </Text>
+                    </View>
+                    <View>
+                      <Text style={{fontSize: 20}}> <Ionicons name='time-outline' size={30} style={{color: '#00b4d8'}}/> {Moment(dt).format('HH:mm')} </Text>
+                    </View>
+                </View>
+                <H1 style={{fontWeight: 'bold'}}>{this.state.event.title}</H1>
                
               </Body>
             </CardItem>
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
   img: {
       width: '100%',
       height: 200,
-      borderRadius: 20
+      borderRadius: 8
   },
 })
 export default withNavigation(Event)

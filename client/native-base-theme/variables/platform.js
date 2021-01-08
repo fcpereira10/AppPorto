@@ -109,7 +109,7 @@ const isIphoneX =
       // Card
       cardDefaultBg: '#fbfcff',
       cardBorderColor: '#ccc',
-      cardBorderRadius: 2,
+      cardBorderRadius: 8,
       cardItemPadding: platform === PLATFORM.IOS ? 10 : 12,
     
       // CheckBox
