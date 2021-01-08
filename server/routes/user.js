@@ -10,6 +10,6 @@ const auth = require('../middleware/validator/auth');
 router.get('/:id/bookings', bookingController.getAllBookingsByUser);
 router.post('/login', userController.login);
 router.post('/', validators.userRegister, userController.add);
-router.put('/', validators.userRegister, userController.edit);
-router.get('/current', userController.getCurrent);
+router.put('/', auth.check.required, userController.edit);
+router.get('/current', auth.check.required, userController.getCurrent);
 module.exports = router;
