@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, SafeAreaView, Div} from 'react-native'
+import {StyleSheet, SafeAreaView} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import EventCard from './EventCard'
 import {Ionicons} from '@expo/vector-icons';
@@ -12,8 +12,8 @@ import {
   Text,
   Card,
   CardItem,
-  StyleProvider,
-  View
+  View,
+ 
 } from 'native-base'
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
@@ -157,7 +157,7 @@ class EventList extends Component {
                 searchPlaceholderTextColor='#fbfcff'
                 searchInputStyle='#03045e'
                 searchSelectionColor='#fbfcff'
-                submitButtonColor='#00b4d8'
+                submitButtonColor='#0077b6'
                 submitButtonText='Close'
                 fontSize={16}
               />
@@ -166,11 +166,14 @@ class EventList extends Component {
           </CardItem>
           </Card>
           
+          
   </View>
-  <View style={styles.view5}>
+  
+</View>
+<View style={styles.view5}>
     <View style={styles.view6}>
     
-      <View style={styles.view3}>
+      <View style={styles.view7}>
         <View style={styles.view4}>
             {eventsDiv}
           
@@ -180,7 +183,6 @@ class EventList extends Component {
      
   </View>
   
-</View>
 </View>
         </Content>
         
@@ -215,11 +217,12 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   view1: {
-    flex: 1,
+    zIndex: 2,
     width: '95%',
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#fbfcff',
+    paddingBottom:25
   },
   view2: {
       alignItems: 'center',
@@ -227,7 +230,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       width: 50,
       height: 50,
-      borderRadius: 50 / 2,
+      borderRadius: 8,
       backgroundColor: '#fbfcff',
       zIndex: 2,
       shadowColor: '#03045e',
@@ -245,7 +248,7 @@ const styles = StyleSheet.create({
 
       borderRadius: 8,
       backgroundColor: '#fbfcff',
-      zIndex: 1,
+
       shadowColor: '#03045e',
       shadowOffset: { width: 0, height: 0 },
       shadowOpacity: 0.2,
@@ -253,18 +256,33 @@ const styles = StyleSheet.create({
       elevation: 5,
   },
   view4: {
-    
+   
     width: '100%'
   },
   view5: {
+
     paddingTop: 180,
   },
   view6: {
-    flex: 1,
-    width: '100%',
+    width: '95%',
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#fbfcff',
+    paddingBottom: 50,
+  },
+  view7:{
+    alignItems: 'center',
+      justifyContent: 'center',
+      top: 10,
+      width: '95%',
+      borderRadius: 8,
+      backgroundColor: '#fbfcff',
+      
+      shadowColor: '#03045e',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 10,
+      elevation: 5,
   },
   
 })

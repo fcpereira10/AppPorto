@@ -80,7 +80,7 @@ const RootStackLogin = createAppContainer(
     },
     {
 
-      initialRouteName: "EventList",
+      initialRouteName: "Events",
 
     }))
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native'
+import {Image, StyleSheet, TouchableOpacity, View, VirtualizedList} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons';
 import EventService from '../services/EventService'
@@ -13,6 +13,7 @@ import {
   Body,
   H1,
   H2,
+  Container,
 } from 'native-base'
 import Spinner from 'react-native-loading-spinner-overlay'
 import Moment from 'moment'
@@ -62,7 +63,7 @@ class Event extends Component {
     var dt = this.state.event.date
     const {spinner, gray} = this.state
     return (
-      
+      <Container>
       <Content>
        <HeaderBar/>
         <Spinner
@@ -70,44 +71,81 @@ class Event extends Component {
           textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
         />
+       
+     
         {!spinner && (
-          <Card style={gray? { opacity: 0.7}:''}>
+         <View style={styles.outerCard}>
+         <View style={styles.shadow }>
+          <Card transparent style={gray? { opacity: 0.7}:''}>
             <CardItem>
               <Body>
               
+              <View style={styles.imgShadow}>
               <Image
                   source={require('../assets/WalkingTour.jpg')}
                   style={styles.img}
                 />
-                <View style={{flexDirection:"row", padding: 20}}>
-                    <View style={{flex:1}}>
-                        <Text style={{fontSize: 20}}><Ionicons name='calendar-outline' size={30} style={{color: '#00b4d8'}}/> {Moment(dt).format('DD MMM. yyyy')} </Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 20}}> <Ionicons name='time-outline' size={30} style={{color: '#00b4d8'}}/> {Moment(dt).format('HH:mm')} </Text>
-                    </View>
-                </View>
-                <H1 style={{fontWeight: 'bold'}}>{this.state.event.title}</H1>
-               
+                
+              </View>
+              {/* Title */}
+              
+              <H1 style={{fontWeight: '700'}}>{this.state.event.title}</H1>
+
+              <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
+              <View style={{flex:2}}>
+              <Text style={{fontWeight: '500'}}><Ionicons name='location-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.address} </Text>
+
+              </View>
+              <View style={{flex:1}}>
+              <Text style={{fontWeight: '500'}}><Ionicons name='musical-notes-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.categoryName} </Text>
+
+              </View>
+
+              
+
+              </View>
+                <View style={{flexDirection:"row", paddingTop: 20, paddingLeft:5}}> 
+                  <View>
+                    <View style={{flexDirection:"row",flex:1}}>
+                      <View style={styles.date}>
+                        <Ionicons name='calendar-outline' size={30} style={{color: '#0077b6'}}/>
+                      </View>
+                      <View style={{paddingLeft:5}}>
+                        <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('DD MMM.')}</Text>
+                        <Text style={{fontSize:14,color:'#0077b6'}}>Date</Text>
+                      </View>
+                  </View>
+                  </View>
+                  <View style={{paddingLeft:10}}>
+                    <View style={{flexDirection:"row",flex:1}}>
+                      <View style={styles.date}>
+                      <Ionicons name='time-outline' size={30} style={{color: '#0077b6'}}/>
+                      </View>
+                      <View style={{paddingLeft:5}}>
+                      <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('HH:mm')}</Text>
+                      <Text style={{fontSize:14,color:'#0077b6'}}>Time</Text>
+                      </View>
+                  </View>
+                  </View>
+                  <View style={{paddingLeft:10}}>
+                    <View style={{flexDirection:"row",flex:1}}>
+                      <View style={styles.date}>
+                        <Ionicons name='pricetag-outline' size={30} style={{color: '#0077b6'}}/>
+                      </View>
+                      <View style={{paddingLeft:5}}>
+                        <Text style={{fontSize:16,fontWeight:'500'}} >€{this.state.event.price}</Text>
+                        <Text style={{fontSize:14,color:'#0077b6'}}>Price</Text>
+                      </View>
+                  </View>
+                  </View>
+                    
+                   </View>
               </Body>
-            </CardItem>
-            <CardItem>
-              <Text>Category:</Text>
-              <Button iconLeft transparent disabled={gray}>
-                <Ionicons name='musical-notes-outline' size={18}/>
-                <Text style={{paddingLeft: 0}}>
-                  {this.state.event.categoryName}
-                </Text>
-              </Button>
             </CardItem>
             <CardItem>
               <Text>{this.state.event.description}</Text>
             </CardItem>
-            <CardItem>
-              <H2>
-                {'\n'}Price: €{this.state.event.price}
-              </H2>
-            </CardItem>
+
             <CardItem>
               <Button primary disabled={gray} onPress={() => this.props.navigation.navigate("Checkout",{
             eventId: this.state.event._id,})}>
@@ -115,9 +153,13 @@ class Event extends Component {
               </Button>
             </CardItem>
           </Card>
+          </View>
+          </View>
         )}
+       
+     
       </Content>
-    
+      </Container>
     )
   }
 }
@@ -132,6 +174,58 @@ const styles = StyleSheet.create({
       width: '100%',
       height: 200,
       borderRadius: 8
+      
   },
+  imgShadow: {
+    width: '100%',
+      height: 200,
+      borderRadius: 8,
+      backgroundColor: '#fbfcff',
+      zIndex: 1,
+      shadowColor: '#03045e',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 10,
+      elevation: 5,
+  },
+  outerCard: {
+
+    width: '95%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fbfcff',
+  
+  },
+  shadow:{
+      
+      position: 'absolute',
+      width: '95%',
+
+      borderRadius: 8,
+      backgroundColor: '#fbfcff',
+      zIndex: 1,
+      shadowColor: '#03045e',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 10,
+      elevation: 5,
+  },
+  date: {
+
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    
+    width: 35,
+    height: 35,
+    borderRadius: 8,
+    backgroundColor: '#fbfcff',
+    zIndex: 2,
+    shadowColor: '#03045e',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 7,
+},
+
 })
 export default withNavigation(Event)

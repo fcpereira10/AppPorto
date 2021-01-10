@@ -15,15 +15,11 @@ import { withNavigation } from 'react-navigation';
     
         <Header transparent>
           <Left style={{flex:1}}>
-            <Button transparent>
-
-              <Ionicons name='arrow-back' size={20} style={{color: '#0077b6'}}/>
-              </Button>
 
             <Button transparent onPress={() => this.props.navigation.goBack()}>
 
 
-              <Ionicons name='arrow-back' size={20} style={{color: '#00b4d8'}} />
+            <Ionicons name='arrow-back' size={25} style={{color: '#0077b6'}}/>
 
             </Button>
           </Left>
@@ -31,9 +27,9 @@ import { withNavigation } from 'react-navigation';
             <Title>{this.props.navigation.state.routeName}</Title>
           </Body>
           <Right style={{flex:1}}>
-              <Button transparent >
+              <Button transparent onPress={() => this.props.navigation.navigate("Profile")}>
 
-            <Ionicons name='person' size={20} style={{color: '#0077b6'}}/>
+            <Ionicons name='menu-outline' size={25} style={{color: '#0077b6'}}/>
 
             </Button>
         </Right>

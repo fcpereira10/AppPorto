@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, H1} from 'native-base';
 import UserService from "../services/UserService";
+import HeaderBar from './HeaderBar';
 class Profile extends Component {
 
   static navigationOptions = {
@@ -43,7 +44,10 @@ class Profile extends Component {
   render() {
     return (
         <Container>
+        <HeaderBar />
           <Content padder>
+          
+
           <Card transparent style={styles.card}>
             <CardItem> 
               <Thumbnail large source={require('../assets/Avatar.png')} style={styles.avatar}/>   

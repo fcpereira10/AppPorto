@@ -56,19 +56,23 @@ class EventCard extends Component {
             <CardItem button onPress={() => this.props.navigation.navigate("Event",{
             eventId: this.state.event._id,})}>
               <Left>
-              <View style={styles.view2}>
-                    <Text style={{fontSize:18, fontWeight:'500'}} >{Moment(dt).format('DD')}</Text>
-                    <Text style={{}}>{Moment(dt).format('MMM.')}</Text>
+              <View style={styles.date}>
+                    <Text style={{fontSize:16, fontWeight:'500'}} >{Moment(dt).format('DD')}</Text>
+                    <Text style={{fontSize:14}}>{Moment(dt).format('MMM.')}</Text>
               </View>
+              <View style={styles.imgShadow}>
                 <Image source={require("../assets/WalkingTour.jpg" )} style={styles.img}/> 
+                </View>
               </Left>
               <Body>
               <View style={styles.info}>
-                  <Title style={styles.title}>{this.state.event.title}</Title>
+                  <Text style={styles.title}>{this.state.event.title}</Text>
                   <Text style={styles.txt}><Ionicons name='location-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.address} </Text>
-                  <Text style={styles.txt1}><Ionicons name='time-outline' size={16} style={{color: '#0077b6'}}/> {Moment(dt).format('HH:mm')} </Text>
-                  <Text style={styles.price}><Ionicons name='pricetag-outline' size={16} style={{color: '#03045e'}}/> €{this.state.event.price}</Text>
-                  </View>
+                  <View style={styles.icon}>
+                    <Text style={styles.txt}><Ionicons name='pricetag-outline' size={16} style={{color: '#0077b6'}}/> €{this.state.event.price} </Text>
+
+                   </View>
+                </View>
                 </Body>
             </CardItem>
           </Card>
@@ -77,23 +81,37 @@ class EventCard extends Component {
 }
 const styles = StyleSheet.create({
   info: {
-    padding:10,
+   padding: 10
   },
   img: {
-    height: 100, width: 'auto', flex: 1, borderRadius: 8
+    width: '100%',
+    height: 100,
+    borderRadius: 8
+  },
+  imgShadow: {
+    width: '100%',
+    height: 100,
+      borderRadius: 8,
+      backgroundColor: '#fbfcff',
+      zIndex: 1,
+      shadowColor: '#03045e',
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.2,
+      shadowRadius: 10,
+      elevation: 5,
   },
   title: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '700',
     
   },
   
 
   txt: {
+    paddingBottom: 5,
     color: '#0077b6',
     fontSize: 12,
     fontWeight: '500',
-
   },
   txt1: {
     color: '#0077b6',
@@ -102,12 +120,14 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
 
-  view2: {
+  date: {
+    bottom: -5,
+    left: -5,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 8,
     backgroundColor: '#fbfcff',
     zIndex: 2,
@@ -116,6 +136,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 7,
+},
+icon: {
+  
 },
   
 
