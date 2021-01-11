@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 
   txt: {
     paddingBottom: 5,
-    color: '#0077b6',
+    
     fontSize: 12,
     fontWeight: '500',
   },

@@ -3,7 +3,7 @@ import axios from "axios";
 export default class CategoryService {
   constructor() {
 
-    this.ip = "http://192.168.1.110:4000/category";
+    this.ip = "http://192.168.1.112:4000/category";
 
   }
 

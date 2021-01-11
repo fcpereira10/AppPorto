@@ -9,6 +9,7 @@ import AboutScreen from './app/screens/AboutScreen';
 import EditProfileScreen from './app/screens/EditProfileScreen';
 import UserBookingsScreen from './app/screens/UserBookingsScreen';
 import EventScreen from './app/screens/EventScreen';
+import NewEventScreen from './app/screens/NewEventScreen';
 import CheckoutScreen from './app/screens/CheckoutScreen';
 import EventListScreen from './app/screens/EventListScreen';
 import LoginScreen from './app/screens/LoginScreen';
@@ -45,13 +46,13 @@ const RootStackLogin = createAppContainer(
           headerShown: false,
         },
       },
-      UserBookings: {
+      'User Bookings': {
         screen: UserBookingsScreen,
         navigationOptions: {
           headerShown: false,
         },
       },
-      EditProfile: {
+      'Edit Profile': {
         screen: EditProfileScreen,
         navigationOptions: {
           headerShown: false,
@@ -69,6 +70,12 @@ const RootStackLogin = createAppContainer(
           headerShown: false,
         },
       },
+      'New Event': {
+        screen: NewEventScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
         Events: {
           screen: EventListScreen,
           navigationOptions: {
@@ -80,7 +87,7 @@ const RootStackLogin = createAppContainer(
     },
     {
 
-      initialRouteName: "Events",
+      initialRouteName: "New Event",
 
     }))
 

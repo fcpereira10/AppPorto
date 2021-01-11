@@ -58,7 +58,7 @@ export default {
 
   // Button
   buttonFontFamily: platform === PLATFORM.IOS ? 'System' : 'Roboto_medium',
-  buttonDisabledBg: '#b5b5b5',
+  buttonDisabledBg: '#98b8c3',
   buttonPadding: 6,
   get buttonPrimaryBg() {
     return this.brandPrimary;
@@ -200,7 +200,7 @@ export default {
 
   // InputGroup
   inputFontSize: 17,
-  inputBorderColor: '#D9D5DC',
+  inputBorderColor: 'transparent',
   inputSuccessBorderColor: '#2b8339',
   inputErrorBorderColor: '#ed2f2f',
   inputHeightBase: 50,
@@ -208,7 +208,7 @@ export default {
     return this.textColor;
   },
   get inputColorPlaceholder() {
-    return '#575757';
+    return '#98b8c3';
   },
 
   // Line Height

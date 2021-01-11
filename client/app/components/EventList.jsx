@@ -19,6 +19,7 @@ import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
 import MultiSelect from 'react-native-multiple-select'
 import HeaderBar from './HeaderBar';
+import AddEventButton from './AddEventButton';
 
 class EventList extends Component {
   static navigationOptions = {
@@ -179,11 +180,14 @@ class EventList extends Component {
           
           </View>
        </View>
-        
+<View>
+<AddEventButton/>
+</View>
      
   </View>
   
 </View>
+
         </Content>
         
       </Container>

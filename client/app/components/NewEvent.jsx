@@ -2,14 +2,19 @@ import React, {Component} from 'react'
 import {Image, StyleSheet, TouchableOpacity, View, VirtualizedList} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons';
-import EventService from '../services/EventService'
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import CategoryService from '../services/CategoryService'
 import {
   Content,
   Card,
   CardItem,
-  StyleProvider,
+  Item,
   Text,
   Button,
+  Input,
+  Header,
+  Picker,
   Body,
   H1,
   H2,
@@ -18,15 +23,14 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay'
 import Moment from 'moment'
 import HeaderBar from './HeaderBar';
-class Event extends Component {
+class NewEvent extends Component {
   static navigationOptions = {
-    title: 'Event',
+    title: 'NewEvent',
   }
   constructor (props) {
     super(props)
-    this.EventService = new EventService()
+    this.CategoryService = new CategoryService()
     this.state = {
-      spinner: true,
       event: {
         title: '',
         date: '',
@@ -36,48 +40,79 @@ class Event extends Component {
         price: '',
         categoryName: '',
       },
-      gray: false,
+      categories:[],
+      selectedCategory: '',
     }
   }
-  async componentDidMount () {
-    const {params} = this.props.navigation.state
-    const eventId = params ? params.eventId : null
-    await this.EventService.getEvent({eventId}, async res => {
-      if (res.status == 200) {
-        const {data} = res
-        this.setState({
-          spinner: false,
-          event: data,
-          gray: new Date(data.date) < new Date(Date.now()) ? true : false, 
-        })
-        console.log('DATA ' +this.state.gray)
+
+  getPermissionAsync = async () => {
+      // Camera roll Permission 
+      if (Platform.OS === 'ios') {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
       }
-    })
+      // Camera Permission
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      this.setState({ hasPermission: status === 'granted' });
+    }
+
+  async componentDidMount () {
+    await this.CategoryService.getAllCategories({}, async res => {
+        console.log("get categories")
+        if (res.status == 200) {
+          const {data} = res
+          let arr = [] ;
+            data.categories.map(category => {arr.push({id: category._id, name: category.description})
+          })
+  
+          this.setState({
+            categories: arr ,
+          })
+        }
+      })
+      this.getPermissionAsync()
   }
-
-
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+  }
+  mapCategories (category) {
+    const r = Math.floor(Math.random() * 100)
+    const key = category._id + r
+    return <Picker.Item label={category.name} value={category.name}  key={key} />
+  }
+  onValueChange(value) {
+    this.setState({
+      selectedCategory: value
+    });
+  }
+  
   render () {
+      const {categories} = this.state;
+    const categoriesDiv = categories.map(this.mapCategories.bind(this))
     Moment.locale('en')
     var dt = this.state.event.date
-    const {spinner, gray} = this.state
+  
     return (
       <Container>
       <Content>
        <HeaderBar/>
-        <Spinner
-          visible={this.state.spinner}
-          textContent={'Loading...'}
-          textStyle={styles.spinnerTextStyle}
-        />
-       
-     
-        {!spinner && (
+        
          <View style={styles.outerCard}>
          <View style={styles.shadow }>
-          <Card transparent style={gray? { opacity: 0.7}:''}>
+          <Card transparent >
             <CardItem>
               <Body>
               
+              <View style={styles.imgShadow}>
+                  
+                 <TouchableOpacity
+                style={styles.img}
+                onPress={() => this.pickImage()}
+              >
               <View style={styles.imgShadow}>
               <Image
                   source={require('../assets/WalkingTour.jpg')}
@@ -85,24 +120,45 @@ class Event extends Component {
                 />
                 
               </View>
-              {/* Title */}
+              </TouchableOpacity>
+                
+              </View>
+             
               
-              <H1 style={{fontWeight: '700'}}>{this.state.event.title}</H1>
-
-              <View style={{flexDirection:"row", justifyContent: 'space-evenly'}}>
+             
+              <Input placeholder='Title' style={{fontSize: 15*1.8, fontWeight: '700'}}/>
+              <View style={{flexDirection:"row", justifyContent: 'space-evenly', top: -10}}>
               <View style={{flex:2}}>
-              <Text style={{fontWeight: '500'}}><Ionicons name='location-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.address} </Text>
-
+                <Item style={{borderColor: 'transparent'}}>
+                    <Ionicons name='location-outline' size={16} style={{color: '#0077b6'}}/>
+                    <Input placeholder='Address'/>
+                </Item>
               </View>
-              <View style={{flex:1}}>
-              <Text style={{fontWeight: '500'}}><Ionicons name='musical-notes-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.categoryName} </Text>
+              <View style={{flex:1, paddingTop: 5}}>
+                <Item picker style={{borderColor: 'transparent'}}>
+                    <Ionicons name='list-outline' size={16} style={{color: '#0077b6'}}/>
+
+                    <Picker
+                    mode="dropdown"
+                    note={false}
+                    mode="dropdown"
+                    style={{ width: undefined }}
+                    placeholder="Category"
+                    selectedValue={this.state.selectedCategory}
+                    onValueChange={this.onValueChange.bind(this)}
+                    placeholderIconColor="#0077b6"
+                    placeholderStyle={{color:'#98b8c3'}}
+                    >
+                        {categoriesDiv}
+                    </Picker>
+                </Item>
 
               </View>
 
               
 
               </View>
-                <View style={{flexDirection:"row", paddingTop: 20, paddingLeft:5}}> 
+                <View style={{flexDirection:"row", paddingTop: 10, paddingLeft:5}}> 
                   <View>
                     <View style={{flexDirection:"row",flex:1}}>
                       <View style={styles.date}>
@@ -145,7 +201,7 @@ class Event extends Component {
             </CardItem>
 
             <CardItem>
-              <Button primary disabled={gray} onPress={() => this.props.navigation.navigate("Checkout",{
+              <Button onPress={() => this.props.navigation.navigate("Checkout",{
             eventId: this.state.event._id,})}>
                 <Text> Book </Text>
               </Button>
@@ -153,7 +209,7 @@ class Event extends Component {
           </Card>
           </View>
           </View>
-        )}
+        
        
      
       </Content>
@@ -226,4 +282,4 @@ const styles = StyleSheet.create({
 },
 
 })
-export default withNavigation(Event)
+export default withNavigation(NewEvent)

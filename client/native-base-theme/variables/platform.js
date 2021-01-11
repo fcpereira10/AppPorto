@@ -195,7 +195,7 @@ const isIphoneX =
     
       // InputGroup
       inputFontSize: 17,
-      inputBorderColor: '#D9D5DC',
+      inputBorderColor: 'transparent',
       inputSuccessBorderColor: '#2b8339',
       inputErrorBorderColor: '#ed2f2f',
       inputHeightBase: 50,
@@ -203,7 +203,7 @@ const isIphoneX =
         return this.textColor;
       },
       get inputColorPlaceholder() {
-        return '#575757';
+        return '#03045e';
       },
     
       // Line Height
@@ -274,7 +274,7 @@ const isIphoneX =
       titleFontColor: platform === PLATFORM.IOS ? '#03045e' : '#fbfcff',
     
       // Other
-      borderRadiusBase: platform === PLATFORM.IOS ? 5 : 2,
+      borderRadiusBase: platform === PLATFORM.IOS ? 8 : 8,
       borderWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
       contentPadding: 10,
       dropdownLinkColor: '#414142',
