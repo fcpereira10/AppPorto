@@ -5,6 +5,8 @@ import {Ionicons} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import CategoryService from '../services/CategoryService'
+import { TextInputMask } from 'react-native-masked-text';
+
 import {
   Content,
   Card,
@@ -15,6 +17,7 @@ import {
   Input,
   Header,
   Picker,
+  Textarea,
   Body,
   H1,
   H2,
@@ -27,6 +30,7 @@ class NewEvent extends Component {
   static navigationOptions = {
     title: 'NewEvent',
   }
+  
   constructor (props) {
     super(props)
     this.CategoryService = new CategoryService()
@@ -42,8 +46,15 @@ class NewEvent extends Component {
       },
       categories:[],
       selectedCategory: '',
+      image: '',
+      hasImage: false,
+      dt: Date.now(),
     }
+
   }
+
+
+
 
   getPermissionAsync = async () => {
       // Camera roll Permission 
@@ -71,14 +82,34 @@ class NewEvent extends Component {
             categories: arr ,
           })
         }
+        if (Platform.OS !== 'web') {
+          const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
       })
       this.getPermissionAsync()
   }
-  pickImage = async () => {
+
+  async pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
-  }
+    console.log(result);
+
+    if (!result.cancelled) {
+    console.log("URI "+result.uri)
+      this.setState({
+        image: result.uri,
+        hasImage: true,
+    })
+    console.log("image "+this.state.image)
+  }};
+  
   mapCategories (category) {
     const r = Math.floor(Math.random() * 100)
     const key = category._id + r
@@ -89,9 +120,16 @@ class NewEvent extends Component {
       selectedCategory: value
     });
   }
+
+   onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+  
   
   render () {
-      const {categories} = this.state;
+      const {categories, image, hasImage} = this.state;
     const categoriesDiv = categories.map(this.mapCategories.bind(this))
     Moment.locale('en')
     var dt = this.state.event.date
@@ -106,24 +144,22 @@ class NewEvent extends Component {
           <Card transparent >
             <CardItem>
               <Body>
-              
-              <View style={styles.imgShadow}>
-                  
+
+
                  <TouchableOpacity
-                style={styles.img}
+                style={styles.imgShadow}
                 onPress={() => this.pickImage()}
               >
-              <View style={styles.imgShadow}>
-              <Image
-                  source={require('../assets/WalkingTour.jpg')}
-                  style={styles.img}
-                />
-                
-              </View>
+                {!hasImage && <Ionicons name='add-outline' size={70} style={{color: '#98b8c3', alignSelf: 'center'}}/>}
+
+                {hasImage && <Image source={{ uri: this.state.image }} style={styles.img}/>}
+
+
+           
+         
               </TouchableOpacity>
-                
-              </View>
-             
+
+              
               
              
               <Input placeholder='Title' style={{fontSize: 15*1.8, fontWeight: '700'}}/>
@@ -148,15 +184,12 @@ class NewEvent extends Component {
                     onValueChange={this.onValueChange.bind(this)}
                     placeholderIconColor="#0077b6"
                     placeholderStyle={{color:'#98b8c3'}}
+                   
                     >
                         {categoriesDiv}
                     </Picker>
                 </Item>
-
               </View>
-
-              
-
               </View>
                 <View style={{flexDirection:"row", paddingTop: 10, paddingLeft:5}}> 
                   <View>
@@ -165,10 +198,11 @@ class NewEvent extends Component {
                         <Ionicons name='calendar-outline' size={30} style={{color: '#0077b6'}}/>
                       </View>
                       <View style={{paddingLeft:5}}>
-                        <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('DD MMM.')}</Text>
+                
+
                         <Text style={{fontSize:14,color:'#0077b6'}}>Date</Text>
                       </View>
-                  </View>
+                    </View>
                   </View>
                   <View style={{paddingLeft:10}}>
                     <View style={{flexDirection:"row",flex:1}}>
@@ -177,19 +211,22 @@ class NewEvent extends Component {
                       </View>
                       <View style={{paddingLeft:5}}>
                       <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('HH:mm')}</Text>
-                      <Text style={{fontSize:14,color:'#0077b6'}}>Time</Text>
                       </View>
-                  </View>
+                    </View>
                   </View>
                   <View style={{paddingLeft:10}}>
                     <View style={{flexDirection:"row",flex:1}}>
                       <View style={styles.date}>
                         <Ionicons name='pricetag-outline' size={30} style={{color: '#0077b6'}}/>
                       </View>
-                      <View style={{paddingLeft:5}}>
-                        <Text style={{fontSize:16,fontWeight:'500'}} >€{this.state.event.price}</Text>
-                        <Text style={{fontSize:14,color:'#0077b6'}}>Price</Text>
-                      </View>
+                    
+     
+                      <Item style={{width:80, paddingLeft:5, top: -10}}>
+                        <Text>€</Text>
+                        <Input placeholder='Price'></Input>
+                      </Item>
+          
+                     
                   </View>
                   </View>
                     
@@ -197,12 +234,11 @@ class NewEvent extends Component {
               </Body>
             </CardItem>
             <CardItem>
-              <Text>{this.state.event.description}</Text>
+            <Textarea rowSpan={5} bordered placeholder="Description" />
             </CardItem>
 
             <CardItem>
-              <Button onPress={() => this.props.navigation.navigate("Checkout",{
-            eventId: this.state.event._id,})}>
+              <Button onPress={() => this.pickImage()}>
                 <Text> Book </Text>
               </Button>
             </CardItem>
@@ -231,6 +267,9 @@ const styles = StyleSheet.create({
       
   },
   imgShadow: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
     width: '100%',
       height: 200,
       borderRadius: 8,

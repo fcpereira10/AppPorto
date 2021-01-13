@@ -3,7 +3,7 @@ import { AsyncStorage } from "react-native";
 export default class EventService {
   constructor() {
 
-    this.ip = "http://192.168.1.112:4000/event";
+    this.ip = "http://192.168.1.113:4000/event";
 
   }
 
