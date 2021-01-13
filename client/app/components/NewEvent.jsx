@@ -42,23 +42,23 @@ class NewEvent extends Component {
     super(props)
     this.CategoryService = new CategoryService()
     this.EventService = new EventService()
+    let dt = new Date()
     this.state = {
-      event: {
-        title: '',
-        date: '',
-        address: '',
-        eventId: '',
-        description: '',
-        price: '',
-        categoryName: '',
-      },
+
+      title: '',
+      date: '',
+      address: '',
+      eventId: '',
+      description: '',
+      price: '',
+      categoryName: '',
       categories: [],
       selectedCategory: '',
       image: '',
       hasImage: false,
-      dt: '2021/01/13',
+      date: dt.getDate()+"/"+dt.getMonth()+1+"/"+dt.getFullYear(),
       price: '0',
-      hour: '20:00',
+      hour: '00:00',
     }
   }
 
@@ -81,12 +81,14 @@ class NewEvent extends Component {
       if (res.status == 200) {
         const {data} = res
         let arr = []
+    
         data.categories.map(category => {
           arr.push({id: category._id, name: category.description})
         })
 
         this.setState({
           categories: arr,
+          
         })
       }
       if (Platform.OS !== 'web') {
@@ -138,7 +140,7 @@ class NewEvent extends Component {
     const {categories, image, hasImage} = this.state
     const categoriesDiv = categories.map(this.mapCategories.bind(this))
     Moment.locale('en')
-    var dt = this.state.event.date
+ 
 
     return (
       <Container>
@@ -176,7 +178,6 @@ class NewEvent extends Component {
                     <View
                       style={{
                         flexDirection: 'row',
-                        justifyContent: 'space-evenly',
                         top: -10,
                       }}>
                       <View style={{flex: 2}}>
@@ -217,9 +218,10 @@ class NewEvent extends Component {
                         flexDirection: 'row',
                         paddingTop: 10,
                         paddingLeft: 5,
+                       
                       }}>
-                      <View>
-                        <View style={{flexDirection: 'row', flex: 1}}>
+                      <View style={{flex: 1}}>
+                        <View style={{flexDirection: 'row', flex:1}}>
                           <View style={styles.date}>
                             <Ionicons
                               name='calendar-outline'
@@ -235,20 +237,23 @@ class NewEvent extends Component {
                               <TextInputMask
                                 type={'datetime'}
                                 options={{
-                                  format: 'YYYY/MM/DD',
+                                  format: 'DD/MM/YYYY',
                                 }}
-                                value={this.state.dt}
+                                value={this.state.date}
                                 onChangeText={text => {
                                   this.setState({
-                                    dt: text,
+                                    date: text,
                                   })
                                 }}
+                                color={'#98b8c3'}
+                                
                               />
                             </View>
                           </View>
                         </View>
                       </View>
-                      <View style={{paddingLeft: 10}}>
+
+                      <View style={{paddingLeft:20,flex:1}}>
                         <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
@@ -258,6 +263,9 @@ class NewEvent extends Component {
                             />
                           </View>
                           <View style={{paddingLeft: 5}}>
+                          <Text style={{fontSize: 14, color: '#0077b6'}}>
+                              Time
+                            </Text>
                             <TextInputMask
                               type={'datetime'}
                               options={{
@@ -269,13 +277,15 @@ class NewEvent extends Component {
                                   hour: text,
                                 })
                               }}
+                              color={'#98b8c3'}
                               // add the ref to a local var
                               ref={ref => (this.datetimeField = ref)}
                             />
                           </View>
                         </View>
                       </View>
-                      <View style={{paddingLeft: 10}}>
+         
+                      <View style={{flex:1}}>
                         <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
@@ -285,7 +295,11 @@ class NewEvent extends Component {
                             />
                           </View>
 
-                          <Item style={{width: 80, paddingLeft: 5, top: -10}}>
+                          <View style={{paddingLeft: 5}}>
+                            <Text style={{fontSize: 14, color: '#0077b6'}}>
+                              Price
+                            </Text>
+                          
                             <TextInputMask
                               type={'money'}
                               options={{
@@ -300,16 +314,18 @@ class NewEvent extends Component {
                                 this.setState({
                                   price: text,
                                 })
+                                
                               }}
+                              color={'#98b8c3'}
                             />
-                          </Item>
+                          </View>
                         </View>
                       </View>
                     </View>
                   </Body>
                 </CardItem>
                 <CardItem>
-                  <Textarea rowSpan={5} bordered placeholder='Description' />
+                  <Textarea rowSpan={5} bordered placeholder='Description' placeholderTextColor={'#98b8c3'}/>
                 </CardItem>
 
                 <CardItem>
@@ -354,6 +370,7 @@ const styles = StyleSheet.create({
   },
   outerCard: {
     width: '95%',
+    paddingBottom:100,
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#fbfcff',
@@ -372,8 +389,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   date: {
+
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
 
     width: 35,
     height: 35,
