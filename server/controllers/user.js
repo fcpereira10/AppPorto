@@ -16,7 +16,8 @@ function login (req, res, next) {
         const reqUser = {
           _id: passportUser._id,
           email: passportUser.email,
-          username: passportUser.username
+          username: passportUser.username,
+          isAdmin: passportUser.isAdmin, 
         }
 
         req.login(reqUser, error => {
@@ -44,7 +45,8 @@ function add (req, res) {
         const newUser = new User({
           email: req.body.email,
           username: req.body.username,
-          password: hash
+          password: hash,
+          isAdmin: false, 
         })
         newUser
           .save()

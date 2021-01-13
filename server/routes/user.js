@@ -7,7 +7,7 @@ const validators = require('../middleware/validator/user');
 const auth = require('../middleware/validator/auth');
 
 
-router.get('/:id/bookings', bookingController.getAllBookingsByUser);
+router.get('/bookings',auth.check.required,  bookingController.getAllBookingsByUser);
 router.post('/login', userController.login);
 router.post('/', validators.userRegister, userController.add);
 router.put('/', auth.check.required, userController.edit);

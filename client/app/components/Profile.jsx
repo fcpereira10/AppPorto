@@ -61,12 +61,12 @@ class Profile extends Component {
               </Button>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("UserBookings")}>
+              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("User Bookings")}>
                 <Text>Bookings</Text>
               </Button>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("EditProfile")}>
+              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("Edit Profile")}>
                 <Text>Edit Profile</Text>
               </Button>
             </CardItem>

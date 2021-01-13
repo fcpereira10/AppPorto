@@ -33,5 +33,6 @@ init(passport);
 app.use("/event", eventRoute);
 app.use("/category", categoryRoute);
 app.use("/user", userRouter);
+app.use("/bookings", bookingRoute);
 app.listen(4000, () => console.log("server started"));
 
