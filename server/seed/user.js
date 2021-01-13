@@ -8,11 +8,13 @@ function mockData() {
       username: "janedoe",
       email: "janeDoe@gmail.com",
       password: "12345678",
+      isAdmin: false,
     }),
     new User({
       username: "johndoe",
       email: "johnDoe@gmail.com",
       password: "12345678",
+      isAdmin: false,
     }),
   ];
 }

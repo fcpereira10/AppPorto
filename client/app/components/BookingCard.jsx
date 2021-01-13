@@ -28,6 +28,9 @@ class BookingCard extends Component {
         photo:"",
         categoryName:"",
 
+    },
+    user: {
+      username:"",
     }
       }
     }
@@ -35,6 +38,7 @@ class BookingCard extends Component {
     const { event } = this.props;
     let { bookingDate, numberTickets, pricePaid } = event;
     let {title, date, location, _id, description, price, photo, categoryName} = event.event;
+    let {username} = event.user;
 
     this.setState({
       booking: {
@@ -50,7 +54,10 @@ class BookingCard extends Component {
         description,
         price,
         photo, 
-        categoryName}
+        categoryName},
+        user: {
+          username,
+        }
       })
     
   }
@@ -62,7 +69,7 @@ class BookingCard extends Component {
     return (
         <Card>
         <CardItem header>
-          <Text>Booked in {Moment(dt).format('DD MM yyyy HH:mm')}</Text>
+          <Text>Booked in {Moment(dt).format('DD MM yyyy HH:mm')} by {this.state.user.username}</Text>
         </CardItem>
         <CardItem button onPress={() => this.props.navigation.navigate("Event",{
             eventId: this.state.event._id,})}>

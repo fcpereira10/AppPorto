@@ -19,7 +19,8 @@ class UserBookings extends Component {
   }
 
   async componentDidMount () {
-    await this.UserService.getAllBookingsByUser({userId: "5fe1c91603adee46959f023d"}, async res => {
+    
+    await this.UserService.getAllBookingsByUser({}, async res => {
       if (res.status == 200) {
         const {data} = res
         console.log(data.bookings)

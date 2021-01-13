@@ -8,7 +8,8 @@ const userSchema = new Schema(
   {
     email: { type: String, required: true, unique: true },
     username: { type: String },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    isAdmin: {type: Boolean, required: true}
   },
 );
 function jwtSecret() {
@@ -27,6 +28,7 @@ userSchema.methods = {
         _id: this._id,
         username: this.username,
         email: this.email,
+        isAdmin: this.isAdmin, 
       },
       jwtSecret(),
     );
@@ -36,6 +38,7 @@ userSchema.methods = {
       _id: this._id,
       username: this.username,
       email: this.email,
+      isAdmin: this.isAdmin,
       token: this.generateJWT(),
     };
   },
