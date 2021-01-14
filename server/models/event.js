@@ -11,7 +11,6 @@ const eventSchema = new Schema(
     description: {type: String, required: true},
     price: {type: String},
     date: {type: Date, required: true},
-    photo: {type: String, default:'' },
     address: {type: String, required: true},
     categoryId: {type: String}, 
     

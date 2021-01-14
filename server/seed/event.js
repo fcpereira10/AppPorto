@@ -10,7 +10,6 @@ function mockData() {
         description: "Pierre-Laurent Aimard concert",
         price: "€19,50",
         date: "2021-12-21",
-        photo: '',
         address: "Casa da Música, Porto",
         categoryId: "5fe4b46fb8bb5a9c591517da" 
     }),
@@ -19,7 +18,6 @@ function mockData() {
         description: "Portuguese Football League regular game",
         price: "€25",
         date: "2021-12-21",
-        photo: '',
         address: "Estádio do Dragão",
         categoryId: "5fe4b46fb8bb5a9c591517d9" 
     }),
@@ -28,7 +26,6 @@ function mockData() {
         description: "Summer Festival" ,
         price: "€50",
         date: "2021-6-10",
-        photo: '',
         address: "Parque da Cidade, Porto",
         categoryId: "5fe4b46fb8bb5a9c591517db" 
       }),

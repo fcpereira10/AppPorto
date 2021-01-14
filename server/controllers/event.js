@@ -46,18 +46,32 @@ async function getAllEvents(req, res) {
   }
 
   async function addEvent(req, res){
-    const newEvent = new Event({
+    console.log("add event"+JSON.stringify(req.body));
+
+    let date = req.body.date+"T";
+    date += req.body.hour;
+    console.log(req.body.date+" "+req.body.hour+" "+date)
+
+      const newEvent = new Event({
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        date: req.body.date,
-        photo: req.body.photo,
+        date:req.body.date,
         address: req.body.address,
         categoryId: req.body.categoryId
     })
     newEvent.save()
-    .then(event => res.json({event}))
+    .then(event => {
+      console.log("event "+event._id);
+
+      
+      res.json({event})
+    
+    })
+
     .catch(error => res.status(400).json({error}))
+    
+   
   }
 
   async function editEvent(req, res){
@@ -67,7 +81,6 @@ async function getAllEvents(req, res) {
         description: req.body.description,
         price: req.body.price,
         date: req.body.date,
-        photo: req.body.photo,
         address: req.body.address,
         categoryId: req.body.categoryId
       }

@@ -13,7 +13,6 @@ import * as Permissions from 'expo-permissions'
 import CategoryService from '../services/CategoryService'
 import EventService from '../services/EventService'
 import {TextInputMask} from 'react-native-masked-text'
-
 import {
   Content,
   Card,
@@ -42,21 +41,17 @@ class NewEvent extends Component {
     super(props)
     this.CategoryService = new CategoryService()
     this.EventService = new EventService()
+    let dt = new Date()
     this.state = {
-      event: {
-        title: '',
-        date: '',
-        address: '',
-        eventId: '',
-        description: '',
-        price: '',
-        categoryName: '',
-      },
+      title: 'Title t1',
+      address: 'addr',
+      description: 'description',
       categories: [],
       selectedCategory: '',
+      selectedCategoryId: '',
       image: '',
       hasImage: false,
-      dt: '2021/01/13',
+      date: dt.getFullYear() + '/' + dt.getMonth() + 1 + '/' + dt.getDate(),
       price: '0',
       hour: '20:00',
     }
@@ -81,6 +76,7 @@ class NewEvent extends Component {
       if (res.status == 200) {
         const {data} = res
         let arr = []
+
         data.categories.map(category => {
           arr.push({id: category._id, name: category.description})
         })
@@ -88,6 +84,7 @@ class NewEvent extends Component {
         this.setState({
           categories: arr,
         })
+        console.log('DATE ' + this.state.date)
       }
       if (Platform.OS !== 'web') {
         const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -105,17 +102,16 @@ class NewEvent extends Component {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-
+      base64: true,
     })
-    
 
     if (!result.cancelled) {
-      console.log('URI ' + result.uri)
+      console.log(' ' + result.base64)
       this.setState({
-        image: result.uri,
+        image: result,
         hasImage: true,
       })
-      
+
     }
   }
 
@@ -125,20 +121,33 @@ class NewEvent extends Component {
     return <Picker.Item label={category.name} value={category.name} key={key} />
   }
   onValueChange (value) {
+    let selId
+    for (let cat in this.state.categories) {
+      if (this.state.categories[cat].name === value) {
+        selId = this.state.categories[cat].id
+      }
+    }
     this.setState({
       selectedCategory: value,
+      selectedCategoryId: selId,
     })
+    console.log('selected category ' + value)
   }
-  onSubmit(event) {
-    event.preventDefault();
-
+  onSubmit (event) {
+    event.preventDefault()
+    this.EventService.add(this.state, async res => {
+      if (res.status === 200) {
+        console.log('add event')
+      } else {
+        console.log('not add')
+      }
+    })
   }
 
   render () {
     const {categories, image, hasImage} = this.state
     const categoriesDiv = categories.map(this.mapCategories.bind(this))
     Moment.locale('en')
-    var dt = this.state.event.date
 
     return (
       <Container>
@@ -237,10 +246,10 @@ class NewEvent extends Component {
                                 options={{
                                   format: 'YYYY/MM/DD',
                                 }}
-                                value={this.state.dt}
+                                value={this.state.date}
                                 onChangeText={text => {
                                   this.setState({
-                                    dt: text,
+                                    date: text,
                                   })
                                 }}
                               />
@@ -313,7 +322,7 @@ class NewEvent extends Component {
                 </CardItem>
 
                 <CardItem>
-                  <Button onPress={(event) => this.onSubmit(event)}>
+                  <Button onPress={event => this.onSubmit(event)}>
                     <Text> Create Event </Text>
                   </Button>
                 </CardItem>
