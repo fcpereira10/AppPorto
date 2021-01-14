@@ -16,7 +16,7 @@ import { withNavigation } from 'react-navigation';
     return (
         <View style={styles.add}>
    
-           <Button onPress={() => this.props.navigation.navigate("New Event")} style={{backgroundColor: 'transparent', alignSelf: 'center'}}>
+           <Button transparent onPress={() => this.props.navigation.navigate("New Event")} style={{backgroundColor: 'transparent', alignSelf: 'center'}}>
    <Ionicons name="add-outline" size={30} color='#03045e' />
    </Button>
            

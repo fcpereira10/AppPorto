@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Image, StyleSheet, TouchableOpacity, View, VirtualizedList} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons';
+import EditDeleteEventButton from './EditDeleteEventButton';
 import EventService from '../services/EventService'
 import {
   Content,
@@ -155,10 +156,18 @@ class Event extends Component {
             eventId: this.state.event._id,})}>
                 <Text> Book </Text>
               </Button>
+              
             </CardItem>
+         
           </Card>
+            <View style={styles.editDelete}>
+              <EditDeleteEventButton/>
+            </View>
           </View>
+          
           </View>
+          
+          
         )}
        
      
@@ -229,6 +238,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 7,
+},
+editDelete: {
+ 
+  zIndex: 2,
+  top: 25
 },
 
 })
