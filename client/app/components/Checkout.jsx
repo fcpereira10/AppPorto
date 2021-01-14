@@ -31,7 +31,7 @@ class Checkout extends Component {
         title: '',
         date: '',
         location: '',
-        eventId: '',
+        _id: '',
         description: '',
         price: '',
         categoryName: '',
@@ -82,10 +82,10 @@ class Checkout extends Component {
               </CardItem>
               <CardItem>
                 <Body>
-                  <Image
-                    source={require('../assets/WalkingTour.jpg')}
+                   <Image
+                    source={{uri: "http://192.168.1.112:4000/uploads/"+this.state.event._id+".png"}}
                     style={styles.img}
-                  />
+                  /> 
                   <H1 style={styles.title}>{event.title}</H1>
                   <Text>{Moment(dt).format('dd MM yyyy HH:mm')}</Text>
                 </Body>

@@ -23,13 +23,13 @@ db.once('open', () => {
     
 })
 
-app.use(bodyParser.json({ limit: "2mb" }))
-app.use(bodyParser.urlencoded({ limit: "2mb", extended: true, parameterLimit: 2000 }))
+app.use(bodyParser.json({ limit: "50mb" }))
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 2000 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
 init(passport);
-
+app.use("/uploads",express.static(__dirname + '/uploads'));
 app.use("/event", eventRoute);
 app.use("/category", categoryRoute);
 app.use("/user", userRouter);

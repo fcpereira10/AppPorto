@@ -61,7 +61,7 @@ class EventCard extends Component {
                     <Text style={{fontSize:14}}>{Moment(dt).format('MMM.')}</Text>
               </View>
               <View style={styles.imgShadow}>
-                <Image source={require("../assets/WalkingTour.jpg" )} style={styles.img}/> 
+                <Image source={{uri: "http://192.168.1.112:4000/uploads/"+this.state.event._id+".png"}} style={styles.img}/> 
                 </View>
               </Left>
               <Body>

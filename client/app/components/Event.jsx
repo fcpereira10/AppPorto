@@ -35,6 +35,7 @@ class Event extends Component {
         description: '',
         price: '',
         categoryName: '',
+        image:'',
       },
       gray: false,
     }
@@ -50,7 +51,7 @@ class Event extends Component {
           event: data,
           gray: new Date(data.date) < new Date(Date.now()) ? true : false, 
         })
-        console.log('DATA ' +this.state.gray)
+        console.log('DATA ' +this.state.event.image)
       }
     })
   }
@@ -59,7 +60,9 @@ class Event extends Component {
   render () {
     Moment.locale('en')
     var dt = this.state.event.date
-    const {spinner, gray} = this.state
+    const {spinner, gray, event} = this.state
+    let eventId = event.eventId;
+  
     return (
       <Container>
       <Content>
@@ -80,7 +83,7 @@ class Event extends Component {
               
               <View style={styles.imgShadow}>
               <Image
-                  source={require('../assets/WalkingTour.jpg')}
+                 source={{uri: "http://192.168.1.112:4000/uploads/"+this.state.event._id+".png"}}
                   style={styles.img}
                 />
                 

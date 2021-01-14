@@ -54,6 +54,7 @@ class NewEvent extends Component {
       date: dt.getDate()+"/"+dt.getMonth()+1+"/"+dt.getFullYear(),
       price: '0',
       hour: '00:00',
+      imageBase64:'', 
     }
   }
 
@@ -98,17 +99,16 @@ class NewEvent extends Component {
 
   async pickImage () {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
       base64: true,
     })
 
     if (!result.cancelled) {
-      console.log(' ' + result.base64)
+      console.log('not cancelled ' + JSON.stringify(result.base64))
       this.setState({
-        image: result,
+        imageBase64: result.base64,
+        image: result.uri, 
         hasImage: true,
       })
 

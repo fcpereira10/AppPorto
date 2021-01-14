@@ -76,7 +76,7 @@ export default class EventService {
       description: data.description,
       date: data.date,
       hour: data.hour,
-      photo: data.image,
+      photo: data.imageBase64,
       address: data.address,
       categoryId: data.selectedCategoryId,
     })
