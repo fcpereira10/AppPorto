@@ -3,7 +3,7 @@ import { AsyncStorage } from "react-native";
 export default class EventService {
   constructor() {
 
-    this.ip = "http://192.168.1.113:4000/event";
+    this.ip = "http://192.168.1.112:4000/event";
 
   }
 
@@ -66,6 +66,28 @@ export default class EventService {
       callback(error);
     });
 
+  }
+  async add(data, callback){
+    console.log("add service");
+
+    await axios
+    .post(`${this.ip}`, {
+      title: data.title,
+      description: data.description,
+      date: data.date,
+      hour: data.hour,
+      photo: data.image,
+      address: data.address,
+      categoryId: data.selectedCategoryId,
+    })
+    .then((response) => {
+      console.log(response);
+      callback(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      callback(error);
+    });
   }
   
 }
