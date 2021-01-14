@@ -6,8 +6,6 @@ import  EventService  from '../services/EventService';
 import Moment from 'moment';
 import {Ionicons} from '@expo/vector-icons';
 import { Container, Header, Content, Card, CardItem,View, Thumbnail, Text, Button, Title, Subtitle, Left, Body, StyleProvider, H3, H2, Right} from 'native-base';
-import commonColor from '../../native-base-theme/variables/commonColor';
-import getTheme from '../../native-base-theme/components'; 
 class EventCard extends Component {
   static navigationOptions = {
     title: "EventCard",

@@ -61,8 +61,7 @@ class Event extends Component {
   render () {
     Moment.locale('en')
     var dt = this.state.event.date
-    const {spinner, gray, event} = this.state
-    let eventId = event.eventId;
+    const {spinner, gray} = this.state
   
     return (
       <Container>
@@ -161,7 +160,7 @@ class Event extends Component {
          
           </Card>
             <View style={styles.editDelete}>
-              <EditDeleteEventButton/>
+              <EditDeleteEventButton event={this.state.event}/>
             </View>
           </View>
           

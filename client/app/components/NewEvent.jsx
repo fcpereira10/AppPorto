@@ -57,7 +57,7 @@ class NewEvent extends Component {
       imageBase64:'', 
     }
   }
-
+x
   getPermissionAsync = async () => {
     // Camera roll Permission
     if (Platform.OS === 'ios') {
@@ -76,6 +76,7 @@ class NewEvent extends Component {
       console.log('get categories')
       if (res.status == 200) {
         const {data} = res
+        console.log("categories "+data)
         let arr = []
         data.categories.map(category => {
           arr.push({id: category._id, name: category.description})
@@ -138,6 +139,7 @@ class NewEvent extends Component {
     this.EventService.add(this.state, async res => {
       if (res.status === 200) {
         console.log('add event')
+        this.props.navigation.navigate("Events")
       } else {
         console.log('not add')
       }

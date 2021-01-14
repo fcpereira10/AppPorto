@@ -65,7 +65,6 @@ async function getAllEvents(req, res) {
     .then(event => {
 
       var base64Data = req.body.photo.replace(/^data:image\/png;base64,/, "");
-
       fs.writeFile('./uploads/'+event._id+'.png', base64Data,  'base64', (err) => {
         if (err) throw err
       })
@@ -101,7 +100,8 @@ async function getAllEvents(req, res) {
   }
 
   async function deleteEvent(req, res){
-    const query = {_id: req.params.id}
+    console.log("delete event " +req.query.eventId)
+    const query = {_id: req.query.eventId}
     Event.deleteOne(query, error => {
       if (error) {
         res.status(404).json({ error });

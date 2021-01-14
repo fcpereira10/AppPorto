@@ -8,5 +8,5 @@ router.get('/search/:query', eventController.searchEvents);
 router.get('/filter', eventController.filterEventsByCategory);
 router.post('/', eventController.addEvent);
 router.put('/edit', eventController.editEvent);
-router.delete('/delete',eventController.deleteEvent);
+router.delete('/',eventController.deleteEvent);
 module.exports = router;
