@@ -10,6 +10,7 @@ import EditProfileScreen from './app/screens/EditProfileScreen';
 import UserBookingsScreen from './app/screens/UserBookingsScreen';
 import EventScreen from './app/screens/EventScreen';
 import NewEventScreen from './app/screens/NewEventScreen';
+import EditEventScreen from './app/screens/EditEventScreen';
 import CheckoutScreen from './app/screens/CheckoutScreen';
 import EventListScreen from './app/screens/EventListScreen';
 import LoginScreen from './app/screens/LoginScreen';
@@ -72,6 +73,12 @@ const RootStackLogin = createAppContainer(
       },
       'New Event': {
         screen: NewEventScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      'Edit Event': {
+        screen: EditEventScreen,
         navigationOptions: {
           headerShown: false,
         },
