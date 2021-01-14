@@ -109,8 +109,9 @@ class Event extends Component {
                         <Ionicons name='calendar-outline' size={30} style={{color: '#0077b6'}}/>
                       </View>
                       <View style={{paddingLeft:5}}>
+                      <Text style={{fontSize:14,color:'#0077b6'}}>Date</Text>
                         <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('DD MMM.')}</Text>
-                        <Text style={{fontSize:14,color:'#0077b6'}}>Date</Text>
+                        
                       </View>
                   </View>
                   </View>
@@ -120,8 +121,9 @@ class Event extends Component {
                       <Ionicons name='time-outline' size={30} style={{color: '#0077b6'}}/>
                       </View>
                       <View style={{paddingLeft:5}}>
-                      <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('HH:mm')}</Text>
                       <Text style={{fontSize:14,color:'#0077b6'}}>Time</Text>
+                      <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('HH:mm')}</Text>
+                      
                       </View>
                   </View>
                   </View>
@@ -131,8 +133,9 @@ class Event extends Component {
                         <Ionicons name='pricetag-outline' size={30} style={{color: '#0077b6'}}/>
                       </View>
                       <View style={{paddingLeft:5}}>
+                      <Text style={{fontSize:14,color:'#0077b6'}}>Price</Text>
                         <Text style={{fontSize:16,fontWeight:'500'}} >€{this.state.event.price}</Text>
-                        <Text style={{fontSize:14,color:'#0077b6'}}>Price</Text>
+                        
                       </View>
                   </View>
                   </View>
