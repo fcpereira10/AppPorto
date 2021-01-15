@@ -39,8 +39,34 @@ class Event extends Component {
         image:'',
       },
       gray: false,
+      categoryIcon: '',
     }
   }
+  setCategoryIcon () {
+    let icon;
+    switch(this.state.event.categoryName){
+      case 'Music':
+        icon= 'musical-notes-outline'
+        break
+      case 'Sports':
+        icon= 'american-football-outline'
+        break
+      case 'Food':
+        icon='restauran-outline'
+        break
+      case 'Cultural':
+        icon='earth-outline'
+        break
+      case 'Adventure':
+        icon='happy-outline'
+        break
+      case 'Tour':
+        icon='trail-sign-outline'
+        break
+    }
+    this.setState({categoryIcon:icon})
+  }
+
   async componentDidMount () {
     const {params} = this.props.navigation.state
     const eventId = params ? params.eventId : null
@@ -53,6 +79,7 @@ class Event extends Component {
           gray: new Date(data.date) < new Date(Date.now()) ? true : false, 
         })
         console.log('DATA ' +this.state.event.image)
+        this.setCategoryIcon()
       }
     })
   }
@@ -61,13 +88,14 @@ class Event extends Component {
   render () {
     Moment.locale('en')
     var dt = this.state.event.date
-    const {spinner, gray} = this.state
+    const {spinner, gray, categoryIcon} = this.state
   
     return (
       <Container>
       <Content>
        <HeaderBar/>
         <Spinner
+          
           visible={this.state.spinner}
           textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
@@ -83,7 +111,7 @@ class Event extends Component {
               
               <View style={styles.imgShadow}>
               <Image
-                 source={{uri: "http://192.168.1.112:4000/uploads/"+this.state.event._id+".png"}}
+                 source={{uri: "http://192.168.1.113:4000/uploads/"+this.state.event._id+".png"}}
                   style={styles.img}
                 />
                 
@@ -98,7 +126,7 @@ class Event extends Component {
 
               </View>
               <View style={{flex:1}}>
-              <Text style={{fontWeight: '500'}}><Ionicons name='musical-notes-outline' size={16} style={{color: '#0077b6'}}/> {this.state.event.categoryName} </Text>
+              <Text style={{fontWeight: '500'}}><Ionicons name={categoryIcon} size={16} style={{color: '#0077b6'}}/> {this.state.event.categoryName} </Text>
 
               </View>
 
@@ -113,7 +141,7 @@ class Event extends Component {
                       </View>
                       <View style={{paddingLeft:5}}>
                       <Text style={{fontSize:14,color:'#0077b6'}}>Date</Text>
-                        <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('DD MMM.')}</Text>
+                        <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('DD MMM. ')}</Text>
                         
                       </View>
                   </View>
@@ -125,7 +153,7 @@ class Event extends Component {
                       </View>
                       <View style={{paddingLeft:5}}>
                       <Text style={{fontSize:14,color:'#0077b6'}}>Time</Text>
-                      <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('HH:mm')}</Text>
+                      <Text style={{fontSize:16,fontWeight:'500'}} >{Moment(dt).format('HH:mm ')}</Text>
                       
                       </View>
                   </View>
@@ -177,7 +205,7 @@ class Event extends Component {
 }
 const styles = StyleSheet.create({
   spinnerTextStyle: {
-    color: '#FFF',
+    color: '#0077b6',
   },
   grayscale: {
     tintColor: 'gray',
@@ -201,7 +229,6 @@ const styles = StyleSheet.create({
       elevation: 5,
   },
   outerCard: {
-
     width: '95%',
     alignSelf: 'center',
     alignItems: 'center',

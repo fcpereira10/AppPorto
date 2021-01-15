@@ -15,6 +15,8 @@ import {
 import UserService from '../services/UserService'
 import Spinner from 'react-native-loading-spinner-overlay'
 import DropdownAlert from 'react-native-dropdownalert'
+import ProfileEdition from './illustrations/ProfileEdition'
+import HeaderBar from './HeaderBar'
 
 class EditProfile extends Component {
   static navigationOptions = {
@@ -109,13 +111,10 @@ class EditProfile extends Component {
     return (
       <Container>
         <Content padder>
+        <HeaderBar/>
           <Card transparent style={styles.card}>
             <CardItem>
-              <Thumbnail
-                large
-                source={require('../assets/Avatar.png')}
-                style={styles.avatar}
-              />
+              <ProfileEdition style={styles.avatar}/>
             </CardItem>
             <CardItem style={styles.input}>
               <Item>
@@ -208,7 +207,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     height: 150,
     width: 150,
-    borderRadius: 100,
   },
   notregistered: {
     justifyContent: 'center',

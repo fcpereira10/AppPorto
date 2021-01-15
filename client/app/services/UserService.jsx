@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native'
 export default class UserService {
   constructor () {
 
-    this.ip = 'http://192.168.1.112:4000/user'
+    this.ip = 'http://192.168.1.113:4000/user'
 
   }
 

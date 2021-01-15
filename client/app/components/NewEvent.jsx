@@ -31,6 +31,7 @@ import {
 } from 'native-base'
 import Spinner from 'react-native-loading-spinner-overlay'
 import Moment from 'moment'
+import AddImage from './illustrations/AddImage'
 import HeaderBar from './HeaderBar'
 class NewEvent extends Component {
   static navigationOptions = {
@@ -163,11 +164,7 @@ x
                       style={styles.imgShadow}
                       onPress={() => this.pickImage()}>
                       {!hasImage && (
-                        <Ionicons
-                          name='add-outline'
-                          size={70}
-                          style={{color: '#98b8c3', alignSelf: 'center'}}
-                        />
+                        <AddImage style={{width:'50%', height:'50%', alignSelf: 'center' }}/>
                       )}
 
                       {hasImage && (
