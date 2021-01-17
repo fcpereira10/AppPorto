@@ -95,7 +95,7 @@ class Checkout extends Component {
                 <Body>
                 <View style={styles.imgShadow}>
                    <Image
-                    source={{uri: "http://192.168.1.113:4000/uploads/"+this.state.event._id+".png"}}
+                    source={{uri: "http://192.168.1.107:4000/uploads/"+this.state.event._id+".png"}}
                     style={styles.img}
                   /> 
                   </View>

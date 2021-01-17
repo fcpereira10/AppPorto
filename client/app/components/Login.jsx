@@ -35,7 +35,7 @@ class Login extends Component {
       console.log("res");
       if (res.status === 200) {
         console.log("res 2");
-        this.props.navigation.navigate("Profile");
+        this.props.navigation.navigate("Events");
       } else {
 
         this.dropDownAlertRef.alertWithType(

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, SafeAreaView} from 'react-native'
+import {StyleSheet, SafeAreaView, AsyncStorage} from 'react-native'
 import {withNavigation, NavigationEvents} from 'react-navigation'
 import EventCard from './EventCard'
 import {Ionicons} from '@expo/vector-icons'
@@ -16,6 +16,7 @@ import {
 } from 'native-base'
 import EventService from '../services/EventService'
 import CategoryService from '../services/CategoryService'
+import UserService from '../services/UserService'
 import MultiSelect from 'react-native-multiple-select'
 import HeaderBar from './HeaderBar'
 import AddEventButton from './AddEventButton'
@@ -31,9 +32,11 @@ class EventList extends Component {
       selectedCategories: [],
       events: [],
       categories: [],
+      isAdmin: false,
     }
     this.EventService = new EventService()
     this.CategoryService = new CategoryService()
+    this.UserService = new UserService()
   }
   onValueChange (value) {
     this.setState({
@@ -44,7 +47,6 @@ class EventList extends Component {
     await this.EventService.getAllEvents({}, async res => {
       if (res.status == 200) {
         const {data} = res
-
         this.setState({
           events: data.events,
         })
@@ -52,10 +54,29 @@ class EventList extends Component {
     })
   }
   async componentDidMount () {
+    let token = ""
+    try {
+      token = (await AsyncStorage.getItem('token')) || ''
+      console.log("token "+token)
+    } catch (error) {
+      console.log("error "+error.message)
+    }
+    console.log("token length "+token.length)
+    if (token.length > 0) {
+    await this.UserService.getUser(async res => {
+      if (res.status == 200){
+        const {payload} = res.data;
+        this.setState({
+          isAdmin: payload.isAdmin,
+        })
+      }
+
+    })
+  }
     await this.load();
    
     await this.CategoryService.getAllCategories({}, async res => {
-      console.log('get categories')
+      
       if (res.status == 200) {
         const {data} = res
         let arr = []
@@ -76,11 +97,9 @@ class EventList extends Component {
   }
   onChange = async event => {
     const {text} = event.nativeEvent
-    console.log('event ' + text)
     await this.EventService.fetchSearchResults({query: text}, async res => {
       if (res.status == 200) {
         const {data} = res
-        console.log('events ' + data.events)
         this.setState({events: data.events})
       }
     })
@@ -112,7 +131,7 @@ class EventList extends Component {
     })
   }
   render () {
-    const {events, categories, selectedCategories} = this.state
+    const {events, categories, selectedCategories, isAdmin} = this.state
     const eventsDiv = events.map(this.mapEvents.bind(this))
     return (
       <Container>
@@ -174,7 +193,7 @@ class EventList extends Component {
                 <View style={styles.view4}>{eventsDiv}</View>
               </View>
               <View>
-                <AddEventButton />
+              {isAdmin && <AddEventButton />}
               </View>
             </View>
           </View>

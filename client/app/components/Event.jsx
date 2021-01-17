@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
-import {Image, StyleSheet, TouchableOpacity, View, VirtualizedList} from 'react-native'
+import {Image, StyleSheet, View, AsyncStorage} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons';
 import EditDeleteEventButton from './EditDeleteEventButton';
 import EventService from '../services/EventService'
+import UserService from '../services/UserService'
 import {
   Content,
   Card,
   CardItem,
-  StyleProvider,
   Text,
   Button,
   Body,
@@ -40,7 +40,9 @@ class Event extends Component {
       },
       gray: false,
       categoryIcon: '',
+      isAdmin: false, 
     }
+    this.UserService = new UserService()
   }
   setCategoryIcon () {
     let icon;
@@ -68,6 +70,25 @@ class Event extends Component {
   }
 
   async componentDidMount () {
+    let token = ""
+    try {
+      token = (await AsyncStorage.getItem('token')) || ''
+      console.log("token "+token)
+    } catch (error) {
+      console.log("error "+error.message)
+    }
+    console.log("token length "+token.length)
+    if (token.length > 0) {
+    await this.UserService.getUser(async res => {
+      if (res.status == 200){
+        const {payload} = res.data;
+        this.setState({
+          isAdmin: payload.isAdmin,
+        })
+      }
+
+    })
+  }
     const {params} = this.props.navigation.state
     const eventId = params ? params.eventId : null
     await this.EventService.getEvent({eventId}, async res => {
@@ -78,7 +99,6 @@ class Event extends Component {
           event: data,
           gray: new Date(data.date) < new Date(Date.now()) ? true : false, 
         })
-        console.log('DATA ' +this.state.event.image)
         this.setCategoryIcon()
       }
     })
@@ -88,7 +108,7 @@ class Event extends Component {
   render () {
     Moment.locale('en')
     var dt = this.state.event.date
-    const {spinner, gray, categoryIcon} = this.state
+    const {spinner, gray, categoryIcon, isAdmin} = this.state
   
     return (
       <Container>
@@ -111,7 +131,7 @@ class Event extends Component {
               
               <View style={styles.imgShadow}>
               <Image
-                 source={{uri: "http://192.168.1.113:4000/uploads/"+this.state.event._id+".png"}}
+                 source={{uri: "http://192.168.1.107:4000/uploads/"+this.state.event._id+".png"}}
                   style={styles.img}
                 />
                 
@@ -188,7 +208,7 @@ class Event extends Component {
          
           </Card>
             <View style={styles.editDelete}>
-              <EditDeleteEventButton event={this.state.event}/>
+              {isAdmin && <EditDeleteEventButton event={this.state.event}/> }
             </View>
           </View>
           

@@ -74,7 +74,7 @@ class BookingCard extends Component {
         <CardItem button onPress={() => this.props.navigation.navigate("Event",{
             eventId: this.state.event._id,})}>
           <Body>
-          <Image source={{uri: "http://192.168.1.113:4000/uploads/"+this.state.event._id+".png"}} style={styles.img}/>
+          <Image source={{uri: "http://192.168.1.107:4000/uploads/"+this.state.event._id+".png"}} style={styles.img}/>
                   <H1 style={styles.title}>
                   {this.state.event.title}
                   </H1>

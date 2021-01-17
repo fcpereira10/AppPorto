@@ -4,16 +4,16 @@ import {AsyncStorage} from 'react-native'
 export default class UserService {
   constructor () {
 
-    this.ip = 'http://192.168.1.113:4000/user'
+    this.ip = 'http://192.168.1.107:4000/user'
 
   }
 
   async getAllBookingsByUser (data, callback) {
-    console.log("get all bookings by user");
+    
     let token = ""
     try {
       token = (await AsyncStorage.getItem('token')) || ''
-      console.log(token)
+      
     } catch (error) {
       console.log("error "+error.message)
     }
@@ -31,7 +31,7 @@ export default class UserService {
       })
   }
   async login (data, callback) {
-    console.log('login')
+    
     axios
       .post(`${this.ip}/login`, {
         username: data.username,
@@ -98,11 +98,10 @@ export default class UserService {
       })
   }
   async getUser (callback) {
-    console.log('get user')
+    
     let token = ''
     try {
       token = (await AsyncStorage.getItem('token')) || ''
-      console.log(token)
     } catch (error) {
       console.log(error.message)
     }
@@ -111,7 +110,6 @@ export default class UserService {
         headers: {Authorization: `Token ${token}`},
       })
       .then(response => {
-        console.log("resp"+response)
         callback(response)
       })
       .catch(error => {

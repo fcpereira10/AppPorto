@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  VirtualizedList,
 } from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons'
@@ -12,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
 import CategoryService from '../services/CategoryService'
 import EventService from '../services/EventService'
+
 import {TextInputMask} from 'react-native-masked-text'
 import {
   Content,
@@ -21,16 +21,12 @@ import {
   Text,
   Button,
   Input,
-  Header,
   Picker,
   Textarea,
   Body,
-  H1,
-  H2,
   Container,
 } from 'native-base'
 import Spinner from 'react-native-loading-spinner-overlay'
-import Moment from 'moment'
 import AddImage from './illustrations/AddImage'
 import HeaderBar from './HeaderBar'
 class NewEvent extends Component {
@@ -42,6 +38,7 @@ class NewEvent extends Component {
     super(props)
     this.CategoryService = new CategoryService()
     this.EventService = new EventService()
+    
     let dt = new Date()
     this.state = {
       title: 'Title t1',
@@ -58,7 +55,6 @@ class NewEvent extends Component {
       imageBase64:'', 
     }
   }
-x
   getPermissionAsync = async () => {
     // Camera roll Permission
     if (Platform.OS === 'ios') {
@@ -77,7 +73,6 @@ x
       console.log('get categories')
       if (res.status == 200) {
         const {data} = res
-        console.log("categories "+data)
         let arr = []
         data.categories.map(category => {
           arr.push({id: category._id, name: category.description})
@@ -100,22 +95,27 @@ x
   }
 
   async pickImage () {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
+      quality: 1, 
       base64: true,
-    })
+    }).then(result => {
+      console.log("file size "+JSON.stringify(result))
 
     if (!result.cancelled) {
-      console.log('not cancelled ' + JSON.stringify(result.base64))
       this.setState({
         imageBase64: result.base64,
         image: result.uri, 
         hasImage: true,
       })
+      } else {
+        console.log("cancelled "+result.cancelled)
+      }
+    }).catch(error => console.log("error "))
+    
 
     }
-  }
+
 
   mapCategories (category) {
     const r = Math.floor(Math.random() * 100)
