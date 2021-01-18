@@ -188,7 +188,7 @@ class NewEvent extends Component {
                       style={styles.imgShadow}
                       onPress={() => this.pickImage()}>
                       {!hasImage && (
-                        <AddImage style={{width:'50%', height:'50%', alignSelf: 'center' }}/>
+                        <AddImage/>
                       )}
 
                       {hasImage && (

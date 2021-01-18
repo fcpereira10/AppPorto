@@ -4,7 +4,9 @@ import { withNavigation } from 'react-navigation'
 import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Item, Input} from 'native-base';
 import Spinner from "react-native-loading-spinner-overlay";
 import DropdownAlert from "react-native-dropdownalert";
+import LoginImage from './illustrations/LoginImage'
 import UserService from "../services/UserService";
+import HeaderBar from './HeaderBar'
 class Login extends Component {
 
   static navigationOptions = {
@@ -54,10 +56,11 @@ class Login extends Component {
     return (
         <Container>
           <Content padder>
+          <HeaderBar/>
           <Card transparent style={styles.card}>
             <CardItem>
               
-              <Thumbnail large source={require('../assets/Avatar.png')} style={styles.avatar}/>
+              <LoginImage style={styles.avatar}/>
               
             </CardItem>
             <CardItem style={styles.input}>

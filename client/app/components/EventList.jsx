@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, SafeAreaView, AsyncStorage } from 'react-native'
+import {StyleSheet,AsyncStorage, SafeAreaView, TouchableOpacity} from 'react-native'
 import {withNavigation, NavigationEvents} from 'react-navigation'
 import EventCard from './EventCard'
 import {Ionicons} from '@expo/vector-icons'
@@ -30,6 +30,7 @@ class EventList extends Component {
       events: [],
       categories: [],
       isAdmin: false,
+      shouldShow: false,
     }
     this.EventService = new EventService()
     this.CategoryService = new CategoryService()
@@ -101,6 +102,13 @@ class EventList extends Component {
       }
     })
   }
+  setShouldShow(){
+    this.setState({
+      ...this.state,
+      shouldShow: !this.state.shouldShow,
+    })
+    console.log(this.state.isAdmin)
+  }
   onSelectedItemsChange = selectedItems => {
     if (selectedItems.length == 0) {
       this.EventService.getAllEvents({}, async res => {
@@ -126,9 +134,11 @@ class EventList extends Component {
     this.setState({
       selectedCategories: selectedItems,
     })
+
+    
   }
   render () {
-    const {events, categories, selectedCategories, isAdmin} = this.state
+    const {events, categories, selectedCategories, isAdmin,shouldShow} = this.state
     const eventsDiv = events.map(this.mapEvents.bind(this))
     return (
       <Container>
@@ -136,9 +146,13 @@ class EventList extends Component {
         <Content>
           <HeaderBar />
           <View style={styles.view1}>
+          
             <View style={styles.view2}>
+            <TouchableOpacity  onPress={() => this.setShouldShow()}>
               <Ionicons name='filter-outline' size={30} color='#03045e' />
+            </TouchableOpacity>
             </View>
+            {shouldShow && (
             <View style={styles.view3}>
               <Card transparent>
                 <CardItem>
@@ -183,8 +197,11 @@ class EventList extends Component {
                 </CardItem>
               </Card>
             </View>
-          </View>
-          <View style={styles.view5}>
+            )}
+            </View>
+    
+         
+          <View style={shouldShow ?{paddingTop: 170} : {paddingTop: 40}}>
             <View style={styles.view6}>
               <View style={styles.view7}>
                 <View style={styles.view4}>{eventsDiv}</View>
@@ -266,9 +283,7 @@ const styles = StyleSheet.create({
   view4: {
     width: '100%',
   },
-  view5: {
-    paddingTop: 180,
-  },
+ 
   view6: {
     width: '95%',
     alignSelf: 'center',
