@@ -29,6 +29,7 @@ class EditDeleteEventButton extends Component {
     let eventId = this.state.eventId;
     await this.EventService.delete({eventId}, async res =>{
         if(res.status === 200) {
+          
           this.props.navigation.navigate("Events")
         }
         else console.log("error "+res.error)

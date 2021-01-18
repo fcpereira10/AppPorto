@@ -85,7 +85,7 @@ export default class EventService {
   }
 
   async delete (data, callback) {
-    console.log('event ' + data.eventId)
+  
 
     await axios
       .delete(`${this.ip}`,
@@ -100,5 +100,22 @@ export default class EventService {
         console.log(error)
         callback(error)
       })
+  }
+  async edit(data, callback) {
+    console.log("edit event service "+data._id)
+    await axios
+    .put(
+      `${this.ip}/edit/${data._id}`,
+      data,
+    )
+    .then(response => {
+      console.log(response)
+      callback(response)
+    })
+    .catch(error => {
+      console.log(error)
+      callback(error)
+    })
+    
   }
 }

@@ -1,15 +1,10 @@
 import React, {Component} from 'react'
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native'
 import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
-import DropdownAlert from "react-native-dropdownalert";
+import DropdownAlert from 'react-native-dropdownalert'
 import CategoryService from '../services/CategoryService'
 import EventService from '../services/EventService'
 
@@ -39,21 +34,21 @@ class NewEvent extends Component {
     super(props)
     this.CategoryService = new CategoryService()
     this.EventService = new EventService()
-    
+
     let dt = new Date()
     this.state = {
       title: '',
       address: '',
       description: '',
       categories: [],
-      selectedCategory: '',
-      selectedCategoryId: '',
+      categoryName: '',
+      categoryId: '',
       image: '',
       hasImage: false,
-      date: dt.getDate()+"/"+dt.getMonth()+1+"/"+dt.getFullYear(),
+      date: dt.getDate() + '/' + dt.getMonth() + 1 + '/' + dt.getFullYear(),
       price: '0',
-      hour: '00:00',
-      imageBase64:'', 
+      hour: dt.getHours().toPrecision(2) + ':' + dt.getMinutes().toPrecision(2),
+      imageBase64: '',
       spinner: true,
     }
   }
@@ -82,8 +77,7 @@ class NewEvent extends Component {
 
         this.setState({
           categories: arr,
-          spinner: false, 
-          
+          spinner: false,
         })
       }
       if (Platform.OS !== 'web') {
@@ -99,25 +93,24 @@ class NewEvent extends Component {
   async pickImage () {
     await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1, 
+      quality: 1,
       base64: true,
-    }).then(result => {
-      console.log("file size "+JSON.stringify(result))
+    })
+      .then(result => {
+        console.log('file size ' + JSON.stringify(result))
 
-    if (!result.cancelled) {
-      this.setState({
-        imageBase64: result.base64,
-        image: result.uri, 
-        hasImage: true,
+        if (!result.cancelled) {
+          this.setState({
+            imageBase64: result.base64,
+            image: result.uri,
+            hasImage: true,
+          })
+        } else {
+          console.log('cancelled ' + result.cancelled)
+        }
       })
-      } else {
-        console.log("cancelled "+result.cancelled)
-      }
-    }).catch(error => console.log("error "))
-    
-
-    }
-
+      .catch(error => console.log('error '))
+  }
 
   mapCategories (category) {
     const r = Math.floor(Math.random() * 100)
@@ -132,38 +125,40 @@ class NewEvent extends Component {
       }
     }
     this.setState({
-      selectedCategory: value,
-      selectedCategoryId: selId,
+      categoryName: value,
+      categoryId: selId,
     })
-    console.log('selected category ' + value)
   }
   onSubmit (event) {
     event.preventDefault()
     this.setState({spinner: true})
 
-    if (this.state.title == '' || this.state.address == '' || this.state.image == '' ){
-    this.dropDownAlertRef.alertWithType("error", "Error",
-    "Title, Address and Image cannot be empty!"
-    ) 
-  
+    if (
+      this.state.title == '' ||
+      this.state.address == '' ||
+      this.state.image == '' || this.state.date == '' || this.state.hour == '' || this.state.categoryId == '' || this.state.price == ''
+    ) {
+      this.dropDownAlertRef.alertWithType(
+        'error',
+        'Error',
+        'Only description can be null!',
+      )
+    } else {
+      this.EventService.add(this.state, async res => {
+        if (res.status === 200) {
+          console.log('add event')
+
+          this.props.navigation.navigate('Events')
+        } else {
+          this.dropDownAlertRef.alertWithType(
+            'error',
+            'Error',
+            res.response.data.message,
+          )
+        }
+      })
     }
-    else {
-    this.EventService.add(this.state, async res => {
-      if (res.status === 200) {
-        console.log('add event')
-       
-        this.props.navigation.navigate("Events")
-      } else {
-        
-        this.dropDownAlertRef.alertWithType(
-          "error",
-          "Error",
-          res.response.data.message
-        );
-      }
-    })
-  }
-  this.setState({spinner: false})
+    this.setState({spinner: false})
   }
 
   render () {
@@ -174,11 +169,10 @@ class NewEvent extends Component {
         <Content>
           <HeaderBar />
           <Spinner
-          visible={this.state.spinner}
-          textContent={'Loading...'}
-          textStyle={styles.spinnerTextStyle}
-        />
-        {!spinner &&
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={styles.spinnerTextStyle}
+          />
           <View style={styles.outerCard}>
             <View style={styles.shadow}>
               <Card transparent>
@@ -188,7 +182,13 @@ class NewEvent extends Component {
                       style={styles.imgShadow}
                       onPress={() => this.pickImage()}>
                       {!hasImage && (
-                        <AddImage style={{width:'50%', height:'50%', alignSelf: 'center' }}/>
+                        <AddImage
+                          style={{
+                            width: '50%',
+                            height: '50%',
+                            alignSelf: 'center',
+                          }}
+                        />
                       )}
 
                       {hasImage && (
@@ -203,7 +203,7 @@ class NewEvent extends Component {
                       placeholder='Title'
                       style={{fontSize: 15 * 1.8, fontWeight: '700'}}
                       value={this.state.title}
-                      onChangeText={text => this.setState({ title: text })}
+                      onChangeText={text => this.setState({title: text})}
                     />
                     <View
                       style={{
@@ -217,9 +217,12 @@ class NewEvent extends Component {
                             size={16}
                             style={{color: '#0077b6'}}
                           />
-                          <Input placeholder='Address' 
-                             value={this.state.address}
-                             onChangeText={text => this.setState({ address: text })}
+                          <Input
+                            placeholder='Address'
+                            value={this.state.address}
+                            onChangeText={text =>
+                              this.setState({address: text})
+                            }
                           />
                         </Item>
                       </View>
@@ -237,7 +240,7 @@ class NewEvent extends Component {
                             mode='dropdown'
                             style={{width: undefined}}
                             placeholder='Category'
-                            selectedValue={this.state.selectedCategory}
+                            selectedValue={this.state.categoryName}
                             onValueChange={this.onValueChange.bind(this)}
                             placeholderIconColor='#0077b6'
                             placeholderStyle={{color: '#98b8c3'}}>
@@ -251,10 +254,9 @@ class NewEvent extends Component {
                         flexDirection: 'row',
                         paddingTop: 10,
                         paddingLeft: 5,
-                       
                       }}>
                       <View style={{flex: 1}}>
-                        <View style={{flexDirection: 'row', flex:1}}>
+                        <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
                               name='calendar-outline'
@@ -279,14 +281,13 @@ class NewEvent extends Component {
                                   })
                                 }}
                                 color={'#98b8c3'}
-                                
                               />
                             </View>
                           </View>
                         </View>
                       </View>
 
-                      <View style={{paddingLeft:20,flex:1}}>
+                      <View style={{paddingLeft: 20, flex: 1}}>
                         <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
@@ -296,7 +297,7 @@ class NewEvent extends Component {
                             />
                           </View>
                           <View style={{paddingLeft: 5}}>
-                          <Text style={{fontSize: 14, color: '#0077b6'}}>
+                            <Text style={{fontSize: 14, color: '#0077b6'}}>
                               Time
                             </Text>
                             <TextInputMask
@@ -317,8 +318,8 @@ class NewEvent extends Component {
                           </View>
                         </View>
                       </View>
-         
-                      <View style={{flex:1}}>
+
+                      <View style={{flex: 1}}>
                         <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
@@ -332,7 +333,7 @@ class NewEvent extends Component {
                             <Text style={{fontSize: 14, color: '#0077b6'}}>
                               Price
                             </Text>
-                          
+
                             <TextInputMask
                               type={'money'}
                               options={{
@@ -345,9 +346,8 @@ class NewEvent extends Component {
                               value={this.state.price}
                               onChangeText={text => {
                                 this.setState({
-                                  price: text,
+                                  price: text.substring(1),
                                 })
-                                
                               }}
                               color={'#98b8c3'}
                             />
@@ -358,7 +358,18 @@ class NewEvent extends Component {
                   </Body>
                 </CardItem>
                 <CardItem>
-                  <Textarea rowSpan={5} bordered placeholder='Description' placeholderTextColor={'#98b8c3'}/>
+                  <Textarea
+                    rowSpan={5}
+                    bordered
+                    placeholder='Description'
+                    placeholderTextColor={'#98b8c3'}
+                    value={this.state.description}
+                    onChangeText={text => {
+                      this.setState({
+                        description: text,
+                      })
+                    }}
+                  />
                 </CardItem>
 
                 <CardItem>
@@ -369,9 +380,8 @@ class NewEvent extends Component {
               </Card>
             </View>
           </View>
-        }
         </Content>
-        <DropdownAlert ref={(ref) => (this.dropDownAlertRef = ref)} />
+        <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
       </Container>
     )
   }
@@ -405,7 +415,7 @@ const styles = StyleSheet.create({
   },
   outerCard: {
     width: '95%',
-    paddingBottom:100,
+    paddingBottom: 100,
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#fbfcff',
@@ -424,7 +434,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   date: {
-
     alignItems: 'center',
     justifyContent: 'center',
 

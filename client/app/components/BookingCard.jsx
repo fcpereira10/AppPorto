@@ -22,7 +22,7 @@ class BookingCard extends Component {
         title: "",
         date: "",
         location: "",
-        _id: "5fe4b4d4c6dd2a9cb83b5bee",
+        _id: "",
         description:"",
         price:"",
         photo:"",

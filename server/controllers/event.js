@@ -45,13 +45,10 @@ async function getAllEvents(req, res) {
   }
 
   async function addEvent(req, res){
-    let hourSplit = req.body.hour.split(":");
-    let dateSplit = req.body.date.split("/");
-   
-    
-   //console.log("add event"+JSON.stringify(req.body));
-   let date = new Date(dateSplit[2], dateSplit[1], dateSplit[0], hourSplit[0], hourSplit[1]);
-   console.log("date "+date);
+    let stringDate = req.body.date;
+    let date = new Date(stringDate)
+    let hourSplit = req.body.hour.split(':');
+     date.setHours(hourSplit[0], hourSplit[1])
    
       const newEvent = new Event({
         title: req.body.title,
@@ -79,12 +76,18 @@ async function getAllEvents(req, res) {
   }
 
   async function editEvent(req, res){
+    
+      let stringDate = req.body.date;
+      let dt = new Date(stringDate)
+      let hours = req.body.hour.split(':');
+      dt.setHours(hours[0], hours[1])
+      
       const query = {_id : req.params.id }
       const update = {
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        date: req.body.date,
+        date: dt,
         address: req.body.address,
         categoryId: req.body.categoryId
       }
@@ -93,9 +96,9 @@ async function getAllEvents(req, res) {
         useFindAndModify: false,
         upsert: true
       }).then(event => {
-        return res.status(200).json({ event: event })
+        return res.status(200).json({ event: event, message:"Event Edited" })
       })
-      .catch(error => res.status(400).json({error}))
+      .catch(error => res.status(400).json({error, message:"An Error Occurred"}))
 
   }
 

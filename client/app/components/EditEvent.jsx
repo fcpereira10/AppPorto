@@ -13,6 +13,7 @@ import * as Permissions from 'expo-permissions'
 import CategoryService from '../services/CategoryService'
 import EventService from '../services/EventService'
 import {TextInputMask} from 'react-native-masked-text'
+import DropdownAlert from 'react-native-dropdownalert'
 
 import {
   Content,
@@ -43,21 +44,21 @@ class EditEvent extends Component {
     this.CategoryService = new CategoryService()
     this.EventService = new EventService()
     this.state = {
-
-        event: {
-            title: '',
-            date: '',
-            address: '',
-            eventId: '',
-            description: '',
-            price: '',
-            categoryName: '',
-            image: '',
-          },
+      event: {
+        title: '',
+        date: '',
+        hour:'',
+        address: '',
+        _id: '',
+        description: '',
+        price: '',
+        categoryName: '',
+        image: '',
+        categoryId:'',
+      },
       categories: [],
-      selectedCategory: '',
       hasImage: false,
-      
+      spinner: true,
     }
     this.EventService = new EventService()
   }
@@ -81,14 +82,29 @@ class EditEvent extends Component {
     await this.EventService.getEvent({eventId}, async res => {
       if (res.status == 200) {
         const {data} = res
+        let date = new Date(data.date);
+        let hours = date.getHours()+":"+date.getMinutes().toPrecision(2);
+        data.hour = hours;
         this.setState({
           spinner: false,
           event: data,
-          gray: new Date(data.date) < new Date(Date.now()) ? true : false, 
         })
-        console.log('DATA ' +this.state.gray)
       }
     })
+  await this.CategoryService.getAllCategories({}, async res => {
+    if (res.status == 200) {
+      const {data} = res
+      let arr = []
+      data.categories.map(category => {
+        arr.push({id: category._id, name: category.description})
+      })
+
+      this.setState({
+        categories: arr,
+        spinner: false,
+      })
+    }
+  })
   }
 
   async pickImage () {
@@ -97,17 +113,17 @@ class EditEvent extends Component {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-
+      base64: true,
     })
-    
 
     if (!result.cancelled) {
-      console.log('URI ' + result.uri)
       this.setState({
-        image: result.uri,
+        event: {
+          ...this.state.event, 
+          image: result.base64,
+        },
         hasImage: true,
       })
-      
     }
   }
 
@@ -117,26 +133,75 @@ class EditEvent extends Component {
     return <Picker.Item label={category.name} value={category.name} key={key} />
   }
   onValueChange (value) {
-    this.setState({
-      selectedCategory: value,
+    let selId
+    for (let cat in this.state.categories) {
+      if (this.state.categories[cat].name === value) {
+        selId = this.state.categories[cat].id
+      }
+    }
+    this.setState({ 
+      ...this.state, 
+      event: {
+        ...this.state.event,
+        categoryName: value, 
+        categoryId: selId, 
+      }
     })
   }
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit (event) {
+    event.preventDefault()
+    this.setState({spinner: true})
 
+
+    if (this.state.event.title == '' || this.state.event.address == '' || this.state.event.hour == '' || this.state.event.date == '' || this.state.event.price == '' || this.state.event.categoryId == '') {
+      this.dropDownAlertRef.alertWithType(
+        'error',
+        'Error',
+        'Title, Address, Category, Date, Hour, and Price cannot be empty!',
+      )
+    } else {
+      this.EventService.edit(this.state.event, async res => {
+        if (res.status === 200) {
+          console.log("res "+JSON.stringify(res.data))
+          this.dropDownAlertRef.alertWithType(
+            'success',
+            'Success',
+            res.data.message,
+          )
+          setTimeout(() => {
+            this.props.navigation.navigate('Events')
+          }, 3000)
+         
+        } else {
+          this.dropDownAlertRef.alertWithType(
+            'error',
+            'Error',
+            res.data.message,
+          )
+        }
+      })
+      this.setState({
+        spinner: false, 
+      })
+    }
+    this.setState({spinner: false})
   }
 
   render () {
-    const {categories, image, hasImage} = this.state
+    const {categories, hasImage, spinner} = this.state
     const categoriesDiv = categories.map(this.mapCategories.bind(this))
     Moment.locale('en')
- 
 
     return (
       <Container>
         <Content>
           <HeaderBar />
-
+          <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={styles.spinnerTextStyle}
+          />
+          {!spinner && (
           <View style={styles.outerCard}>
             <View style={styles.shadow}>
               <Card transparent>
@@ -153,17 +218,24 @@ class EditEvent extends Component {
                         />
                       )}
 
-                      {hasImage && (
-                        <Image
-                          source={{uri: this.state.image}}
-                          style={styles.img}
-                        />
-                      )}
+                      <Image
+                        source={{
+                          uri:
+                            'http://192.168.1.107:4000/uploads/' +
+                            this.state.event._id +
+                            '.png',
+                        }}
+                        style={styles.img}
+                      />
                     </TouchableOpacity>
 
                     <Input
                       placeholder='Title'
                       style={{fontSize: 15 * 1.8, fontWeight: '700'}}
+                      value={this.state.event.title}
+                      onChangeText={text =>
+                        this.setState({event: {...this.state.event, title: text}})
+                      }
                     />
                     <View
                       style={{
@@ -177,7 +249,13 @@ class EditEvent extends Component {
                             size={16}
                             style={{color: '#0077b6'}}
                           />
-                          <Input placeholder='Address' />
+                          <Input
+                            placeholder='Address'
+                            value={this.state.event.address}
+                            onChangeText={text =>
+                              this.setState({event: {...this.state.event, address: text}})
+                            }
+                          />
                         </Item>
                       </View>
                       <View style={{flex: 1, paddingTop: 5}}>
@@ -194,7 +272,7 @@ class EditEvent extends Component {
                             mode='dropdown'
                             style={{width: undefined}}
                             placeholder='Category'
-                            selectedValue={this.state.selectedCategory}
+                            selectedValue={this.state.event.categoryName}
                             onValueChange={this.onValueChange.bind(this)}
                             placeholderIconColor='#0077b6'
                             placeholderStyle={{color: '#98b8c3'}}>
@@ -208,10 +286,9 @@ class EditEvent extends Component {
                         flexDirection: 'row',
                         paddingTop: 10,
                         paddingLeft: 5,
-                       
                       }}>
                       <View style={{flex: 1}}>
-                        <View style={{flexDirection: 'row', flex:1}}>
+                        <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
                               name='calendar-outline'
@@ -229,21 +306,23 @@ class EditEvent extends Component {
                                 options={{
                                   format: 'DD/MM/YYYY',
                                 }}
-                                value={this.state.date}
+                                value={this.state.event.date}
                                 onChangeText={text => {
                                   this.setState({
-                                    date: text,
+                                    event: {
+                                      ...this.state.event, 
+                                      date: text,
+                                    },
                                   })
                                 }}
                                 color={'#98b8c3'}
-                                
                               />
                             </View>
                           </View>
                         </View>
                       </View>
 
-                      <View style={{paddingLeft:20,flex:1}}>
+                      <View style={{paddingLeft: 20, flex: 1}}>
                         <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
@@ -253,7 +332,7 @@ class EditEvent extends Component {
                             />
                           </View>
                           <View style={{paddingLeft: 5}}>
-                          <Text style={{fontSize: 14, color: '#0077b6'}}>
+                            <Text style={{fontSize: 14, color: '#0077b6'}}>
                               Time
                             </Text>
                             <TextInputMask
@@ -261,10 +340,13 @@ class EditEvent extends Component {
                               options={{
                                 format: 'HH:mm',
                               }}
-                              value={this.state.hour}
+                              value={this.state.event.hour}
                               onChangeText={text => {
                                 this.setState({
-                                  hour: text,
+                                  event: {
+                                    ...this.state.event, 
+                                    hour: text,
+                                  },
                                 })
                               }}
                               color={'#98b8c3'}
@@ -274,8 +356,8 @@ class EditEvent extends Component {
                           </View>
                         </View>
                       </View>
-         
-                      <View style={{flex:1}}>
+
+                      <View style={{flex: 1}}>
                         <View style={{flexDirection: 'row', flex: 1}}>
                           <View style={styles.date}>
                             <Ionicons
@@ -289,7 +371,7 @@ class EditEvent extends Component {
                             <Text style={{fontSize: 14, color: '#0077b6'}}>
                               Price
                             </Text>
-                          
+
                             <TextInputMask
                               type={'money'}
                               options={{
@@ -299,12 +381,15 @@ class EditEvent extends Component {
                                 unit: '€',
                                 suffixUnit: '',
                               }}
-                              value={this.state.price}
+                              value={this.state.event.price}
                               onChangeText={text => {
+                               
                                 this.setState({
-                                  price: text,
+                                  event: {
+                                    ...this.state.event, 
+                                    price: text.substring(1),
+                                  },
                                 })
-                                
                               }}
                               color={'#98b8c3'}
                             />
@@ -315,18 +400,34 @@ class EditEvent extends Component {
                   </Body>
                 </CardItem>
                 <CardItem>
-                  <Textarea rowSpan={5} bordered placeholder='Description' placeholderTextColor={'#98b8c3'}/>
+                  <Textarea
+                    rowSpan={5}
+                    bordered
+                    placeholder='Description'
+                    placeholderTextColor={'#98b8c3'}
+                    value={this.state.event.description}
+                    onChangeText={text => {
+                      this.setState({
+                        event: {
+                          ...this.state.event, 
+                          description: text,
+                        },
+                      })
+                    }}
+                  />
                 </CardItem>
 
                 <CardItem>
-                  <Button onPress={(event) => this.onSubmit(event)}>
+                  <Button onPress={event => this.onSubmit(event)}>
                     <Text> Submit </Text>
                   </Button>
                 </CardItem>
               </Card>
             </View>
           </View>
+          )}
         </Content>
+        <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
       </Container>
     )
   }
@@ -360,7 +461,7 @@ const styles = StyleSheet.create({
   },
   outerCard: {
     width: '95%',
-    paddingBottom:100,
+    paddingBottom: 100,
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#fbfcff',
@@ -379,7 +480,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   date: {
-
     alignItems: 'center',
     justifyContent: 'center',
 
