@@ -9,6 +9,7 @@ import {withNavigation} from 'react-navigation'
 import {Ionicons} from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
+import DropdownAlert from "react-native-dropdownalert";
 import CategoryService from '../services/CategoryService'
 import EventService from '../services/EventService'
 
@@ -41,9 +42,9 @@ class NewEvent extends Component {
     
     let dt = new Date()
     this.state = {
-      title: 'Title t1',
-      address: 'addr',
-      description: 'description',
+      title: '',
+      address: '',
+      description: '',
       categories: [],
       selectedCategory: '',
       selectedCategoryId: '',
@@ -53,6 +54,7 @@ class NewEvent extends Component {
       price: '0',
       hour: '00:00',
       imageBase64:'', 
+      spinner: true,
     }
   }
   getPermissionAsync = async () => {
@@ -80,9 +82,9 @@ class NewEvent extends Component {
 
         this.setState({
           categories: arr,
+          spinner: false, 
           
         })
-        console.log('DATE ' + this.state.date)
       }
       if (Platform.OS !== 'web') {
         const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -137,24 +139,46 @@ class NewEvent extends Component {
   }
   onSubmit (event) {
     event.preventDefault()
+    this.setState({spinner: true})
+
+    if (this.state.title == '' || this.state.address == '' || this.state.image == '' ){
+    this.dropDownAlertRef.alertWithType("error", "Error",
+    "Title, Address and Image cannot be empty!"
+    ) 
+  
+    }
+    else {
     this.EventService.add(this.state, async res => {
       if (res.status === 200) {
         console.log('add event')
+       
         this.props.navigation.navigate("Events")
       } else {
-        console.log('not add')
+        
+        this.dropDownAlertRef.alertWithType(
+          "error",
+          "Error",
+          res.response.data.message
+        );
       }
     })
   }
+  this.setState({spinner: false})
+  }
 
   render () {
-    const {categories, image, hasImage} = this.state
+    const {categories, hasImage, spinner} = this.state
     const categoriesDiv = categories.map(this.mapCategories.bind(this))
     return (
       <Container>
         <Content>
           <HeaderBar />
-
+          <Spinner
+          visible={this.state.spinner}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+        {!spinner &&
           <View style={styles.outerCard}>
             <View style={styles.shadow}>
               <Card transparent>
@@ -178,6 +202,8 @@ class NewEvent extends Component {
                     <Input
                       placeholder='Title'
                       style={{fontSize: 15 * 1.8, fontWeight: '700'}}
+                      value={this.state.title}
+                      onChangeText={text => this.setState({ title: text })}
                     />
                     <View
                       style={{
@@ -191,7 +217,10 @@ class NewEvent extends Component {
                             size={16}
                             style={{color: '#0077b6'}}
                           />
-                          <Input placeholder='Address' />
+                          <Input placeholder='Address' 
+                             value={this.state.address}
+                             onChangeText={text => this.setState({ address: text })}
+                          />
                         </Item>
                       </View>
                       <View style={{flex: 1, paddingTop: 5}}>
@@ -340,7 +369,9 @@ class NewEvent extends Component {
               </Card>
             </View>
           </View>
+        }
         </Content>
+        <DropdownAlert ref={(ref) => (this.dropDownAlertRef = ref)} />
       </Container>
     )
   }

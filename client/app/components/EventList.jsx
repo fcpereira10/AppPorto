@@ -1,15 +1,12 @@
 import React, {Component} from 'react'
-import {StyleSheet, SafeAreaView, AsyncStorage} from 'react-native'
+import {StyleSheet, SafeAreaView, AsyncStorage } from 'react-native'
 import {withNavigation, NavigationEvents} from 'react-navigation'
 import EventCard from './EventCard'
 import {Ionicons} from '@expo/vector-icons'
 import {
   Container,
-  Header,
   Content,
-  Item,
   Input,
-  Text,
   Card,
   CardItem,
   View,
