@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
   
-    height: 150,
+    height: '50%',
     width: 150,
   },
   notregistered: {

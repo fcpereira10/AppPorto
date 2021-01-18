@@ -15,6 +15,8 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay'
 import DropdownAlert from 'react-native-dropdownalert'
 import UserService from '../services/UserService'
+import RegisterImage from './illustrations/RegisterImage'
+import HeaderBar from './HeaderBar'
 
 class Register extends Component {
   static navigationOptions = {
@@ -78,13 +80,10 @@ class Register extends Component {
     return (
       <Container>
         <Content padder>
+        <HeaderBar/>
           <Card transparent style={styles.card}>
             <CardItem>
-              <Thumbnail
-                large
-                source={require('../assets/Avatar.png')}
-                style={styles.avatar}
-              />
+              <RegisterImage />
             </CardItem>
             <CardItem style={styles.input}>
               <Item>
