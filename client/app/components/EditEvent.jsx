@@ -376,7 +376,7 @@ class EditEvent extends Component {
                               type={'money'}
                               options={{
                                 precision: 2,
-                                separator: ',',
+                                separator: '.',
                                 delimiter: '.',
                                 unit: '€',
                                 suffixUnit: '',

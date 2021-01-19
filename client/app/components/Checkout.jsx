@@ -54,7 +54,7 @@ class Checkout extends Component {
         this.setState({
           spinner: false,
           event: data,
-          total: (parseFloat(this.state.selected)* parseFloat(data.price)).toFixed(2),
+          total: (parseFloat(this.state.selected) * parseFloat(data.price)),
         })
       }
     })
@@ -63,7 +63,23 @@ class Checkout extends Component {
     const {price} = this.state.event;
     this.setState({
       selected: value,
-      total: value *price,
+      total: (parseFloat(value) * parseFloat(price)),
+    })
+  }
+  async checkout(event){
+    event.preventDefault();
+    let data = {
+      eventId: this.state.event._id,
+      total: this.state.total,
+      numberTickets: this.state.selected,
+      date: Date.now(),
+
+    }
+    await this.EventService.checkout(data, async res => {
+      if (res.status == 200)
+      console.log("checkout done ")
+
+
     })
   }
 
@@ -209,8 +225,8 @@ class Checkout extends Component {
               <CardItem footer>
                 <Body>
 
-                  <Button primary>
-                    <Text>Paypal</Text>
+                  <Button primary onPress={(event) => this.checkout(event)}>
+                    <Text>Checkout</Text>
                   </Button>
                 </Body>
               </CardItem>

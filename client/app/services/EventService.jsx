@@ -118,4 +118,19 @@ export default class EventService {
     })
     
   }
+
+  async checkout(data, callback) {
+    console.log("checkout event ");
+    await axios
+    .post(`${this.ip}/checkout`, 
+    data)
+    .then(response => {
+      console.log(response)
+      callback(response)
+    })
+    .catch(error => {
+      console.log(error)
+      callback(error)
+    })
+  }
 }

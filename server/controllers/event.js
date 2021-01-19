@@ -113,6 +113,10 @@ async function getAllEvents(req, res) {
       }
     })
   }
+  async function checkout(req, res){
+    const { payload } = req
+    console.log("checkout "+JSON.stringify(payload))
+  }
 
   module.exports = {
       getAllEvents,
@@ -122,4 +126,5 @@ async function getAllEvents(req, res) {
       addEvent,
       editEvent,
       deleteEvent,
+      checkout,
   }
