@@ -12,4 +12,5 @@ router.post('/login', userController.login);
 router.post('/', validators.userRegister, userController.add);
 router.put('/', auth.check.required, userController.edit);
 router.get('/current', auth.check.required, userController.getCurrent);
+router.post('/logout', userController.logout)
 module.exports = router;

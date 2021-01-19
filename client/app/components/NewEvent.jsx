@@ -146,9 +146,15 @@ class NewEvent extends Component {
     } else {
       this.EventService.add(this.state, async res => {
         if (res.status === 200) {
-          console.log('add event')
-
-          this.props.navigation.navigate('Events')
+        
+          this.dropDownAlertRef.alertWithType(
+            'success',
+            'Success',
+            res.data.message,
+          )
+          setTimeout(() => {
+            this.props.navigation.navigate('Events')
+          }, 3000)
         } else {
           this.dropDownAlertRef.alertWithType(
             'error',

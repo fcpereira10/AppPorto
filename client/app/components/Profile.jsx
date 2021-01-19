@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { withNavigation } from 'react-navigation'
+import { View, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
+import { withNavigation, StackActions, NavigationActions } from 'react-navigation'
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, H1} from 'native-base';
 import UserService from "../services/UserService";
 import HeaderBar from './HeaderBar';
@@ -22,10 +22,10 @@ class Profile extends Component {
     this.UserService = new UserService();
   }
   async load() {
+  
     await this.UserService.getUser((res) => {
       if (res.status === 200) {
         const { payload } = res.data;
-        console.log(" payload "+payload)
         this.setState({
           user: {
             username: payload.username,
@@ -40,6 +40,18 @@ class Profile extends Component {
 
   async componentDidMount() {
     await this.load();
+  }
+  async signOut(event) {
+    event.preventDefault();
+    await this.UserService.logout(() => {
+      //this.props.navigation.navigate('Login')
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "Login" })],
+      });
+
+      this.props.navigation.dispatch(resetAction);
+    });
   }
 
   render() {
@@ -72,7 +84,7 @@ class Profile extends Component {
               </Button>
             </CardItem>
             <CardItem>
-              <Button block style={styles.input} onPress={() => this.props.navigation.navigate("Login")}>
+              <Button block style={styles.input} onPress={(event) => this.signOut(event)}>
                 <Text>Sign Out</Text>
               </Button>
             </CardItem>

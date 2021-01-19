@@ -65,7 +65,7 @@ async function getAllEvents(req, res) {
       fs.writeFile('./uploads/'+event._id+'.png', base64Data,  'base64', (err) => {
         if (err) throw err
       })
-      res.json({event})
+      res.status(200).json({ event: event, message:"Event Added" })
     
     })
 

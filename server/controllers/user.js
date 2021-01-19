@@ -92,11 +92,16 @@ async function getCurrent (req, res) {
   })
   return res.status(200).json({ payload })
 }
+function logout (req, res) {
+  req.logout()
+  return res.status(200).json('Logged out')
+}
 
 module.exports = {
   login,
   add,
   edit,
   hashPassword,
-  getCurrent
+  getCurrent,
+  logout
 }
