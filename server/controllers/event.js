@@ -136,21 +136,19 @@ async function checkout (req, res) {
           checkout: checkout,
           message: 'Checkout done! Check your email'
         })
-      let adminEmail =  User.find({isAdmin: true})
-      console.log("admin "+adminEmail)
+      User.find({isAdmin: true}).then(admin => {
       let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: adminEmail.email,
+          user: admin[0].email,
           pass: 'PortoLodz'
         }
       })
-      console.log("admin email "+adminEmail.email)
       var mailOptions = {
-        from: adminEmail.email,
-        to: 'ritanorinho7@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        from: admin[0].email,
+        to: payload.email,
+        subject: 'New booking on Apporto',
+        text: 'Hi! Thank you for using Apporto. You have a new booking on your Profile Booking\'s section.'
       }
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -165,6 +163,7 @@ async function checkout (req, res) {
       console.log(error)
       res.status(400).json({ error, message: 'Please, try again.' })
     })
+  })
 }
 
 module.exports = {
