@@ -21,6 +21,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import Moment from 'moment'
 import HeaderBar from './HeaderBar'
 import { Ionicons } from '@expo/vector-icons'
+import DropdownAlert from 'react-native-dropdownalert'
 class Checkout extends Component {
   static navigationOptions = {
     title: 'Checkout',
@@ -76,8 +77,24 @@ class Checkout extends Component {
 
     }
     await this.EventService.checkout(data, async res => {
-      if (res.status == 200)
-      console.log("checkout done ")
+      
+      if (res.status == 200){
+      this.dropDownAlertRef.alertWithType(
+        'success',
+        'Success',
+        res.data.message,
+      )
+      setTimeout(() => {
+        this.props.navigation.navigate('Events')
+      }, 3000)
+     
+    } else {
+      this.dropDownAlertRef.alertWithType(
+        'error',
+        'Error',
+        res.data.message,
+      )
+    }
 
 
     })
@@ -111,7 +128,7 @@ class Checkout extends Component {
                 <Body>
                 <View style={styles.imgShadow}>
                    <Image
-                    source={{uri: "http://192.168.1.107:4000/uploads/"+this.state.event._id+".png"}}
+                    source={{uri: "http://192.168.1.100:4000/uploads/"+this.state.event._id+".png"}}
                     style={styles.img}
                   /> 
                   </View>
@@ -241,6 +258,7 @@ class Checkout extends Component {
             
         )}
         </Content>
+        <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
       </Container>
     )
   }

@@ -39,6 +39,7 @@ class Login extends Component {
         console.log("res 2");
         this.props.navigation.navigate("Events");
       } else {
+        console.log("res "+JSON.stringify(res))
 
         this.dropDownAlertRef.alertWithType(
           "error",

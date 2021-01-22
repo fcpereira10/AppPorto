@@ -2,7 +2,7 @@ import axios from 'axios'
 import {AsyncStorage} from 'react-native'
 export default class EventService {
   constructor () {
-    this.ip = 'http://192.168.1.107:4000/event'
+    this.ip = 'http://192.168.1.100:4000/event'
   }
 
   async getEvent (data, callback) {
@@ -120,10 +120,21 @@ export default class EventService {
   }
 
   async checkout(data, callback) {
+
+    let token = "";
+    try {
+      token = (await AsyncStorage.getItem("token")) || "";
+    } catch (error) {
+      console.log(error.message);
+    }
+
     console.log("checkout event ");
     await axios
     .post(`${this.ip}/checkout`, 
-    data)
+    data,  
+    {
+      headers: { Authorization: `Token ${token}` },
+    })
     .then(response => {
       console.log(response)
       callback(response)

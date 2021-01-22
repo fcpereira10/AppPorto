@@ -7,7 +7,7 @@ const userRouter = require("./routes/user");
 const eventRoute = require("./routes/event");
 const categoryRoute = require("./routes/category");
 const bookingRoute = require("./routes/booking");
-const nodemailer = require('nodemailer');
+
 //const seed = require("./seed/booking");
 //const seedReview = require("./seed/review");
 
@@ -23,30 +23,6 @@ db.once('open', () => {
     //seedReview.seedReview();
     
 })
-
-
-/*let transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: '',
-    pass: ''
-  }
-});
-
-var mailOptions = {
-  from: 'ritanorinho7@gmail.com',
-  to: 'fcpereira12@hotmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
-
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});*/
 
 app.use(bodyParser.json({ limit: "50mb" }))
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 2000 }))
