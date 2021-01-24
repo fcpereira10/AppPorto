@@ -98,12 +98,16 @@ class EventList extends Component {
   }
   onChange = async event => {
     const {text} = event.nativeEvent
+    if (text.length == 0)
+    await this.load()
+    else {
     await this.EventService.fetchSearchResults({query: text}, async res => {
       if (res.status == 200) {
         const {data} = res
         this.setState({events: data.events})
       }
     })
+  }
   }
   setShouldShow(){
     this.setState({

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { withNavigation, StackActions, NavigationActions } from 'react-navigation'
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body,Right, Item, Input, Form, Picker, H1} from 'native-base';
+import { Container, Header, Content, Card, CardItem, Text, Button, H1} from 'native-base';
 import UserService from "../services/UserService";
 import HeaderBar from './HeaderBar';
 import ProfilePic from './illustrations/ProfilePic'

@@ -27,6 +27,7 @@ async function getEvent (req, res) {
 
 async function searchEvents (req, res) {
   let { query } = req.params
+  console.log("query "+query)
   var nameRegex = new RegExp(query, 'i')
   Event.find({ title: { $regex: nameRegex } })
     .then(events => {
