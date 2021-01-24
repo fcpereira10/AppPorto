@@ -16,9 +16,10 @@ class EditDeleteEventButton extends Component {
   }
 
   async componentDidMount () {
-    const {event} = this.props
-    console.log("props "+JSON.stringify(this.props))
+    const {event} = this.props.event
+    
     let {_id} = event
+    console.log("props "+JSON.stringify(this.props) +" "+_id)
     this.setState({
       eventId: _id,
     })

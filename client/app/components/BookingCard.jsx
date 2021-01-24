@@ -35,6 +35,7 @@ class BookingCard extends Component {
   }
   async componentDidMount () {
     const {event} = this.props
+    console.log("event "+JSON.stringify(event))
     let {bookingDate, numberTickets, pricePaid} = event
     let {
       title,
@@ -94,7 +95,7 @@ class BookingCard extends Component {
               source={{
                 uri:
                   'http://192.168.1.100:4000/uploads/' +
-                  this.state.event._id +
+                  this.state.event.title +
                   '.png',
               }}
               style={styles.img}

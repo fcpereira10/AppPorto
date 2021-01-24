@@ -222,7 +222,7 @@ class EditEvent extends Component {
                         source={{
                           uri:
                             'http://192.168.1.100:4000/uploads/' +
-                            this.state.event._id +
+                            this.state.event.title +
                             '.png',
                         }}
                         style={styles.img}

@@ -28,6 +28,7 @@ class Event extends Component {
     this.state = {
       spinner: true,
       event: {
+        _id:'',
         title: '',
         date: '',
         address: '',
@@ -36,6 +37,7 @@ class Event extends Component {
         price: '',
         categoryName: '',
         image: '',
+        
       },
       gray: false,
       categoryIcon: '',
@@ -97,9 +99,10 @@ class Event extends Component {
     await this.EventService.getEvent({eventId}, async res => {
       if (res.status == 200) {
         const {data} = res
+        console.log("EVENT "+ JSON.stringify(data.event))
         this.setState({
           spinner: false,
-          event: data,
+          event: data.event,
           gray: new Date(data.date) < new Date(Date.now()) ? true : false,
         })
         this.setCategoryIcon()
@@ -107,6 +110,7 @@ class Event extends Component {
     })
   }
   checkout () {
+    console.log(JSON.stringify(this.state.event) +" "+this.state.event._id)
     if (this.state.isLoggedIn)
       this.props.navigation.navigate('Checkout', {
         eventId: this.state.event._id,
@@ -140,7 +144,7 @@ class Event extends Component {
                           source={{
                             uri:
                               'http://192.168.1.100:4000/uploads/' +
-                              this.state.event._id +
+                              this.state.event.title +
                               '.png',
                           }}
                           style={styles.img}

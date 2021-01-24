@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation'
 import { Container, Content, Text} from 'native-base';
 import BookingCard from './BookingCard';
 import  UserService  from '../services/UserService';
+import Spinner from 'react-native-loading-spinner-overlay'
 
 class UserBookings extends Component {
 
@@ -15,6 +16,7 @@ class UserBookings extends Component {
     this.UserService = new UserService();
     this.state = {
        bookings:[],
+       spinner: true,
       };
   }
 
@@ -23,9 +25,9 @@ class UserBookings extends Component {
     await this.UserService.getAllBookingsByUser({}, async res => {
       if (res.status == 200) {
         const {data} = res
-        console.log(data.bookings)
         this.setState({
-          bookings: data.bookings
+          bookings: data.bookings,
+          spinner: false,
         })
       }
     })
@@ -39,12 +41,19 @@ class UserBookings extends Component {
 
 
   render() {
-    const {bookings} = this.state;
+    const {bookings, spinner} = this.state;
     const bookingsDiv = bookings.map(this.mapBookings.bind(this))
     return (
         <Container>
             <Content style={styles.card}>
-             {bookingsDiv}
+            <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={styles.spinnerTextStyle}
+          />
+          {!spinner && (
+             bookingsDiv
+          )}
             </Content>
         </Container>
 

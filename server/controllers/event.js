@@ -3,24 +3,24 @@ const Event = require('../models/event')
 const Category = require('../models/category')
 const Booking = require('../models/booking')
 const User = require('../models/user')
-const fs = require('fs')
-const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer')
 async function getAllEvents (req, res) {
   Event.find()
     .then(events => res.json({ events }))
     .catch(error => res.status(400).json({ error }))
 }
 async function getEvent (req, res) {
-  let categoryName, event
+  let event
   Event.findById(req.params.id)
     .then(async response => {
       const { categoryId } = response
       await Category.findById({ _id: categoryId }).then(category => {
         event = response.toObject()
         event.categoryName = category.description
+        res.json({ event})
       })
-
-      res.json(event)
+      
+          
     })
     .catch(error => res.status(400).json({ error }))
 }
@@ -44,8 +44,10 @@ async function filterEventsByCategory (req, res) {
 }
 
 async function addEvent (req, res) {
-  let stringDate = req.body.date
-  let date = new Date(stringDate)
+  console.log('REQ ' + req.body.date)
+
+  let stringDate = req.body.date.split('/')
+  let date = new Date(stringDate[2], stringDate[1], stringDate[0])
   let hourSplit = req.body.hour.split(':')
   date.setHours(hourSplit[0], hourSplit[1])
 
@@ -60,15 +62,6 @@ async function addEvent (req, res) {
   newEvent
     .save()
     .then(event => {
-      var base64Data = req.body.photo.replace(/^data:image\/png;base64,/, '')
-      fs.writeFile(
-        './uploads/' + event._id + '.png',
-        base64Data,
-        'base64',
-        err => {
-          if (err) throw err
-        }
-      )
       res.status(200).json({ event: event, message: 'Event Added' })
     })
 
@@ -127,42 +120,40 @@ async function checkout (req, res) {
     eventId: req.body.eventId,
     numberTickets: req.body.numberTickets
   })
-  booking
-    .save()
-    .then(checkout => {
-      res
-        .status(200)
-        .json({
-          checkout: checkout,
-          message: 'Checkout done! Check your email'
+  booking.save().then(checkout => {
+    res.status(200).json({
+      checkout: checkout,
+      message: 'Checkout done! Check your email'
+    })
+    User.find({ isAdmin: true })
+      .then(admin => {
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: admin[0].email,
+            pass: 'PortoLodz'
+          }
         })
-      User.find({isAdmin: true}).then(admin => {
-      let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: admin[0].email,
-          pass: 'PortoLodz'
+        var mailOptions = {
+          from: admin[0].email,
+          to: payload.email,
+          subject: 'New booking on Apporto',
+          text:
+            "Hi! Thank you for using Apporto. You have a new booking on your Profile Booking's section."
         }
-      })
-      var mailOptions = {
-        from: admin[0].email,
-        to: payload.email,
-        subject: 'New booking on Apporto',
-        text: 'Hi! Thank you for using Apporto. You have a new booking on your Profile Booking\'s section.'
-      }
 
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error)
-        } else {
-          console.log('Email sent: ' + info.response)
-        }
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error)
+          } else {
+            console.log('Email sent: ' + info.response)
+          }
+        })
       })
-    })
-    .catch(error => {
-      console.log(error)
-      res.status(400).json({ error, message: 'Please, try again.' })
-    })
+      .catch(error => {
+        console.log(error)
+        res.status(400).json({ error, message: 'Please, try again.' })
+      })
   })
 }
 

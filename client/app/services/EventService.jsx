@@ -62,18 +62,22 @@ export default class EventService {
       })
   }
   async add (data, callback) {
-    console.log('add service')
-
+    console.log('add service '+JSON.stringify(data.image))
+    let formData = new FormData()  
+    formData.append("image", {
+      uri : data.image.uri,
+      type: data.image.type,
+      name: `${data.title}`
+     })
+    formData.append("title", data.title)
+    formData.append("description", data.description)
+    formData.append("date", data.date)
+    formData.append("hour", data.hour)
+    formData.append("address", data.address)
+    formData.append("categoryId", data.selectedCategoryId)
     await axios
-      .post(`${this.ip}`, {
-        title: data.title,
-        description: data.description,
-        date: data.date,
-        hour: data.hour,
-        photo: data.imageBase64,
-        address: data.address,
-        categoryId: data.selectedCategoryId,
-      })
+      .post(`${this.ip}`, formData,  {headers: {"Content-type": "multipart/form-data"}}
+      )
       .then(response => {
         console.log(response)
         callback(response)
@@ -102,11 +106,23 @@ export default class EventService {
       })
   }
   async edit(data, callback) {
-    console.log("edit event service "+data._id)
+    let formData = new FormData()  
+    formData.append("image", {
+      uri : data.image.uri,
+      type: data.image.type,
+      name: `${data.title}`
+     })
+    formData.append("title", data.title)
+    formData.append("description", data.description)
+    formData.append("date", data.date)
+    formData.append("hour", data.hour)
+    formData.append("address", data.address)
+    formData.append("categoryId", data.selectedCategoryId)
     await axios
     .put(
       `${this.ip}/edit/${data._id}`,
-      data,
+      formData,
+      {headers: {"Content-type": "multipart/form-data"}}
     )
     .then(response => {
       console.log(response)

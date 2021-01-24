@@ -43,6 +43,7 @@ class EventList extends Component {
   }
   async load(){
     await this.EventService.getAllEvents({}, async res => {
+      console.log("res "+JSON.stringify(res.data))
       if (res.status == 200) {
         const {data} = res
         this.setState({

@@ -94,17 +94,17 @@ class NewEvent extends Component {
     await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
-      base64: true,
+      //base64: true,
     })
       .then(result => {
         console.log('file size ' + JSON.stringify(result))
 
         if (!result.cancelled) {
           this.setState({
-            imageBase64: result.base64,
-            image: result.uri,
+            image: result,
             hasImage: true,
           })
+          
         } else {
           console.log('cancelled ' + result.cancelled)
         }
@@ -199,7 +199,7 @@ class NewEvent extends Component {
 
                       {hasImage && (
                         <Image
-                          source={{uri: this.state.image}}
+                          source={{uri: this.state.image.uri}}
                           style={styles.img}
                         />
                       )}

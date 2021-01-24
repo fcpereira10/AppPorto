@@ -19,7 +19,7 @@ class EventCard extends Component {
         title: "",
         date: "",
         address: "",
-        _id: "5fe4b4d4c6dd2a9cb83b5bee",
+        _id: "",
         description:"",
         price:"",
         photo:"",
@@ -30,6 +30,7 @@ class EventCard extends Component {
   async componentDidMount() {
     const { event } = this.props;
     let { title, _id, date, address, description,price, photo, categoryName } = event;
+    console.log(JSON.stringify(event) +" event")
     this.setState({
       event: {
         title,
@@ -59,7 +60,7 @@ class EventCard extends Component {
                     <Text style={{fontSize:14}}>{Moment(dt).format('MMM.')}</Text>
               </View>
               <View style={styles.imgShadow}>
-                <Image source={{uri: "http://192.168.1.100:4000/uploads/"+this.state.event._id+".png"}} style={styles.img}/> 
+                <Image source={{uri: "http://192.168.1.100:4000/uploads/"+this.state.event.title+".png"}} style={styles.img}/> 
                 </View>
               </Left>
               <Body>

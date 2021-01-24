@@ -46,16 +46,19 @@ class Checkout extends Component {
   }
   async componentDidMount () {
     const {params} = this.props.navigation.state
+
     const eventId = params ? params.eventId : null
+    console.log("event id "+eventId)
     await this.EventService.getEvent({eventId}, async res => {
+      console.log("res "+JSON.stringify(res.data))
       
       if (res.status == 200) {
         const {data} = res
       
         this.setState({
           spinner: false,
-          event: data,
-          total: (parseFloat(this.state.selected) * parseFloat(data.price)),
+          event: data.event,
+          total: (parseFloat(this.state.selected) * parseFloat(data.event.price)),
         })
       }
     })
@@ -128,7 +131,7 @@ class Checkout extends Component {
                 <Body>
                 <View style={styles.imgShadow}>
                    <Image
-                    source={{uri: "http://192.168.1.100:4000/uploads/"+this.state.event._id+".png"}}
+                    source={{uri: "http://192.168.1.100:4000/uploads/"+this.state.event.title+".png"}}
                     style={styles.img}
                   /> 
                   </View>
