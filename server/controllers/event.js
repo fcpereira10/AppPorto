@@ -5,7 +5,7 @@ const Booking = require('../models/booking')
 const User = require('../models/user')
 const nodemailer = require('nodemailer')
 async function getAllEvents (req, res) {
-  Event.find()
+  Event.find().sort({date: 1})
     .then(events => res.json({ events }))
     .catch(error => res.status(400).json({ error }))
 }
@@ -44,7 +44,6 @@ async function filterEventsByCategory (req, res) {
 }
 
 async function addEvent (req, res) {
-  console.log('REQ ' + req.body.date)
 
   let stringDate = req.body.date.split('/')
   let date = new Date(stringDate[2], stringDate[1], stringDate[0])
@@ -72,6 +71,7 @@ async function addEvent (req, res) {
 }
 
 async function editEvent (req, res) {
+  console.log("edit event "+JSON.stringify(req.body))
   let stringDate = req.body.date
   let dt = new Date(stringDate)
   let hours = req.body.hour.split(':')

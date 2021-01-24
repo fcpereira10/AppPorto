@@ -16,7 +16,7 @@ class EditDeleteEventButton extends Component {
   }
 
   async componentDidMount () {
-    const {event} = this.props.event
+    const {event} = this.props
     
     let {_id} = event
     console.log("props "+JSON.stringify(this.props) +" "+_id)
@@ -64,6 +64,7 @@ class EditDeleteEventButton extends Component {
             </Button>
           </View>
         </View>
+        
       </View>
     )
   }

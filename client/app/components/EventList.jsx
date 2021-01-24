@@ -17,6 +17,7 @@ import UserService from '../services/UserService'
 import MultiSelect from 'react-native-multiple-select'
 import HeaderBar from './HeaderBar'
 import AddEventButton from './AddEventButton'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 class EventList extends Component {
   static navigationOptions = {
@@ -31,6 +32,7 @@ class EventList extends Component {
       categories: [],
       isAdmin: false,
       shouldShow: false,
+      spinner: true,
     }
     this.EventService = new EventService()
     this.CategoryService = new CategoryService()
@@ -48,6 +50,7 @@ class EventList extends Component {
         const {data} = res
         this.setState({
           events: data.events,
+          spinner: false,
         })
       }
     })
@@ -60,7 +63,6 @@ class EventList extends Component {
     } catch (error) {
       console.log("error "+error.message)
     }
-    console.log("token length "+token.length)
     if (token.length > 0) {
     await this.UserService.getUser(async res => {
       if (res.status == 200){
@@ -139,14 +141,19 @@ class EventList extends Component {
     
   }
   render () {
-    const {events, categories, selectedCategories, isAdmin,shouldShow} = this.state
+    const {events, categories, selectedCategories, isAdmin,shouldShow, spinner} = this.state
     const eventsDiv = events.map(this.mapEvents.bind(this))
     return (
       <Container>
        <NavigationEvents onDidFocus={() => this.load()} />
         <Content>
+        <Spinner
+            visible={this.state.spinner}
+            textContent={'Loading...'}
+            textStyle={styles.spinnerTextStyle}
+          />
           <HeaderBar />
-          <View style={styles.view1}>
+         {!spinner && <View style={styles.view1}>
           
             <View style={styles.view2}>
             <TouchableOpacity  onPress={() => this.setShouldShow()}>
@@ -200,9 +207,9 @@ class EventList extends Component {
             </View>
             )}
             </View>
-    
+         }
          
-          <View style={shouldShow ?{paddingTop: 170} : {paddingTop: 40}}>
+          {!spinner && <View style={shouldShow ?{paddingTop: 170} : {paddingTop: 40}}>
             <View style={styles.view6}>
               <View style={styles.view7}>
                 <View style={styles.view4}>{eventsDiv}</View>
@@ -212,6 +219,7 @@ class EventList extends Component {
               </View>
             </View>
           </View>
+          }
         </Content>
       </Container>
     )

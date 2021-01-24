@@ -109,7 +109,7 @@ class NewEvent extends Component {
           console.log('cancelled ' + result.cancelled)
         }
       })
-      .catch(error => console.log('error '))
+      .catch(error => console.log('error '+error))
   }
 
   mapCategories (category) {

@@ -53,12 +53,12 @@ class EditEvent extends Component {
         description: '',
         price: '',
         categoryName: '',
-        image: '',
         categoryId:'',
       },
       categories: [],
-      hasImage: false,
+      hasImage: true,
       spinner: true,
+      newImage: false,
     }
     this.EventService = new EventService()
   }
@@ -79,15 +79,18 @@ class EditEvent extends Component {
   async componentDidMount () {
     const {params} = this.props.navigation.state
     const eventId = params ? params.eventId : null
+    console.log("params "+eventId)
     await this.EventService.getEvent({eventId}, async res => {
       if (res.status == 200) {
-        const {data} = res
-        let date = new Date(data.date);
+        const {event} = res.data
+        console.log("DATA "+event.price)
+        let date = new Date(event.date);
         let hours = date.getHours()+":"+date.getMinutes().toPrecision(2);
-        data.hour = hours;
+        event.hour = hours;
+
         this.setState({
           spinner: false,
-          event: data,
+          event: event,
         })
       }
     })
@@ -123,6 +126,7 @@ class EditEvent extends Component {
           image: result.base64,
         },
         hasImage: true,
+        newImage: true, 
       })
     }
   }
@@ -160,7 +164,7 @@ class EditEvent extends Component {
         'Title, Address, Category, Date, Hour, and Price cannot be empty!',
       )
     } else {
-      this.EventService.edit(this.state.event, async res => {
+      this.EventService.edit({event: this.state.event, newImage: this.state.newImage}, async res => {
         if (res.status === 200) {
           console.log("res "+JSON.stringify(res.data))
           this.dropDownAlertRef.alertWithType(

@@ -19,7 +19,7 @@ router.get('/get/:id', eventController.getEvent);
 router.get('/search/:query', eventController.searchEvents);
 router.get('/filter', eventController.filterEventsByCategory);
 router.post('/', upload.single("image"), eventController.addEvent);
-router.put('/edit/:id', eventController.editEvent);
+router.put('/edit/:id', upload.single("image"), eventController.editEvent);
 router.delete('/',eventController.deleteEvent);
 router.post('/checkout',auth.check.required, eventController.checkout);
 module.exports = router;
